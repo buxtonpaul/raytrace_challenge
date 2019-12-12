@@ -33,7 +33,18 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
   include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
+set(SOURCES tuples.cpp)
+
+
+add_library(rays ${SOURCES})
+
+
+
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(gtesttest gtesttest.cpp)
 target_link_libraries(gtesttest gtest_main)
 add_test(NAME gtesttest COMMAND gtesttest)
+
+add_executable(unittests unittests.cpp)
+target_link_libraries(unittests gtest_main rays)
+add_test(NAME unittests COMMAND unittests)
