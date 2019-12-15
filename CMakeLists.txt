@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 2.8.2)
+cmake_minimum_required(VERSION 3.10)
+include(GoogleTest)
 project(raytrace_challenge)
 
 # Download and unpack googletest at configure time
@@ -33,6 +34,8 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
   include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
+enable_testing()
+
 set(SOURCES tuples.cpp)
 
 
@@ -43,8 +46,7 @@ add_library(rays ${SOURCES})
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(gtesttest gtesttest.cpp)
 target_link_libraries(gtesttest gtest_main)
-add_test(NAME gtesttest COMMAND gtesttest)
 
 add_executable(unittests unittests.cpp)
 target_link_libraries(unittests gtest_main rays)
-add_test(NAME unittests COMMAND unittests)
+gtest_discover_tests(unittests)
