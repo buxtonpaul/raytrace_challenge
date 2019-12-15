@@ -1,5 +1,6 @@
 # build folder
 build
+.vscode
 # Compiled source #
 ###################
 *.com
