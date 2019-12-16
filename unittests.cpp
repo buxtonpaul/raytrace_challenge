@@ -26,7 +26,7 @@ TEST(Tuples, IsVector) {
 TEST(Points, CreatePoint)
 {
   Raytuple p(Point(4, -4, 3));
-  EXPECT_NE(p, Raytuple(4, -4, 3, 1));
+  EXPECT_EQ(p, Raytuple(4, -4, 3, 1));
   EXPECT_EQ(p.isPoint(), true);
 }
 
