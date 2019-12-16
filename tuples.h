@@ -14,8 +14,9 @@ bool comparator(const double & left, const double & right){
                     return  fabs(left - right) < EPSILON;
                   }
 
-
-
+bool arraycomparator(const std::array<double, 4> & lhs, const std::array<double, 4> & rhs){
+  return std::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), comparator);
+}
 
 class Raytuple{
   public:
@@ -30,40 +31,28 @@ class Raytuple{
                 _vals[3] * _vals[3]);
   }
 
-    bool arraycomparator(const Raytuple & lhs, const Raytuple & rhs)const{
-  auto a = lhs.Values();
-  auto b = rhs.Values();
-  return std::equal(a.begin(), a.end(), b.begin(), b.end(), comparator);
-}
-  bool friend  operator ==( const Raytuple &lhs, const Raytuple &rhs)   {return lhs.arraycomparator(lhs,  rhs); }
-  bool friend operator !=( const Raytuple &lhs, const Raytuple &rhs)   {return !(lhs.arraycomparator(lhs,  rhs)); }
 
-  Raytuple arrayadder(const Raytuple & lhs, const Raytuple & rhs)const{
-    return Raytuple(lhs._vals[0] +rhs._vals[0],
-                    lhs._vals[1] +rhs._vals[1],
-                    lhs._vals[2] +rhs._vals[2],
-                    lhs._vals[3] +rhs._vals[3]);
-  }
-      Raytuple arraysub(const Raytuple & lhs, const Raytuple & rhs)const{
-    return Raytuple(lhs._vals[0] -rhs._vals[0],
-                    lhs._vals[1] -rhs._vals[1],
-                    lhs._vals[2] -rhs._vals[2],
-                    lhs._vals[3] -rhs._vals[3]);
-  }
-        Raytuple arraymul(const double & lhs, const Raytuple & rhs)const{
-    return Raytuple(lhs * rhs._vals[0],
-                    lhs * rhs._vals[1],
-                    lhs * rhs._vals[2],
-                    lhs * rhs._vals[3]);
-  }
 
-  Raytuple friend operator +(const Raytuple &lhs, const Raytuple &rhs) { return lhs.arrayadder(lhs, rhs);}
-  Raytuple friend operator -(const Raytuple &lhs, const Raytuple &rhs) { return lhs.arraysub(lhs, rhs);}
 
-  Raytuple friend operator *(const double &lhs, const Raytuple &rhs) { return rhs.arraymul(lhs, rhs);}
-  Raytuple friend operator *(const Raytuple  &lhs, const double &rhs) { return lhs.arraymul(rhs, lhs);}
-  Raytuple friend operator /(const Raytuple  &lhs, const double &rhs) { return lhs.arraymul(1.0 / rhs, lhs);}
-  Raytuple friend operator -(const Raytuple &rhs) { return (Raytuple(0, 0, 0, 0) - rhs);}
+
+  static Raytuple arrayadder(const Raytuple & lhs, const Raytuple & rhs){
+    return Raytuple(lhs.Values()[0] +rhs.Values()[0],
+                    lhs.Values()[1] +rhs.Values()[1],
+                    lhs.Values()[2] +rhs.Values()[2],
+                    lhs.Values()[3] +rhs.Values()[3]);
+  }
+     static  Raytuple arraysub(const Raytuple & lhs, const Raytuple & rhs){
+    return Raytuple(lhs.Values()[0] -rhs.Values()[0],
+                    lhs.Values()[1] -rhs.Values()[1],
+                    lhs.Values()[2] -rhs.Values()[2],
+                    lhs.Values()[3] -rhs.Values()[3]);
+  }
+    static     Raytuple arraymul(const double & lhs, const Raytuple & rhs){
+    return Raytuple(lhs * rhs.Values()[0],
+                    lhs * rhs.Values()[1],
+                    lhs * rhs.Values()[2],
+                    lhs * rhs.Values()[3]);
+  }
 
   double x() {return _vals[0];}
   double y() {return _vals[1];}
@@ -75,8 +64,18 @@ class Raytuple{
   const std::array <double, 4> _vals;
 };
 
+bool   operator ==( const Raytuple &lhs, const Raytuple &rhs)   {return arraycomparator(lhs.Values(),  rhs.Values()); }
+bool  operator !=( const Raytuple &lhs, const Raytuple &rhs)   {return !(arraycomparator(lhs.Values(),  rhs.Values())); }
+
 Raytuple Vector(double x, double y, double z) {return Raytuple(x, y, z, 0.0);}
 Raytuple Point(double x, double y, double z) {return Raytuple(x, y, z, 1.0);}
 
+Raytuple  operator +(const Raytuple &lhs, const Raytuple &rhs) { return Raytuple::arrayadder(lhs, rhs);}
+Raytuple  operator -(const Raytuple &lhs, const Raytuple &rhs) { return Raytuple::arraysub(lhs, rhs);}
+
+Raytuple  operator *(const double &lhs, const Raytuple &rhs) { return Raytuple::arraymul(lhs, rhs);}
+Raytuple  operator *(const Raytuple  &lhs, const double &rhs) { return Raytuple::arraymul(rhs, lhs);}
+Raytuple  operator /(const Raytuple  &lhs, const double &rhs) { return Raytuple::arraymul(1.0 / rhs, lhs);}
+Raytuple  operator -(const Raytuple &rhs) { return (Raytuple(0, 0, 0, 0) - rhs);}
 
 
