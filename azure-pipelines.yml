@@ -17,4 +17,8 @@ steps:
     cmakeArgs: ..
 - task: CmdLine@2
   inputs:
-    script: 'make'
+    script: 'cd $(Build.SourcesDirectory)\build && make && ./unittest'
+- task: CmdLine@3
+  inputs:
+    script: 'cd $(Build.SourcesDirectory)\build && ./unittest'
+
