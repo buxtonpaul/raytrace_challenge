@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 include(GoogleTest)
 project(raytrace_challenge)
 
+set (CMAKE_CXX_STANDARD 14)
+set (CMAKE_CXX_STANDARD_REQUIRED ON)
 # Download and unpack googletest at configure time
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
@@ -20,6 +22,7 @@ endif()
 # Prevent overriding the parent project's compiler/linker
 # settings on Windows
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
 
 # Add googletest directly to our build. This defines
 # the gtest and gtest_main targets.

@@ -27,37 +27,42 @@ class Raytuple{
     return sqrt(_vals[0] * _vals[0] +
                 _vals[1] * _vals[1] +
                 _vals[2] * _vals[2] +
-                _vals[3] * _vals[3]
-);}
+                _vals[3] * _vals[3]);
+  }
 
-  template <typename L, typename R> bool friend  operator ==( const L &lhs, const R &rhs)   {return arraycomparator(lhs,  rhs); }
-  template <typename L, typename R> bool friend operator !=( const L &lhs, const R &rhs)   {return !arraycomparator(lhs,  rhs); }
+    bool arraycomparator(const Raytuple & lhs, const Raytuple & rhs)const{
+  auto a = lhs.Values();
+  auto b = rhs.Values();
+  return std::equal(a.begin(), a.end(), b.begin(), b.end(), comparator);
+}
+  bool friend  operator ==( const Raytuple &lhs, const Raytuple &rhs)   {return lhs.arraycomparator(lhs,  rhs); }
+  bool friend operator !=( const Raytuple &lhs, const Raytuple &rhs)   {return !(lhs.arraycomparator(lhs,  rhs)); }
 
-  template <typename L, typename R>   friend Raytuple arrayadder(const L & lhs, const R & rhs){
+  Raytuple arrayadder(const Raytuple & lhs, const Raytuple & rhs)const{
     return Raytuple(lhs._vals[0] +rhs._vals[0],
                     lhs._vals[1] +rhs._vals[1],
                     lhs._vals[2] +rhs._vals[2],
                     lhs._vals[3] +rhs._vals[3]);
   }
-  template <typename L, typename R>   friend Raytuple arraysub(const L & lhs, const R & rhs){
+      Raytuple arraysub(const Raytuple & lhs, const Raytuple & rhs)const{
     return Raytuple(lhs._vals[0] -rhs._vals[0],
                     lhs._vals[1] -rhs._vals[1],
                     lhs._vals[2] -rhs._vals[2],
                     lhs._vals[3] -rhs._vals[3]);
   }
-    template <typename R>   friend Raytuple arraymul(const double & lhs, const R & rhs){
+        Raytuple arraymul(const double & lhs, const Raytuple & rhs)const{
     return Raytuple(lhs * rhs._vals[0],
                     lhs * rhs._vals[1],
                     lhs * rhs._vals[2],
                     lhs * rhs._vals[3]);
   }
 
-  Raytuple friend operator +(const Raytuple &lhs, const Raytuple &rhs) { return arrayadder(lhs, rhs);}
-  Raytuple friend operator -(const Raytuple &lhs, const Raytuple &rhs) { return arraysub(lhs, rhs);}
+  Raytuple friend operator +(const Raytuple &lhs, const Raytuple &rhs) { return lhs.arrayadder(lhs, rhs);}
+  Raytuple friend operator -(const Raytuple &lhs, const Raytuple &rhs) { return lhs.arraysub(lhs, rhs);}
 
-  Raytuple friend operator *(const double &lhs, const Raytuple &rhs) { return arraymul(lhs, rhs);}
-  Raytuple friend operator *(const Raytuple  &lhs, const double &rhs) { return arraymul(rhs, lhs);}
-  Raytuple friend operator /(const Raytuple  &lhs, const double &rhs) { return arraymul(1.0 / rhs, lhs);}
+  Raytuple friend operator *(const double &lhs, const Raytuple &rhs) { return rhs.arraymul(lhs, rhs);}
+  Raytuple friend operator *(const Raytuple  &lhs, const double &rhs) { return lhs.arraymul(rhs, lhs);}
+  Raytuple friend operator /(const Raytuple  &lhs, const double &rhs) { return lhs.arraymul(1.0 / rhs, lhs);}
   Raytuple friend operator -(const Raytuple &rhs) { return (Raytuple(0, 0, 0, 0) - rhs);}
 
   double x() {return _vals[0];}
@@ -73,9 +78,5 @@ class Raytuple{
 Raytuple Vector(double x, double y, double z) {return Raytuple(x, y, z, 0.0);}
 Raytuple Point(double x, double y, double z) {return Raytuple(x, y, z, 1.0);}
 
-template <typename L, typename R>   bool arraycomparator(const L & lhs, const R & rhs){
-  auto a = lhs.Values();
-  auto b = rhs.Values();
-  return std::equal(a.begin(), a.end(), b.begin(), b.end(), comparator);
-}
+
 
