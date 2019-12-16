@@ -16,5 +16,5 @@ steps:
   inputs:
     cmakeArgs: ..
 - task: CmdLine@2
-   inputs:
-   script: 'make'
+  inputs:
+    script: 'make'
