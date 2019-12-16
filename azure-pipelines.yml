@@ -14,5 +14,5 @@ steps:
   displayName: 'Run a one-line script'
 - task: CMake@1
   inputs:
-    cmakeArgs: '$(Build.SourcesDirectory'
+    cmakeArgs: ..
     
