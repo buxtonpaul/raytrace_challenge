@@ -48,7 +48,8 @@ class Raytuple{
 
 
   Raytuple normalise(){ return ( *this / this->magnitude()) ;}
-  double dotproduct(const Raytuple &r){ return 0;}
+  double dotproduct(const Raytuple &r)const;
+  Raytuple crossproduct(const Raytuple &r)const;
 
 
   static Raytuple arrayadder(const Raytuple & lhs, const Raytuple & rhs){
@@ -70,10 +71,10 @@ class Raytuple{
                     lhs * rhs.Values()[3]);
   }
 
-  double x() {return _vals[0];}
-  double y() {return _vals[1];}
-  double z() {return _vals[2];}
-  double w() {return _vals[3];}
+  double x() const {return _vals[0];}
+  double y() const {return _vals[1];}
+  double z() const {return _vals[2];}
+  double w() const {return _vals[3];}
   const std::array <double, 4> &Values()const {return (_vals);}
 
   private:

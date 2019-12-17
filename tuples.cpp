@@ -10,11 +10,23 @@ bool comparator(const double & left, const double & right)
   return  false;
 }
 
+double Raytuple::dotproduct(const Raytuple &r)const{
+  double sum = 0;
+  for (unsigned int i = 0; i< this->Values().size(); ++i)
+    sum+= (this->Values()[i]* r.Values()[i]);
+   return sum;
+}
 bool arraycomparator(const std::array<double, 4> & lhs, const std::array<double, 4> & rhs){
   return std::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), comparator);
 }
 
-bool   operator ==( const Raytuple &lhs, const Raytuple &rhs)   {return arraycomparator(lhs.Values(),  rhs.Values()); }
+Raytuple Raytuple::crossproduct(const Raytuple &r)const
+{
+  return  Vector(this->y() * r.z() - this->z() * r.y(),
+                    this->z() * r.x() - this->x() * r.z(),
+                    this->x() * r.y() - this->y() * r.x());
+}
+bool  operator ==( const Raytuple &lhs, const Raytuple &rhs)   {return arraycomparator(lhs.Values(),  rhs.Values()); }
 bool  operator !=( const Raytuple &lhs, const Raytuple &rhs)   {return !(arraycomparator(lhs.Values(),  rhs.Values())); }
 
 Raytuple Vector(double x, double y, double z) {return Raytuple(x, y, z, 0.0);}
