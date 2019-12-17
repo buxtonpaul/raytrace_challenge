@@ -86,15 +86,28 @@ TEST(Tuples, Division_scalar)
   EXPECT_EQ(Raytuple(1, -2, 3, -4) / 2, Raytuple(0.5, -1, 1.5, -2) );
 }
 
-TEST(Tuples_Magnitude, Unit)
+TEST(Tuples, Magniture_Unit)
 {
   EXPECT_FLOAT_EQ(Vector(1, 0, 0).magnitude(), 1);
   EXPECT_FLOAT_EQ(Vector(0, 1, 0).magnitude(), 1);
   EXPECT_FLOAT_EQ(Vector(0, 0, 1).magnitude(), 1);
 }
 
-TEST(Tuples_Magnitude, NonUnit)
+TEST(Tuples, Magniture_NonUnit)
 {
   EXPECT_FLOAT_EQ(Vector(1, 2, 3).magnitude(), sqrt(14));
   EXPECT_FLOAT_EQ(Vector(-1, -2, -3).magnitude(), sqrt(14));
+}
+
+
+TEST(Tuples, Normalise)
+{
+  EXPECT_EQ(Vector(4, 0, 0).normalise(), Vector(1, 0, 0));
+  EXPECT_EQ(Vector(1, 2, 3).normalise(), Vector(0.26726, 0.53452, 0.80178));
+  EXPECT_FLOAT_EQ(Vector(1, 2, 3).normalise().magnitude(), 1.0);
+}
+
+TEST(Tuples, DotProduct)
+{
+  EXPECT_FLOAT_EQ(Vector(1, 2, 3).dotproduct(Vector(2, 3, 4)), 20.0);
 }

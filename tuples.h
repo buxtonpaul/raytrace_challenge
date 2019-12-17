@@ -3,16 +3,35 @@
 #include <functional>
 #include <algorithm>
 #include <limits>
-static double EPSILON = std::numeric_limits<double>::epsilon();
+#include <iostream>
+// epsilon value way too small when we start doing divide by sqrt magnitude...
+static double EPSILON = 0.0001;//std::numeric_limits<double>::epsilon();
+
+class Raytuple;
 
 // A class to represent 4 element tuples used for ray tracing
 // these are represented using 4 elements x,y,z,w
 // where w==0 means it is a vector and w==1 means it is a point
-
 // non class helpers
 bool comparator(const double & left, const double & right);
 
 bool arraycomparator(const std::array<double, 4> & lhs, const std::array<double, 4> & rhs);
+
+
+bool   operator ==(const Raytuple &lhs, const Raytuple &rhs);
+bool  operator !=(const Raytuple &lhs, const Raytuple &rhs);
+
+Raytuple Vector(double x, double y, double z);
+Raytuple Point(double x, double y, double z);
+
+// Operators
+Raytuple  operator +(const Raytuple &lhs, const Raytuple &rhs);
+Raytuple  operator -(const Raytuple &lhs, const Raytuple &rhs);
+
+Raytuple  operator *(const double &lhs, const Raytuple &rhs);
+Raytuple  operator *(const Raytuple  &lhs, const double &rhs);
+Raytuple  operator /(const Raytuple  &lhs, const double &rhs);
+Raytuple  operator -(const Raytuple &rhs);
 
 class Raytuple{
   public:
@@ -28,7 +47,8 @@ class Raytuple{
   }
 
 
-
+  Raytuple normalise(){ return ( *this / this->magnitude()) ;}
+  double dotproduct(const Raytuple &r){ return 0;}
 
 
   static Raytuple arrayadder(const Raytuple & lhs, const Raytuple & rhs){
@@ -61,19 +81,6 @@ class Raytuple{
 };
 
 
-bool   operator ==(const Raytuple &lhs, const Raytuple &rhs);
-bool  operator !=(const Raytuple &lhs, const Raytuple &rhs);
-
-Raytuple Vector(double x, double y, double z);
-Raytuple Point(double x, double y, double z);
-
-// Operators
-Raytuple  operator +(const Raytuple &lhs, const Raytuple &rhs);
-Raytuple  operator -(const Raytuple &lhs, const Raytuple &rhs);
-
-Raytuple  operator *(const double &lhs, const Raytuple &rhs);
-Raytuple  operator *(const Raytuple  &lhs, const double &rhs);
-Raytuple  operator /(const Raytuple  &lhs, const double &rhs);
-Raytuple  operator -(const Raytuple &rhs);
+std::ostream & operator << (std::ostream &out, const Raytuple &c);
 
 
