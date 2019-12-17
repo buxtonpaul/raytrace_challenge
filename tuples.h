@@ -35,7 +35,7 @@ Raytuple  operator -(const Raytuple &rhs);
 
 class Raytuple{
   public:
-  Raytuple(const double x, const double y, const double z, const double w): _vals({x, y, z, w}) {}
+  explicit Raytuple(std::array<double, 4> a): _vals(a) {}
   Raytuple(const Raytuple &r) : _vals(r._vals){}
   bool isPoint(){return comparator(_vals[3], 1.0);}
   bool isVector(){return !isPoint();}
@@ -53,22 +53,22 @@ class Raytuple{
 
 
   static Raytuple arrayadder(const Raytuple & lhs, const Raytuple & rhs){
-    return Raytuple(lhs.Values()[0] +rhs.Values()[0],
+    return Raytuple({lhs.Values()[0] +rhs.Values()[0],
                     lhs.Values()[1] +rhs.Values()[1],
                     lhs.Values()[2] +rhs.Values()[2],
-                    lhs.Values()[3] +rhs.Values()[3]);
+                    lhs.Values()[3] +rhs.Values()[3]});
   }
      static  Raytuple arraysub(const Raytuple & lhs, const Raytuple & rhs){
-    return Raytuple(lhs.Values()[0] -rhs.Values()[0],
+    return Raytuple({lhs.Values()[0] -rhs.Values()[0],
                     lhs.Values()[1] -rhs.Values()[1],
                     lhs.Values()[2] -rhs.Values()[2],
-                    lhs.Values()[3] -rhs.Values()[3]);
+                    lhs.Values()[3] -rhs.Values()[3]});
   }
     static     Raytuple arraymul(const double & lhs, const Raytuple & rhs){
-    return Raytuple(lhs * rhs.Values()[0],
+    return Raytuple({lhs * rhs.Values()[0],
                     lhs * rhs.Values()[1],
                     lhs * rhs.Values()[2],
-                    lhs * rhs.Values()[3]);
+                    lhs * rhs.Values()[3]});
   }
 
   double x() const {return _vals[0];}

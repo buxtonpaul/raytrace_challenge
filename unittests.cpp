@@ -2,7 +2,7 @@
 #include "tuples.h"
 
 TEST(Tuples, IsPoint) {
-  Raytuple a(4.3, -4.2, 3.1 , 1.0);
+  Raytuple a({4.3, -4.2, 3.1 , 1.0});
   EXPECT_FLOAT_EQ(a.x(), 4.3);
   EXPECT_FLOAT_EQ(a.y(), -4.2);
   EXPECT_FLOAT_EQ(a.z(), 3.1);
@@ -13,7 +13,7 @@ TEST(Tuples, IsPoint) {
 }
 
 TEST(Tuples, IsVector) {
-  Raytuple a(4.3, -4.2, 3.1 , 0);
+  Raytuple a({4.3, -4.2, 3.1 , 0});
   EXPECT_FLOAT_EQ(a.x(), 4.3);
   EXPECT_FLOAT_EQ(a.y(), -4.2);
   EXPECT_FLOAT_EQ(a.z(), 3.1);
@@ -26,23 +26,23 @@ TEST(Tuples, IsVector) {
 TEST(Points, CreatePoint)
 {
   Raytuple p(Point(4, -4, 3));
-  EXPECT_EQ(p, Raytuple(4, -4, 3, 1));
+  EXPECT_EQ(p, Raytuple({4, -4, 3, 1}));
   EXPECT_EQ(p.isPoint(), true);
 }
 
 TEST(Vector, CreateVector)
 {
   Raytuple v(Vector(4, -4, 3));
-  EXPECT_EQ(v, Raytuple(4, -4, 3, 0.0));
+  EXPECT_EQ(v, Raytuple({4, -4, 3, 0.0}));
   EXPECT_EQ(v.isPoint(), false);
 }
 
 
 TEST(Additions, TupleTuple)
 {
-  Raytuple p1(3, -2, 5, 1);
-  Raytuple p2(-2, 3, 1, 0);
-  EXPECT_EQ(p1 + p2, Raytuple(1, 1, 6, 1));
+  Raytuple p1({3, -2, 5, 1});
+  Raytuple p2({-2, 3, 1, 0});
+  EXPECT_EQ(p1 + p2, Raytuple({1, 1, 6, 1}));
 }
 
 TEST(Subtractions, PointPoint)
@@ -66,24 +66,24 @@ TEST(Vectors, Negation)
 
 TEST(Tuples, Negation)
 {
-  EXPECT_EQ(-Raytuple(1, -2, 3, -4), Raytuple(-1, 2, -3, 4));
+  EXPECT_EQ(-Raytuple({1, -2, 3, -4}), Raytuple({-1, 2, -3, 4}));
 }
 
 TEST(Tuples, Multiplication_scalar)
 {
- EXPECT_EQ(3.5* Raytuple(1, -2, 3, -4), Raytuple(3.5, -7, 10.5, -14));
- EXPECT_EQ(Raytuple(1, -2, 3, -4) * 2, Raytuple(2, -4, 6, -8));
+ EXPECT_EQ(3.5* Raytuple({1, -2, 3, -4}), Raytuple({3.5, -7, 10.5, -14}));
+ EXPECT_EQ(Raytuple({1, -2, 3, -4}) * 2, Raytuple({2, -4, 6, -8}));
 }
 
 TEST(Tuples, Multiplication_fraction)
 {
-  EXPECT_EQ(0.5 * Raytuple(1, -2, 3, -4), Raytuple(0.5, -1, 1.5, -2));
+  EXPECT_EQ(0.5 * Raytuple({1, -2, 3, -4}), Raytuple({0.5, -1, 1.5, -2}));
 }
 
 
 TEST(Tuples, Division_scalar)
 {
-  EXPECT_EQ(Raytuple(1, -2, 3, -4) / 2, Raytuple(0.5, -1, 1.5, -2) );
+  EXPECT_EQ(Raytuple({1, -2, 3, -4}) / 2, Raytuple({0.5, -1, 1.5, -2}) );
 }
 
 TEST(Tuples, Magniture_Unit)
