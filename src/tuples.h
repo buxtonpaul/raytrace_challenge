@@ -1,11 +1,15 @@
+#ifndef tuples_h
+#define tuples_h
+
 #include <array>
-#include <cmath>
 #include <functional>
 #include <algorithm>
 #include <limits>
 #include <iostream>
-// epsilon value way too small when we start doing divide by sqrt magnitude...
-static double EPSILON = 0.0001;//std::numeric_limits<double>::epsilon();
+#include <cmath>
+#include "utils.h"
+
+
 
 class Raytuple;
 
@@ -37,7 +41,7 @@ class Raytuple{
   public:
   explicit Raytuple(std::array<double, 4> a): _vals(a) {}
   Raytuple(const Raytuple &r) : _vals(r._vals){}
-  bool isPoint(){return comparator(_vals[3], 1.0);}
+  bool isPoint(){return float_equals(_vals[3], 1.0);}
   bool isVector(){return !isPoint();}
   double magnitude(){
     return sqrt(_vals[0] * _vals[0] +
@@ -84,4 +88,4 @@ class Raytuple{
 
 std::ostream & operator << (std::ostream &out, const Raytuple &c);
 
-
+#endif

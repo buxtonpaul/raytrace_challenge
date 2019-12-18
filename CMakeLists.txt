@@ -39,7 +39,16 @@ endif()
 
 enable_testing()
 
-set(SOURCES tuples.cpp)
+set(SOURCES src/tuples.cpp
+            src/utils.cpp
+            src/color.cpp
+            src/canvas.cpp
+            )
+
+
+set (TESTS src/tupletests.cpp 
+            src/colortests.cpp
+            src/canvastests.cpp)
 
 
 add_library(rays ${SOURCES})
@@ -50,6 +59,9 @@ add_library(rays ${SOURCES})
 add_executable(gtesttest gtesttest.cpp)
 target_link_libraries(gtesttest gtest_main)
 
-add_executable(unittests unittests.cpp)
+add_executable(unittests ${TESTS})
 target_link_libraries(unittests gtest_main rays)
 gtest_discover_tests(unittests)
+
+add_executable(app1 src/app1.cpp)
+target_link_libraries(app1 rays)

@@ -1,14 +1,7 @@
 #include <iostream>
 #include "tuples.h"
+#include "utils.h"
 
-bool comparator(const double & left, const double & right)
-{
-  if (fabs(left - right) < 4 * EPSILON)
-    return true;
-  std::cout <<"Comparing " << left << " to " << right << " " <<std::endl;
-  std::cout <<"fabs error =" << fabs(left - right)<< " epsilon = " << EPSILON << std::endl;
-  return  false;
-}
 
 double Raytuple::dotproduct(const Raytuple &r)const{
   double sum = 0;
@@ -17,7 +10,7 @@ double Raytuple::dotproduct(const Raytuple &r)const{
    return sum;
 }
 bool arraycomparator(const std::array<double, 4> & lhs, const std::array<double, 4> & rhs){
-  return std::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), comparator);
+  return std::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), float_equals);
 }
 
 Raytuple Raytuple::crossproduct(const Raytuple &r)const
