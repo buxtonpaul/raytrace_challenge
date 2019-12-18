@@ -39,29 +39,33 @@ endif()
 
 enable_testing()
 
-set(SOURCES src/tuples.cpp
-            src/utils.cpp
-            src/color.cpp
-            src/canvas.cpp
+set(MODULE_SOURCES src/modules/tuples.cpp
+            src/modules/utils.cpp
+            src/modules/color.cpp
+            src/modules/canvas.cpp
             )
 
 
-set (TESTS src/tupletests.cpp 
-            src/colortests.cpp
-            src/canvastests.cpp)
+set (TESTS src/tests/tupletests.cpp 
+            src/tests/colortests.cpp
+            src/tests/canvastests.cpp)
 
 
-add_library(rays ${SOURCES})
-
+add_library(rays ${MODULE_SOURCES})
+target_include_directories(rays PUBLIC  src/include)
 
 
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(gtesttest gtesttest.cpp)
 target_link_libraries(gtesttest gtest_main)
 
+# Build the unit tests and add them
 add_executable(unittests ${TESTS})
+target_include_directories(unittests PUBLIC  src/include)
 target_link_libraries(unittests gtest_main rays)
 gtest_discover_tests(unittests)
 
+# Build a simple test applicaiton
 add_executable(app1 src/app1.cpp)
+target_include_directories(app1 PUBLIC src/include)
 target_link_libraries(app1 rays)
