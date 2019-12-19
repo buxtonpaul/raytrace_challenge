@@ -6,40 +6,40 @@
 
 
 class Environment{
-  Raytuple _gravity;
-  Raytuple _wind;
+  ray_lib::tuple _gravity;
+  ray_lib::tuple _wind;
   public:
-  Environment(const Raytuple & gravity, const Raytuple &wind) : _gravity(gravity), _wind(wind){}
-  Raytuple wind(){return _wind;}
-  Raytuple gravity(){return _gravity;}
+  Environment(const ray_lib::tuple & gravity, const ray_lib::tuple &wind) : _gravity(gravity), _wind(wind){}
+  ray_lib::tuple wind(){return _wind;}
+  ray_lib::tuple gravity(){return _gravity;}
 };
 
 class Projectile
 {
   private:
-  Raytuple _position;
-  Raytuple _velocity;
+  ray_lib::tuple _position;
+  ray_lib::tuple _velocity;
 
   public:
   // Projectile(const Projectile & lhs): _position(lhs._position), _velocity(lhs._velocity){}
-  Projectile(const Raytuple &pos, const Raytuple &vel) : _position(pos) , _velocity(vel){}
-  Raytuple Position()const {return _position;}
-  Raytuple Velocity()const {return _velocity;}
+  Projectile(const ray_lib::tuple &pos, const ray_lib::tuple &vel) : _position(pos) , _velocity(vel){}
+  ray_lib::tuple Position()const {return _position;}
+  ray_lib::tuple Velocity()const {return _velocity;}
 };
 
 Projectile tick(Environment envinroment, Projectile proj){
-  Raytuple pos = proj.Position() + proj.Velocity();
-  Raytuple velocity = proj.Velocity() + envinroment.gravity() + envinroment.wind();
+  ray_lib::tuple pos = proj.Position() + proj.Velocity();
+  ray_lib::tuple velocity = proj.Velocity() + envinroment.gravity() + envinroment.wind();
   return Projectile(pos, velocity);
 }
 
 int main(int argc, char* argv[])
 {
-  Projectile p(Point(0, 1, 0), Vector(1, 1.8, 0).normalise()*11.25);
-  Environment e(Vector(0, -0.1, 0) , Vector(-0.01, 0, 0));
+  Projectile p(ray_lib::Point(0, 1, 0), ray_lib::Vector(1, 1.8, 0).normalise()*11.25);
+  Environment e(ray_lib::Vector(0, -0.1, 0) , ray_lib::Vector(-0.01, 0, 0));
 
   Canvas c(900, 550);
-  do 
+  do
   {
     c.Pixel(p.Position().x(), c.height()-p.Position().y(), Color({1, 0, 0}));
     p = tick(e, p);

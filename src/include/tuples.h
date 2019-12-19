@@ -10,8 +10,8 @@
 #include "utils.h"
 
 
-
-class Raytuple;
+namespace ray_lib{
+class tuple;
 
 // A class to represent 4 element tuples used for ray tracing
 // these are represented using 4 elements x,y,z,w
@@ -22,28 +22,28 @@ bool comparator(const double & left, const double & right);
 bool arraycomparator(const std::array<double, 4> & lhs, const std::array<double, 4> & rhs);
 
 
-bool  operator ==(const Raytuple &lhs, const Raytuple &rhs);
-bool  operator !=(const Raytuple &lhs, const Raytuple &rhs);
+bool  operator ==(const tuple &lhs, const tuple &rhs);
+bool  operator !=(const tuple &lhs, const tuple &rhs);
 
-Raytuple Vector(double x, double y, double z);
-Raytuple Point(double x, double y, double z);
+tuple Vector(double x, double y, double z);
+tuple Point(double x, double y, double z);
 
 // Operators
-Raytuple  operator +(const Raytuple &lhs, const Raytuple &rhs);
-Raytuple  operator -(const Raytuple &lhs, const Raytuple &rhs);
+tuple  operator +(const tuple &lhs, const tuple &rhs);
+tuple  operator -(const tuple &lhs, const tuple &rhs);
 
-Raytuple  operator *(const double &lhs, const Raytuple &rhs);
-Raytuple  operator *(const Raytuple  &lhs, const double &rhs);
-Raytuple  operator /(const Raytuple  &lhs, const double &rhs);
-Raytuple  operator -(const Raytuple &rhs);
+tuple  operator *(const double &lhs, const tuple &rhs);
+tuple  operator *(const tuple  &lhs, const double &rhs);
+tuple  operator /(const tuple  &lhs, const double &rhs);
+tuple  operator -(const tuple &rhs);
 
-class Raytuple{
+class tuple{
   private:
   std::valarray <double> _vals;
 
   public:
-  explicit Raytuple(std::valarray<double> a): _vals(a) {}
-  Raytuple(const Raytuple &r) : _vals(r._vals){}
+  explicit tuple(std::valarray<double> a): _vals(a) {}
+  tuple(const tuple &r) : _vals(r._vals){}
   bool isPoint(){return float_equals(_vals[3], 1.0);}
   bool isVector(){return !isPoint();}
   double magnitude(){
@@ -53,25 +53,25 @@ class Raytuple{
                 _vals[3] * _vals[3]);
   }
 
-  Raytuple normalise(){ return ( *this / this->magnitude()) ;}
-  double dotproduct(const Raytuple &r)const;
-  Raytuple crossproduct(const Raytuple &r)const;
+  tuple normalise(){ return ( *this / this->magnitude()) ;}
+  double dotproduct(const tuple &r)const;
+  tuple crossproduct(const tuple &r)const;
 
 
-  static Raytuple arrayadder(const Raytuple & lhs, const Raytuple & rhs){
-    return Raytuple({lhs.Values()[0] +rhs.Values()[0],
+  static tuple arrayadder(const tuple & lhs, const tuple & rhs){
+    return tuple({lhs.Values()[0] +rhs.Values()[0],
                     lhs.Values()[1] +rhs.Values()[1],
                     lhs.Values()[2] +rhs.Values()[2],
                     lhs.Values()[3] +rhs.Values()[3]});
   }
-  static  Raytuple arraysub(const Raytuple & lhs, const Raytuple & rhs){
-    return Raytuple({lhs.Values()[0] -rhs.Values()[0],
+  static  tuple arraysub(const tuple & lhs, const tuple & rhs){
+    return tuple({lhs.Values()[0] -rhs.Values()[0],
                     lhs.Values()[1] -rhs.Values()[1],
                     lhs.Values()[2] -rhs.Values()[2],
                     lhs.Values()[3] -rhs.Values()[3]});
   }
-    static     Raytuple arraymul(const double & lhs, const Raytuple & rhs){
-    return Raytuple({lhs * rhs.Values()[0],
+    static     tuple arraymul(const double & lhs, const tuple & rhs){
+    return tuple({lhs * rhs.Values()[0],
                     lhs * rhs.Values()[1],
                     lhs * rhs.Values()[2],
                     lhs * rhs.Values()[3]});
@@ -86,6 +86,6 @@ class Raytuple{
 };
 
 
-std::ostream & operator << (std::ostream &out, const Raytuple &c);
-
+std::ostream & operator << (std::ostream &out, const tuple &c);
+}
 #endif
