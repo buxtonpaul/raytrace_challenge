@@ -22,7 +22,7 @@ bool comparator(const double & left, const double & right);
 bool arraycomparator(const std::array<double, 4> & lhs, const std::array<double, 4> & rhs);
 
 
-bool   operator ==(const Raytuple &lhs, const Raytuple &rhs);
+bool  operator ==(const Raytuple &lhs, const Raytuple &rhs);
 bool  operator !=(const Raytuple &lhs, const Raytuple &rhs);
 
 Raytuple Vector(double x, double y, double z);
@@ -38,6 +38,9 @@ Raytuple  operator /(const Raytuple  &lhs, const double &rhs);
 Raytuple  operator -(const Raytuple &rhs);
 
 class Raytuple{
+  private:
+  std::array <double, 4> _vals;
+
   public:
   explicit Raytuple(std::array<double, 4> a): _vals(a) {}
   Raytuple(const Raytuple &r) : _vals(r._vals){}
@@ -50,7 +53,6 @@ class Raytuple{
                 _vals[3] * _vals[3]);
   }
 
-
   Raytuple normalise(){ return ( *this / this->magnitude()) ;}
   double dotproduct(const Raytuple &r)const;
   Raytuple crossproduct(const Raytuple &r)const;
@@ -62,7 +64,7 @@ class Raytuple{
                     lhs.Values()[2] +rhs.Values()[2],
                     lhs.Values()[3] +rhs.Values()[3]});
   }
-     static  Raytuple arraysub(const Raytuple & lhs, const Raytuple & rhs){
+  static  Raytuple arraysub(const Raytuple & lhs, const Raytuple & rhs){
     return Raytuple({lhs.Values()[0] -rhs.Values()[0],
                     lhs.Values()[1] -rhs.Values()[1],
                     lhs.Values()[2] -rhs.Values()[2],
@@ -81,8 +83,6 @@ class Raytuple{
   double w() const {return _vals[3];}
   const std::array <double, 4> &Values()const {return (_vals);}
 
-  private:
-  const std::array <double, 4> _vals;
 };
 
 
