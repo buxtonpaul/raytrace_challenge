@@ -48,7 +48,8 @@ set(MODULE_SOURCES src/modules/tuples.cpp
 
 set (TESTS src/tests/tupletests.cpp 
             src/tests/colortests.cpp
-            src/tests/canvastests.cpp)
+            src/tests/canvastests.cpp
+            src/tests/utilstests.cpp)
 
 
 add_library(rays ${MODULE_SOURCES})
@@ -64,6 +65,10 @@ add_executable(unittests ${TESTS})
 target_include_directories(unittests PUBLIC  src/include)
 target_link_libraries(unittests gtest_main rays)
 gtest_discover_tests(unittests)
+
+add_executable(utiltest src/tests/utilstests.cpp src/modules/utils.cpp)
+target_include_directories(utiltest PUBLIC  src/include)
+target_link_libraries(utiltest  gtest_main)
 
 # Build a simple test applicaiton
 add_executable(app1 src/app1.cpp)

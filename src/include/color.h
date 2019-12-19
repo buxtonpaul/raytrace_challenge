@@ -7,9 +7,9 @@ class Color{
   std::array<double, 3> _values;
   public:
   explicit Color(std::array<double, 3> values) : _values(values){}
-  double red(){return _values[0];}
-  double green(){return _values[1];}
-  double blue(){return _values[2];}
+  double red()const {return _values[0];}
+  double green()const {return _values[1];}
+  double blue()const {return _values[2];}
   const std::array <double, 3> &Values()const {return _values;}
 };
 
