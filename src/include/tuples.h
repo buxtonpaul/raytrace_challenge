@@ -19,23 +19,17 @@ class tuple;
 // non class helpers
 bool comparator(const double & left, const double & right);
 
-bool arraycomparator(const std::array<double, 4> & lhs, const std::array<double, 4> & rhs);
+bool arraycomparator(const std::valarray<double> & lhs, const std::valarray<double> & rhs);
 
-
-bool  operator ==(const tuple &lhs, const tuple &rhs);
-bool  operator !=(const tuple &lhs, const tuple &rhs);
 
 tuple Vector(double x, double y, double z);
 tuple Point(double x, double y, double z);
 
 // Operators
-tuple  operator +(const tuple &lhs, const tuple &rhs);
-tuple  operator -(const tuple &lhs, const tuple &rhs);
-
 tuple  operator *(const double &lhs, const tuple &rhs);
-tuple  operator *(const tuple  &lhs, const double &rhs);
 tuple  operator /(const tuple  &lhs, const double &rhs);
-tuple  operator -(const tuple &rhs);
+// bool  operator ==(const tuple &lhs, const tuple &rhs);
+// bool  operator !=(const tuple &lhs, const tuple &rhs);
 
 class tuple{
   private:
@@ -57,35 +51,23 @@ class tuple{
   double dotproduct(const tuple &r)const;
   tuple crossproduct(const tuple &r)const;
 
-
-  static tuple arrayadder(const tuple & lhs, const tuple & rhs){
-    return tuple({lhs.Values()[0] +rhs.Values()[0],
-                    lhs.Values()[1] +rhs.Values()[1],
-                    lhs.Values()[2] +rhs.Values()[2],
-                    lhs.Values()[3] +rhs.Values()[3]});
-  }
-  static  tuple arraysub(const tuple & lhs, const tuple & rhs){
-    return tuple({lhs.Values()[0] -rhs.Values()[0],
-                    lhs.Values()[1] -rhs.Values()[1],
-                    lhs.Values()[2] -rhs.Values()[2],
-                    lhs.Values()[3] -rhs.Values()[3]});
-  }
-    static     tuple arraymul(const double & lhs, const tuple & rhs){
-    return tuple({lhs * rhs.Values()[0],
-                    lhs * rhs.Values()[1],
-                    lhs * rhs.Values()[2],
-                    lhs * rhs.Values()[3]});
-  }
+  tuple  operator +(const tuple &obj )const { return tuple(_vals + obj._vals);}
+  tuple  operator -(const tuple &obj )const { return tuple(_vals - obj._vals);}
+  tuple  operator *(const double &obj)const  { return tuple(_vals * obj);}
+  tuple  operator -()const { return (tuple( - _vals));}
+  bool operator ==(const tuple &obj)const { return (std::equal(begin(_vals), end(_vals),
+                                            begin(obj._vals), end(obj._vals), float_equals));}
+  bool operator !=(const tuple &obj)const { return !(std::equal(begin(_vals), end(_vals),
+                                            begin(obj._vals), end(obj._vals), float_equals));}
+  friend std::ostream & operator << (std::ostream &out, const tuple &c);
 
   double x() const {return _vals[0];}
   double y() const {return _vals[1];}
   double z() const {return _vals[2];}
   double w() const {return _vals[3];}
   const std::valarray <double> &Values()const {return (_vals);}
-
 };
 
 
-std::ostream & operator << (std::ostream &out, const tuple &c);
-}
+}//namespace ray_lib
 #endif
