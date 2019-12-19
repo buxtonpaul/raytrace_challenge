@@ -1,7 +1,7 @@
 #ifndef tuples_h
 #define tuples_h
 
-#include <array>
+#include <valarray>
 #include <functional>
 #include <algorithm>
 #include <limits>
@@ -39,10 +39,10 @@ Raytuple  operator -(const Raytuple &rhs);
 
 class Raytuple{
   private:
-  std::array <double, 4> _vals;
+  std::valarray <double> _vals;
 
   public:
-  explicit Raytuple(std::array<double, 4> a): _vals(a) {}
+  explicit Raytuple(std::valarray<double> a): _vals(a) {}
   Raytuple(const Raytuple &r) : _vals(r._vals){}
   bool isPoint(){return float_equals(_vals[3], 1.0);}
   bool isVector(){return !isPoint();}
@@ -81,7 +81,7 @@ class Raytuple{
   double y() const {return _vals[1];}
   double z() const {return _vals[2];}
   double w() const {return _vals[3];}
-  const std::array <double, 4> &Values()const {return (_vals);}
+  const std::valarray <double> &Values()const {return (_vals);}
 
 };
 

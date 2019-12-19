@@ -9,8 +9,8 @@ double Raytuple::dotproduct(const Raytuple &r)const{
     sum+= (this->Values()[i]* r.Values()[i]);
    return sum;
 }
-bool arraycomparator(const std::array<double, 4> & lhs, const std::array<double, 4> & rhs){
-  return std::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), float_equals);
+bool arraycomparator(const std::valarray<double> & lhs, const std::valarray<double> & rhs){
+  return std::equal(begin(lhs), end(lhs), begin(rhs), end(rhs), float_equals);
 }
 
 Raytuple Raytuple::crossproduct(const Raytuple &r)const
@@ -25,12 +25,15 @@ bool  operator !=( const Raytuple &lhs, const Raytuple &rhs)   {return !(arrayco
 Raytuple Vector(double x, double y, double z) {return Raytuple({x, y, z, 0.0});}
 Raytuple Point(double x, double y, double z) {return Raytuple({x, y, z, 1.0});}
 
-Raytuple  operator +(const Raytuple &lhs, const Raytuple &rhs) { return Raytuple::arrayadder(lhs, rhs);}
-Raytuple  operator -(const Raytuple &lhs, const Raytuple &rhs) { return Raytuple::arraysub(lhs, rhs);}
+Raytuple  operator +(const Raytuple &lhs, const Raytuple &rhs) { return Raytuple(lhs.Values()+ rhs.Values());}
+Raytuple  operator -(const Raytuple &lhs, const Raytuple &rhs) { return Raytuple(lhs.Values()- rhs.Values());}
 
-Raytuple  operator *(const double &lhs, const Raytuple &rhs) { return Raytuple::arraymul(lhs, rhs);}
-Raytuple  operator *(const Raytuple  &lhs, const double &rhs) { return Raytuple::arraymul(rhs, lhs);}
-Raytuple  operator /(const Raytuple  &lhs, const double &rhs) { return Raytuple::arraymul(1.0 / rhs, lhs);}
+
+Raytuple  operator *(const double &lhs, const Raytuple &rhs)  { return Raytuple(lhs * rhs.Values());}
+
+Raytuple  operator *(const Raytuple  &lhs, const double &rhs) { return Raytuple(lhs.Values() * rhs );}
+
+Raytuple  operator /(const Raytuple  &lhs, const double &rhs) { return Raytuple(lhs.Values() * (1.0/rhs) );}
 Raytuple  operator -(const Raytuple &rhs) { return (Raytuple({0, 0, 0, 0}) - rhs);}
 
 std::ostream & operator << (std::ostream &out, const Raytuple &c)
