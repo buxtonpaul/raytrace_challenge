@@ -1,16 +1,21 @@
-#include<string>
-#include <iostream>
-
-#include "color.h"
 #include "canvas.h"
+#include <assert.h>
+#include <string>
+#include <iostream>
+#include "color.h"
 #include "utils.h"
 
 Color Canvas::Pixel(const unsigned int x, const unsigned int y)const {
+  assert(x < _width);
+  assert(y < _height);
+
   unsigned int index = (y * _width + x)*3;
   return Color({_canvasdata[index], _canvasdata[index+1], _canvasdata[index+2]});
 }
 
 void Canvas::Pixel(const unsigned int x, const unsigned int y, const Color &toset){
+  if ((x >= _width) || (y >= _height))
+    return;
   unsigned int index = (y *_width + x)*3;
   _canvasdata[index] = toset.red();
   _canvasdata[index + 1] = toset.green();
@@ -43,7 +48,6 @@ std::string Canvas::row_to_string(const unsigned int row)const
   unsigned int start_index = row*_width*3;
   std::string space = "";
   unsigned int count = 0;
-  // first create the data. Then every 70 chars (to the nearest whitespace), add a /n
   for (unsigned int i=0; i < _width; ++i)
   {
     out += space,
