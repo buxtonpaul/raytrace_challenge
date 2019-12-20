@@ -1,10 +1,9 @@
 #include "utils.h"
 #include <cmath>
+#include <cassert>
 #include <algorithm>
 #include <iostream>
-
 #include <sstream>
-#include <iostream>
 #include <iterator>
 #include <vector>
 
@@ -52,4 +51,80 @@ std::string limitlinelength(std::string in, unsigned int length)
     }
   }
   return processed;
+}
+
+std::vector<double> operator +(const std::vector<double> &a, const std::vector<double> &b)
+{
+  std::vector<double> res;
+  assert(a.size() == b.size());
+  for (unsigned int i = 0; i < a.size(); ++i)
+  {
+    res.push_back(a[i]+b[i]);
+  }
+  return res;
+}
+
+std::vector<double> operator *(const std::vector<double> &a, const std::vector<double> &b)
+{
+  std::vector<double> res;
+  assert(a.size() == b.size());
+  for (unsigned int i = 0; i < a.size(); ++i)
+  {
+    res.push_back(a[i]*b[i]);
+  }
+  return res;
+}
+
+
+std::vector<double> operator *(const double a, const std::vector<double> &b)
+{
+  std::vector<double> res;
+  for (auto val : b)
+  {
+    res.push_back(a*val);
+  }
+  return res;
+}
+
+std::vector<double> operator *(const std::vector<double> &b, const double a)
+{
+  std::vector<double> res;
+  for (auto val : b)
+  {
+    res.push_back(a*val);
+  }
+  return res;
+}
+
+
+std::vector<double> operator -(const std::vector<double> &a, const std::vector<double> &b)
+{
+  std::vector<double> res;
+  assert(a.size() == b.size());
+  for (unsigned int i = 0; i < a.size(); ++i)
+  {
+    res.push_back(a[i]-b[i]);
+  }
+  return res;
+}
+
+std::vector<double> operator -(const std::vector<double> &a)
+{
+  std::vector<double> res;
+  for (auto val : a)
+  {
+    res.push_back(0-val);
+  }
+  return res;
+}
+
+
+double vector_product(const std::vector<double> &a, const std::vector<double> &b)
+{
+  double sum = 0;
+  assert(a.size() == b.size());
+  for (unsigned int i = 0; i < a.size(); ++i){
+    sum+= a[i] * b[i];
+  }
+  return sum;
 }
