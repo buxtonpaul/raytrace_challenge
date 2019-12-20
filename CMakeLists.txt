@@ -43,14 +43,16 @@ set(MODULE_SOURCES src/modules/tuples.cpp
             src/modules/utils.cpp
             src/modules/color.cpp
             src/modules/canvas.cpp
+            src/modules/matrix.cpp
             )
 
 
 set (TESTS src/tests/tupletests.cpp 
             src/tests/colortests.cpp
             src/tests/canvastests.cpp
-            src/tests/utilstests.cpp)
-
+            src/tests/utilstests.cpp
+            src/tests/matrixtests.cpp
+            )
 
 add_library(rays ${MODULE_SOURCES})
 target_include_directories(rays PUBLIC  src/include)
