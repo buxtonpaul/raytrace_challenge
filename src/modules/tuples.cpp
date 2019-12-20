@@ -1,5 +1,6 @@
 #include <iostream>
-#include <valarray>
+#include <vector>
+#include <algorithm>
 #include "tuples.h"
 #include "utils.h"
 
@@ -18,8 +19,62 @@ tuple tuple::crossproduct(const tuple &r)const
                     this->x() * r.y() - this->y() * r.x());
 }
 
-tuple  operator *(const double &lhs, const tuple &rhs)  { return tuple(lhs * rhs.Values());}
-tuple  operator /(const tuple  &lhs, const double &rhs) { return tuple(lhs.Values() * (1.0/rhs) );}
+tuple  operator *(const double &lhs, const tuple &rhs)
+{
+  std::vector<double> y(rhs._vals.size());
+  std::transform(rhs._vals.begin(), rhs._vals.end(), y.begin(),
+                   [lhs](double x) { return x*lhs; } );
+  return tuple(y);
+}
+
+tuple  operator *(const tuple &lhs, const double &rhs)
+{
+  std::vector<double> y(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), y.begin(),
+                   [rhs](double x) { return x*rhs; } );
+  return tuple(y);
+}
+
+tuple  operator *(const tuple  &lhs, const tuple &rhs)
+{
+  std::vector<double> z(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), rhs._vals.begin(), z.begin(),
+                   [](double x, double y) { return (x * y); } );
+  return tuple(z);
+}
+
+tuple  operator /(const tuple  &lhs, const double &rhs)
+{
+  std::vector<double> y(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), y.begin(),
+                   [rhs](double x) { return x/rhs; } );
+  return tuple(y);
+}
+
+tuple  operator +(const tuple  &lhs, const tuple &rhs)
+{
+  std::vector<double> z(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), rhs._vals.begin(), z.begin(),
+                   [](double x, double y) { return (x + y); } );
+  return tuple(z);
+}
+
+tuple  operator -(const tuple  &lhs, const tuple &rhs)
+{
+  std::vector<double> z(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), rhs._vals.begin(), z.begin(),
+                   [](double x, double y) { return (x - y); } );
+  return tuple(z);
+}
+
+tuple  operator -(const tuple &lhs)
+{
+  std::vector<double> y(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), y.begin(),
+                   [](double x) { return 0-x; } );
+  return tuple(y);
+}
+
 
 tuple Vector(double x, double y, double z) {return tuple({x, y, z, 0.0});}
 tuple Point(double x, double y, double z) {return tuple({x, y, z, 1.0});}
