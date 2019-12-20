@@ -94,3 +94,37 @@ TEST(Matrix, tuple)
 
   EXPECT_EQ(m * t, ray_lib::tuple({18, 24, 33, 1}));
 }
+
+TEST(Matrix , matrix_x_identity)
+{
+  ray_lib::Matrix m({{1, 2, 3, 4},
+  {5.5, 6.5, 7.5, 8.5},
+  {9, 10, 11, 12},
+  {13.5, 14.5, 15.5, 16.5}});
+  EXPECT_EQ(m * ray_lib::identity_4, m);
+}
+
+TEST(Matrix, tuple_x_identity)
+{
+  ray_lib::tuple t({1, 2, 3, 1});
+  EXPECT_EQ(ray_lib::identity_4 * t, t);
+}
+
+TEST(Matrix, transpose)
+{
+  ray_lib::Matrix m({{0, 9, 3, 0}, {9, 8, 0, 8}, {1, 8, 5, 3}, {0, 0, 5, 8}});
+  ray_lib::Matrix t({{0, 9, 1, 0}, {9, 8, 8, 0}, {3, 0, 5, 5}, {0, 8, 3, 8}});
+
+  EXPECT_EQ(m.transpose(), t);
+}
+
+TEST(Matrix, transpose_identiry)
+{
+  EXPECT_EQ(ray_lib::identity_4.transpose(), ray_lib::identity_4);
+}
+
+TEST(Matrix, determinant_2x2)
+{
+  ray_lib::Matrix m({{1, 5}, {-3, 2}});
+  EXPECT_EQ(m.determinant(), 17);
+}

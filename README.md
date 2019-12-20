@@ -9,5 +9,6 @@ Build Status -: ![alt text](https://github.com/buxtonpaul/raytrace_challenge/wor
 - [ ] Move Vector and Point to inherted classes with raytuple as the base class
 - [ ] Move tuple functions to cope with arbitrary lengths...
 - [ ] Rework using slices....
+- [x] Update to use namespace for matrix as well
 
 

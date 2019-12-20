@@ -25,6 +25,9 @@ class Matrix{
   friend std::ostream & operator << (std::ostream &out, const Matrix &v);
   std::vector<double> row(int rownum)const;
   std::vector<double> col(int colnum)const;
+  Matrix transpose()const;
+  double determinant()const;
 };
+const Matrix identity_4({{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}});
 }//namespace ray_lib
 #endif //_matrix_h

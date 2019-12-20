@@ -64,6 +64,23 @@ std::vector<double> Matrix::col(int colnum)const
 }
 
 
+Matrix Matrix::transpose()const
+{
+  std::vector<std::vector<double>> tmp(_data[0].size(), std::vector<double>(_data.size()));
+  for (unsigned int i = 0; i < _data[0].size(); ++i)
+  {
+    for (unsigned int j = 0; j < _data.size(); ++j)
+    {
+      tmp[i][j] = _data[j][i];
+    }
+  }
+  return Matrix(tmp);
+}
+
+double Matrix::determinant()const
+{
+  return 1.0;
+}
 
 std::ostream & operator << (std::ostream &out, const Matrix &v)
 {
