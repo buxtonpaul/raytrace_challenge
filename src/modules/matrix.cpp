@@ -3,6 +3,7 @@
 #include <iostream>
 #include "tuples.h"
 
+namespace ray_lib{
 bool operator ==(const Matrix &lhs, const Matrix &rhs)
 {
    // check sizes match
@@ -38,14 +39,14 @@ Matrix operator *(const Matrix &lhs, const Matrix &rhs)
 }
 
 
-ray_lib::tuple operator *(const Matrix &lhs, const ray_lib::tuple &rhs)
+tuple operator *(const Matrix &lhs, const tuple &rhs)
 {
   std::vector<std::vector<double>> tuplevals(rhs.Values().size(), std::vector<double>(1));
   for (unsigned int i = 0; i < rhs.Values().size() ; ++i){
     tuplevals[i]={rhs.Values()[i]};
   }
   Matrix tuplematrix(tuplevals);
-  return (ray_lib::tuple ((lhs * tuplematrix).col(0)));
+  return (tuple ((lhs * tuplematrix).col(0)));
  }
 
 
@@ -77,4 +78,4 @@ std::ostream & operator << (std::ostream &out, const Matrix &v)
   }
   return out;
 }
-
+}//namespace ray_lib
