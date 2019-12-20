@@ -92,5 +92,5 @@ TEST(Matrix, tuple)
 
   ray_lib::tuple t({1, 2, 3, 1});
 
-  // EXPECT_EQ (m * t, ray_lib::tuple ({18, 24, 33, 1}));
+  EXPECT_EQ (m * t, ray_lib::tuple({18, 24, 33, 1}));
 }

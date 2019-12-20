@@ -24,6 +24,7 @@ class Matrix{
   friend bool operator ==(const Matrix &lhs, const Matrix &rhs);
   friend bool operator !=(const Matrix &lhs, const Matrix &rhs);
   friend Matrix operator *(const Matrix &lhs, const Matrix &rhs);
+  friend ray_lib::tuple operator *(const Matrix &lhs, const ray_lib::tuple &rhs);
   friend std::ostream & operator << (std::ostream &out, const Matrix &v);
   std::vector<double> row(int rownum)const;
   std::vector<double> col(int colnum)const;

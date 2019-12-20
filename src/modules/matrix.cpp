@@ -37,6 +37,18 @@ Matrix operator *(const Matrix &lhs, const Matrix &rhs)
   return Matrix(res);
 }
 
+
+ray_lib::tuple operator *(const Matrix &lhs, const ray_lib::tuple &rhs)
+{
+  std::vector<std::vector<double>> tuplevals(rhs.Values().size(), std::vector<double>(1));
+  for (unsigned int i = 0; i < rhs.Values().size() ; ++i){
+    tuplevals[i]={rhs.Values()[i]};
+  }
+  Matrix tuplematrix(tuplevals);
+  return (ray_lib::tuple ((lhs * tuplematrix).col(0)));
+ }
+
+
 std::vector<double> Matrix::row(int rownum)const
 {
   return(_data[rownum]);
