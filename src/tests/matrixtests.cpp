@@ -85,7 +85,6 @@ TEST(Matrix, Column)
 
 TEST(Matrix, tuple)
 {
-
   Matrix m({{1, 2, 3, 4},
   {2, 4, 4, 2},
   {8, 6, 4, 1},
@@ -94,5 +93,4 @@ TEST(Matrix, tuple)
   ray_lib::tuple t({1, 2, 3, 1});
 
   // EXPECT_EQ (m * t, ray_lib::tuple ({18, 24, 33, 1}));
-
 }
