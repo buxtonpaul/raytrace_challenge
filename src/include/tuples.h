@@ -28,8 +28,6 @@ tuple Point(double x, double y, double z);
 // Operators
 tuple  operator *(const double &lhs, const tuple &rhs);
 tuple  operator /(const tuple  &lhs, const double &rhs);
-// bool  operator ==(const tuple &lhs, const tuple &rhs);
-// bool  operator !=(const tuple &lhs, const tuple &rhs);
 
 class tuple{
   private:
@@ -66,6 +64,7 @@ class tuple{
   double z() const {return _vals[2];}
   double w() const {return _vals[3];}
   const std::valarray <double> &Values()const {return (_vals);}
+  
 };
 
 
