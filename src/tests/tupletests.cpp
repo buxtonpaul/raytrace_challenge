@@ -2,11 +2,22 @@
 #include "gtest/gtest.h"
 #include "tuples.h"
 
-using namespace ray_lib;
+using ray_lib::Tuple;
+using ray_lib::Vector;
+using ray_lib::Point;
 
+
+TEST(Tuples, accessor)
+{
+  Tuple a({4.3, -4.2, 3.1 , 1.0});
+  EXPECT_FLOAT_EQ(a[0], 4.3);
+  EXPECT_FLOAT_EQ(a[1], -4.2);
+  EXPECT_FLOAT_EQ(a[2], 3.1);
+  EXPECT_FLOAT_EQ(a[3], 1.0);
+}
 
 TEST(Tuples, IsPoint) {
-  tuple a({4.3, -4.2, 3.1 , 1.0});
+  Tuple a({4.3, -4.2, 3.1 , 1.0});
   EXPECT_FLOAT_EQ(a.x(), 4.3);
   EXPECT_FLOAT_EQ(a.y(), -4.2);
   EXPECT_FLOAT_EQ(a.z(), 3.1);
@@ -17,7 +28,7 @@ TEST(Tuples, IsPoint) {
 }
 
 TEST(Tuples, IsVector) {
-  tuple a({4.3, -4.2, 3.1 , 0});
+  Tuple a({4.3, -4.2, 3.1 , 0});
   EXPECT_FLOAT_EQ(a.x(), 4.3);
   EXPECT_FLOAT_EQ(a.y(), -4.2);
   EXPECT_FLOAT_EQ(a.z(), 3.1);
@@ -27,38 +38,38 @@ TEST(Tuples, IsVector) {
   EXPECT_EQ(a.isVector(), true);
 }
 
-TEST(Points, CreatePoint)
+TEST(Tuples, CreatePoint)
 {
-  tuple p(Point(4, -4, 3));
-  EXPECT_EQ(p, tuple({4, -4, 3, 1}));
+  Tuple p(Point(4, -4, 3));
+  EXPECT_EQ(p, Tuple({4, -4, 3, 1}));
   EXPECT_EQ(p.isPoint(), true);
 }
 
-TEST(Vector, CreateVector)
+TEST(Tuples, CreateVector)
 {
-  tuple v(Vector(4, -4, 3));
-  EXPECT_EQ(v, tuple({4, -4, 3, 0.0}));
+  Tuple v(Vector(4, -4, 3));
+  EXPECT_EQ(v, Tuple({4, -4, 3, 0.0}));
   EXPECT_EQ(v.isPoint(), false);
 }
 
 
-TEST(Additions, TupleTuple)
+TEST(Tuples, Additions_TupleTuple)
 {
-  tuple p1({3, -2, 5, 1});
-  tuple p2({-2, 3, 1, 0});
-  EXPECT_EQ(p1 + p2, tuple({1, 1, 6, 1}));
+  Tuple p1({3, -2, 5, 1});
+  Tuple p2({-2, 3, 1, 0});
+  EXPECT_EQ(p1 + p2, Tuple({1, 1, 6, 1}));
 }
 
-TEST(Subtractions, PointPoint)
+TEST(STuples , Subtractions_PointPoint)
 {
   EXPECT_EQ(Point(3, 2, 1) - Point(5, 6, 7), Vector(-2, -4, -6));
 }
 
-TEST(Subtractions, VectorPoint)
+TEST(Tuples, Subtractions_VectorPoint)
 {
   EXPECT_EQ(Point(3, 2, 1) - Vector(5, 6, 7), Point(-2, -4, -6));
 }
-TEST(Subtractions, VectorVector)
+TEST(Tuples, Subtractions_VectorVector)
 {
   EXPECT_EQ(Vector(3, 2, 1) - Vector(5, 6, 7), Vector(-2, -4, -6));
 }
@@ -70,24 +81,24 @@ TEST(Vectors, Negation)
 
 TEST(Tuples, Negation)
 {
-  EXPECT_EQ(-tuple({1, -2, 3, -4}), tuple({-1, 2, -3, 4}));
+  EXPECT_EQ(-Tuple({1, -2, 3, -4}), Tuple({-1, 2, -3, 4}));
 }
 
 TEST(Tuples, Multiplication_scalar)
 {
- EXPECT_EQ(3.5* tuple({1, -2, 3, -4}), tuple({3.5, -7, 10.5, -14}));
- EXPECT_EQ(tuple({1, -2, 3, -4}) * 2, tuple({2, -4, 6, -8}));
+ EXPECT_EQ(3.5* Tuple({1, -2, 3, -4}), Tuple({3.5, -7, 10.5, -14}));
+ EXPECT_EQ(Tuple({1, -2, 3, -4}) * 2, Tuple({2, -4, 6, -8}));
 }
 
 TEST(Tuples, Multiplication_fraction)
 {
-  EXPECT_EQ(0.5 * tuple({1, -2, 3, -4}), tuple({0.5, -1, 1.5, -2}));
+  EXPECT_EQ(0.5 * Tuple({1, -2, 3, -4}), Tuple({0.5, -1, 1.5, -2}));
 }
 
 
 TEST(Tuples, Division_scalar)
 {
-  EXPECT_EQ(tuple({1, -2, 3, -4}) / 2, tuple({0.5, -1, 1.5, -2}) );
+  EXPECT_EQ(Tuple({1, -2, 3, -4}) / 2, Tuple({0.5, -1, 1.5, -2}) );
 }
 
 TEST(Tuples, Magniture_Unit)

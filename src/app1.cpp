@@ -6,30 +6,30 @@
 
 
 class Environment{
-  ray_lib::tuple _gravity;
-  ray_lib::tuple _wind;
+  ray_lib::Tuple _gravity;
+  ray_lib::Tuple _wind;
   public:
-  Environment(const ray_lib::tuple & gravity, const ray_lib::tuple &wind) : _gravity(gravity), _wind(wind){}
-  ray_lib::tuple wind(){return _wind;}
-  ray_lib::tuple gravity(){return _gravity;}
+  Environment(const ray_lib::Tuple & gravity, const ray_lib::Tuple &wind) : _gravity(gravity), _wind(wind){}
+  ray_lib::Tuple wind(){return _wind;}
+  ray_lib::Tuple gravity(){return _gravity;}
 };
 
 class Projectile
 {
   private:
-  ray_lib::tuple _position;
-  ray_lib::tuple _velocity;
+  ray_lib::Tuple _position;
+  ray_lib::Tuple _velocity;
 
   public:
   // Projectile(const Projectile & lhs): _position(lhs._position), _velocity(lhs._velocity){}
-  Projectile(const ray_lib::tuple &pos, const ray_lib::tuple &vel) : _position(pos) , _velocity(vel){}
-  ray_lib::tuple Position()const {return _position;}
-  ray_lib::tuple Velocity()const {return _velocity;}
+  Projectile(const ray_lib::Tuple &pos, const ray_lib::Tuple &vel) : _position(pos) , _velocity(vel){}
+  ray_lib::Tuple Position()const {return _position;}
+  ray_lib::Tuple Velocity()const {return _velocity;}
 };
 
 Projectile tick(Environment envinroment, Projectile proj){
-  ray_lib::tuple pos = proj.Position() + proj.Velocity();
-  ray_lib::tuple velocity = proj.Velocity() + envinroment.gravity() + envinroment.wind();
+  ray_lib::Tuple pos = proj.Position() + proj.Velocity();
+  ray_lib::Tuple velocity = proj.Velocity() + envinroment.gravity() + envinroment.wind();
   return Projectile(pos, velocity);
 }
 

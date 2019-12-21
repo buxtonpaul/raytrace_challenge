@@ -7,9 +7,9 @@ namespace ray_lib{
 bool operator ==(const Matrix &lhs, const Matrix &rhs)
 {
    // check sizes match
-  if (lhs._data.size() != rhs._data.size())
+  if ((lhs.rows()) != rhs.rows() ||  ((lhs.columns()) != rhs.columns()))
     return false;
-  for (int i = 0; i < lhs._data.size(); ++i)
+  for (int i = 0; i < lhs.rows(); ++i)
    {
      if (!std::equal(lhs._data[i].begin(), lhs._data[i].end(), rhs._data[i].begin(), rhs._data[i].end(), float_equals))
       return false;
@@ -27,10 +27,10 @@ Matrix operator *(const Matrix &lhs, const Matrix &rhs)
   // for each row and column
   // the element at x,y = product row A x Col B
   // our result showld be b.columns x a.rows in dimensions
-  std::vector<std::vector<double>> res(lhs._data.size(), std::vector<double>(rhs._data.size()));
-  for (int rownum=0; rownum < lhs._data.size(); ++rownum)
+  std::vector<std::vector<double>> res(lhs.rows(), std::vector<double>(rhs.columns()));
+  for (int rownum=0; rownum < lhs.rows(); ++rownum)
   {
-    for (int column=0; column < rhs._data[0].size(); ++column){
+    for (int column=0; column < rhs.columns(); ++column){
       res[rownum][column] = vector_product(lhs.row(rownum), rhs.col(column));
     }
   }
@@ -39,14 +39,14 @@ Matrix operator *(const Matrix &lhs, const Matrix &rhs)
 }
 
 
-tuple operator *(const Matrix &lhs, const tuple &rhs)
+Tuple operator *(const Matrix &lhs, const Tuple &rhs)
 {
-  std::vector<std::vector<double>> tuplevals(rhs.Values().size(), std::vector<double>(1));
-  for (unsigned int i = 0; i < rhs.Values().size() ; ++i){
+  std::vector<std::vector<double>> tuplevals(rhs.size(), std::vector<double>(1));
+  for (unsigned int i = 0; i < rhs.size() ; ++i){
     tuplevals[i]={rhs.Values()[i]};
   }
   Matrix tuplematrix(tuplevals);
-  return (tuple ((lhs * tuplematrix).col(0)));
+  return (Tuple ((lhs * tuplematrix).col(0)));
  }
 
 
@@ -66,10 +66,10 @@ std::vector<double> Matrix::col(int colnum)const
 
 Matrix Matrix::transpose()const
 {
-  std::vector<std::vector<double>> tmp(_data[0].size(), std::vector<double>(_data.size()));
-  for (unsigned int i = 0; i < _data[0].size(); ++i)
+  std::vector<std::vector<double>> tmp(_columns, std::vector<double>(_rows));
+  for (unsigned int i = 0; i < _columns; ++i)
   {
-    for (unsigned int j = 0; j < _data.size(); ++j)
+    for (unsigned int j = 0; j <_rows; ++j)
     {
       tmp[i][j] = _data[j][i];
     }
@@ -79,6 +79,7 @@ Matrix Matrix::transpose()const
 
 double Matrix::determinant()const
 {
+  assert((_rows == 2) && (_columns == 2));
   return 1.0;
 }
 
