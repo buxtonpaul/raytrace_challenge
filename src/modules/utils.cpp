@@ -1,6 +1,7 @@
 #include "utils.h"
 #include <cmath>
 #include <cassert>
+#include <cstdio>
 #include <algorithm>
 #include <iostream>
 #include <sstream>
@@ -56,10 +57,21 @@ std::string limitlinelength(std::string in, unsigned int length)
 double vector_product(const std::vector<double> &a, const std::vector<double> &b)
 {
   double sum = 0;
+
   assert(a.size() == b.size());
   for (unsigned int i = 0; i < a.size(); ++i)
   {
     sum += a[i] * b[i];
   }
   return sum;
+}
+
+std::string genfilestring()
+{
+  char tmpstrinf[255];
+  time_t now = time(0);
+  tm *ltm = localtime(&now);
+  snprintf(tmpstrinf, sizeof(tmpstrinf), "%d%02d%02d%02d%02d%02d", (1900 + ltm->tm_year),
+           (1 + ltm->tm_mon), (ltm->tm_mday), (1 + ltm->tm_hour), (1 + ltm->tm_min),(1 + ltm->tm_sec));
+  return std::string(tmpstrinf);
 }

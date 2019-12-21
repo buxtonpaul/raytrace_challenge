@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     p = tick(e, p);
     std::cout << "x,y = " << p.Position().x() << ", " << c.height() - p.Position().y() << std::endl;
   } while (p.Position().y() >= 0.0);
-  std::ofstream outfile("somefile.ppm");
+  std::ofstream outfile(genfilestring()+".ppm");
   outfile << c.ppm();
   outfile.close();
 }
