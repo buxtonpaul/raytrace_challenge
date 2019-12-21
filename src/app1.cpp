@@ -4,49 +4,51 @@
 #include "canvas.h"
 #include "color.h"
 
-
-class Environment{
+class Environment
+{
   ray_lib::Tuple _gravity;
   ray_lib::Tuple _wind;
-  public:
-  Environment(const ray_lib::Tuple & gravity, const ray_lib::Tuple &wind) : _gravity(gravity), _wind(wind){}
-  ray_lib::Tuple wind(){return _wind;}
-  ray_lib::Tuple gravity(){return _gravity;}
+
+public:
+  Environment(const ray_lib::Tuple &gravity, const ray_lib::Tuple &wind) : _gravity(gravity), _wind(wind) {}
+  ray_lib::Tuple wind() { return _wind; }
+  ray_lib::Tuple gravity() { return _gravity; }
 };
 
 class Projectile
 {
-  private:
+private:
   ray_lib::Tuple _position;
   ray_lib::Tuple _velocity;
 
-  public:
+public:
   // Projectile(const Projectile & lhs): _position(lhs._position), _velocity(lhs._velocity){}
-  Projectile(const ray_lib::Tuple &pos, const ray_lib::Tuple &vel) : _position(pos) , _velocity(vel){}
-  ray_lib::Tuple Position()const {return _position;}
-  ray_lib::Tuple Velocity()const {return _velocity;}
+  Projectile(const ray_lib::Tuple &pos, const ray_lib::Tuple &vel) : _position(pos), _velocity(vel) {}
+  ray_lib::Tuple Position() const { return _position; }
+  ray_lib::Tuple Velocity() const { return _velocity; }
 };
 
-Projectile tick(Environment envinroment, Projectile proj){
+Projectile tick(Environment envinroment, Projectile proj)
+{
   ray_lib::Tuple pos = proj.Position() + proj.Velocity();
   ray_lib::Tuple velocity = proj.Velocity() + envinroment.gravity() + envinroment.wind();
   return Projectile(pos, velocity);
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
-  Projectile p(ray_lib::Point(0, 1, 0), ray_lib::Vector(1, 1.8, 0).normalise()*11.25);
-  Environment e(ray_lib::Vector(0, -0.1, 0) , ray_lib::Vector(-0.01, 0, 0));
+  Projectile p(ray_lib::Point(0, 1, 0), ray_lib::Vector(1, 1.8, 0).normalise() * 11.25);
+  Environment e(ray_lib::Vector(0, -0.1, 0), ray_lib::Vector(-0.01, 0, 0));
 
   Canvas c(900, 550);
   do
   {
-    c.Pixel(p.Position().x(), c.height()-p.Position().y(), Color({1, 0, 0}));
+    c.Pixel(p.Position().x(), c.height() - p.Position().y(), Color({1, 0, 0}));
     p = tick(e, p);
-    std::cout << "x,y = " << p.Position().x() << ", " <<c.height()-p.Position().y() <<std::endl;
-  }while (p.Position().y() >= 0.0);
+    std::cout << "x,y = " << p.Position().x() << ", " << c.height() - p.Position().y() << std::endl;
+  } while (p.Position().y() >= 0.0);
   std::ofstream outfile("somefile.ppm");
-  outfile<< c.ppm();
+  outfile << c.ppm();
   outfile.close();
 }
 

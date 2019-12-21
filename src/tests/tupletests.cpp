@@ -2,22 +2,22 @@
 #include "gtest/gtest.h"
 #include "tuples.h"
 
+using ray_lib::Point;
 using ray_lib::Tuple;
 using ray_lib::Vector;
-using ray_lib::Point;
-
 
 TEST(Tuples, accessor)
 {
-  Tuple a({4.3, -4.2, 3.1 , 1.0});
+  Tuple a({4.3, -4.2, 3.1, 1.0});
   EXPECT_FLOAT_EQ(a[0], 4.3);
   EXPECT_FLOAT_EQ(a[1], -4.2);
   EXPECT_FLOAT_EQ(a[2], 3.1);
   EXPECT_FLOAT_EQ(a[3], 1.0);
 }
 
-TEST(Tuples, IsPoint) {
-  Tuple a({4.3, -4.2, 3.1 , 1.0});
+TEST(Tuples, IsPoint)
+{
+  Tuple a({4.3, -4.2, 3.1, 1.0});
   EXPECT_FLOAT_EQ(a.x(), 4.3);
   EXPECT_FLOAT_EQ(a.y(), -4.2);
   EXPECT_FLOAT_EQ(a.z(), 3.1);
@@ -27,8 +27,9 @@ TEST(Tuples, IsPoint) {
   EXPECT_EQ(a.isVector(), false);
 }
 
-TEST(Tuples, IsVector) {
-  Tuple a({4.3, -4.2, 3.1 , 0});
+TEST(Tuples, IsVector)
+{
+  Tuple a({4.3, -4.2, 3.1, 0});
   EXPECT_FLOAT_EQ(a.x(), 4.3);
   EXPECT_FLOAT_EQ(a.y(), -4.2);
   EXPECT_FLOAT_EQ(a.z(), 3.1);
@@ -52,7 +53,6 @@ TEST(Tuples, CreateVector)
   EXPECT_EQ(v.isPoint(), false);
 }
 
-
 TEST(Tuples, Additions_TupleTuple)
 {
   Tuple p1({3, -2, 5, 1});
@@ -60,7 +60,7 @@ TEST(Tuples, Additions_TupleTuple)
   EXPECT_EQ(p1 + p2, Tuple({1, 1, 6, 1}));
 }
 
-TEST(STuples , Subtractions_PointPoint)
+TEST(STuples, Subtractions_PointPoint)
 {
   EXPECT_EQ(Point(3, 2, 1) - Point(5, 6, 7), Vector(-2, -4, -6));
 }
@@ -86,8 +86,8 @@ TEST(Tuples, Negation)
 
 TEST(Tuples, Multiplication_scalar)
 {
- EXPECT_EQ(3.5* Tuple({1, -2, 3, -4}), Tuple({3.5, -7, 10.5, -14}));
- EXPECT_EQ(Tuple({1, -2, 3, -4}) * 2, Tuple({2, -4, 6, -8}));
+  EXPECT_EQ(3.5 * Tuple({1, -2, 3, -4}), Tuple({3.5, -7, 10.5, -14}));
+  EXPECT_EQ(Tuple({1, -2, 3, -4}) * 2, Tuple({2, -4, 6, -8}));
 }
 
 TEST(Tuples, Multiplication_fraction)
@@ -95,10 +95,9 @@ TEST(Tuples, Multiplication_fraction)
   EXPECT_EQ(0.5 * Tuple({1, -2, 3, -4}), Tuple({0.5, -1, 1.5, -2}));
 }
 
-
 TEST(Tuples, Division_scalar)
 {
-  EXPECT_EQ(Tuple({1, -2, 3, -4}) / 2, Tuple({0.5, -1, 1.5, -2}) );
+  EXPECT_EQ(Tuple({1, -2, 3, -4}) / 2, Tuple({0.5, -1, 1.5, -2}));
 }
 
 TEST(Tuples, Magniture_Unit)
@@ -113,7 +112,6 @@ TEST(Tuples, Magniture_NonUnit)
   EXPECT_FLOAT_EQ(Vector(1, 2, 3).magnitude(), sqrt(14));
   EXPECT_FLOAT_EQ(Vector(-1, -2, -3).magnitude(), sqrt(14));
 }
-
 
 TEST(Tuples, Normalise)
 {

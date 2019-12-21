@@ -7,14 +7,17 @@
 TEST(Canvas, Canvas_Initialise)
 {
   Canvas c(10, 20);
-  for (unsigned int i = 0; i < c.width(); ++i){
-    for (unsigned int j = 0; j < c.height(); ++j){
+  for (unsigned int i = 0; i < c.width(); ++i)
+  {
+    for (unsigned int j = 0; j < c.height(); ++j)
+    {
       EXPECT_EQ(c.Pixel(i, j), Color({0, 0, 0}));
     }
   }
 }
 
-TEST(Canvas, Set_Pixel){
+TEST(Canvas, Set_Pixel)
+{
   Canvas c(10, 20);
   Color red({1, 0, 0});
   c.Pixel(2, 3, red);
@@ -56,8 +59,10 @@ TEST(Canvas, ppm_long_lines)
   Canvas c(10, 2);
   Color c1({1, 0.8, 0.6});
 
-  for (unsigned int i = 0; i < c.width(); ++i){
-    for (unsigned int j = 0; j < c.height(); ++j){
+  for (unsigned int i = 0; i < c.width(); ++i)
+  {
+    for (unsigned int j = 0; j < c.height(); ++j)
+    {
       c.Pixel(i, j, c1);
     }
   }

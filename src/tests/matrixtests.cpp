@@ -2,17 +2,16 @@
 #include "matrix.h"
 #include "tuples.h"
 
-
+using ray_lib::identity_4;
 using ray_lib::Matrix;
 using ray_lib::Tuple;
-using ray_lib::identity_4;
 
 TEST(Matrix, 4x4)
 {
   Matrix m({{1, 2, 3, 4},
-  {5.5, 6.5, 7.5, 8.5},
-  {9, 10, 11, 12},
-  {13.5, 14.5, 15.5, 16.5}});
+            {5.5, 6.5, 7.5, 8.5},
+            {9, 10, 11, 12},
+            {13.5, 14.5, 15.5, 16.5}});
 
   EXPECT_EQ(m.Data()[0][0], 1);
   EXPECT_EQ(m.Data()[0][3], 4);
@@ -26,8 +25,8 @@ TEST(Matrix, 4x4)
 TEST(Matrix, 3x3)
 {
   Matrix m({{-3, 5, 0},
-  {1, -2, -7},
-  {0, 1, 1}});
+            {1, -2, -7},
+            {0, 1, 1}});
 
   EXPECT_EQ(m.Data()[0][0], -3);
   EXPECT_EQ(m.Data()[1][1], -2);
@@ -37,7 +36,7 @@ TEST(Matrix, 3x3)
 TEST(Matrix, 2x2)
 {
   Matrix m({{-3, 5},
-  {1, -2}});
+            {1, -2}});
 
   EXPECT_EQ(m.Data()[0][0], -3);
   EXPECT_EQ(m.Data()[0][1], 5);
@@ -71,10 +70,9 @@ TEST(Matrix, Mul)
   Matrix m1({{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 8, 7, 6}, {5, 4, 3, 2}});
   Matrix m2({{-2, 1, 2, 3}, {3, 2, 1, -1}, {4, 3, 6, 5}, {1, 2, 7, 8}});
 
-  EXPECT_EQ(m1 * m2 ,
-          Matrix({{20, 22, 50, 48}, {44, 54, 114, 108}, {40, 58, 110, 102}, {16, 26, 46, 42}}));
+  EXPECT_EQ(m1 * m2,
+            Matrix({{20, 22, 50, 48}, {44, 54, 114, 108}, {40, 58, 110, 102}, {16, 26, 46, 42}}));
 }
-
 
 TEST(Matrix, Row)
 {
@@ -91,21 +89,21 @@ TEST(Matrix, Column)
 TEST(Matrix, Tuple)
 {
   Matrix m({{1, 2, 3, 4},
-  {2, 4, 4, 2},
-  {8, 6, 4, 1},
-  {0, 0, 0, 1}});
+            {2, 4, 4, 2},
+            {8, 6, 4, 1},
+            {0, 0, 0, 1}});
 
   Tuple t({1, 2, 3, 1});
 
   EXPECT_EQ(m * t, Tuple({18, 24, 33, 1}));
 }
 
-TEST(Matrix , matrix_x_identity)
+TEST(Matrix, matrix_x_identity)
 {
   Matrix m({{1, 2, 3, 4},
-  {5.5, 6.5, 7.5, 8.5},
-  {9, 10, 11, 12},
-  {13.5, 14.5, 15.5, 16.5}});
+            {5.5, 6.5, 7.5, 8.5},
+            {9, 10, 11, 12},
+            {13.5, 14.5, 15.5, 16.5}});
   EXPECT_EQ(m * identity_4, m);
 }
 
@@ -137,8 +135,8 @@ TEST(Matrix, determinant_2x2)
 TEST(Matrix, accessor)
 {
   Matrix m({{-3, 5, 0},
-  {1, -2, -7},
-  {0, 1, 1}});
+            {1, -2, -7},
+            {0, 1, 1}});
 
   EXPECT_EQ(m[0][0], -3);
   EXPECT_EQ(m[0][1], 5);
