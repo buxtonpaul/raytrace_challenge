@@ -80,7 +80,7 @@ Matrix Matrix::transpose()const
 double Matrix::determinant()const
 {
   assert((_rows == 2) && (_columns == 2));
-  return 1.0;
+  return ((_data[0][0] * _data[1][1]) - (_data[0][1] * _data[1][0]));
 }
 
 std::ostream & operator << (std::ostream &out, const Matrix &v)
