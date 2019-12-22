@@ -80,3 +80,8 @@ target_link_libraries(app1 rays)
 add_executable(app2 src/app2.cpp)
 target_include_directories(app2 PUBLIC src/include)
 target_link_libraries(app2 rays)
+
+# Build a simple test applicaiton
+add_executable(app3 src/app3.cpp)
+target_include_directories(app3 PUBLIC src/include)
+target_link_libraries(app3 rays)

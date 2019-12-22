@@ -25,6 +25,7 @@ class Matrix {
   friend bool operator!=(const Matrix &lhs, const Matrix &rhs);
   friend Matrix operator*(const Matrix &lhs, const Matrix &rhs);
   friend Tuple operator*(const Matrix &lhs, const Tuple &rhs);
+  friend Point operator*(const Matrix &lhs, const Point &rhs);
   friend std::ostream &operator<<(std::ostream &out, const Matrix &v);
   std::vector<double> row(int rownum) const;
   std::vector<double> col(int colnum) const;

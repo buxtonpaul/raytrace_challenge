@@ -5,14 +5,14 @@
 #include "utils.h"
 
 namespace ray_lib {
-double Tuple::dotproduct(const Tuple &r) const {
+double Vector::dotproduct(const Vector &r) const {
   double sum = 0;
   for (unsigned int i = 0; i < this->Values().size(); ++i)
     sum += (this->Values()[i] * r.Values()[i]);
   return sum;
 }
 
-Tuple Tuple::crossproduct(const Tuple &r) const {
+Vector Vector::crossproduct(const Vector &r) const {
   return Vector(this->y() * r.z() - this->z() * r.y(),
                 this->z() * r.x() - this->x() * r.z(),
                 this->x() * r.y() - this->y() * r.x());
@@ -32,11 +32,25 @@ Tuple operator*(const Tuple &lhs, const double &rhs) {
   return Tuple(y);
 }
 
+Vector operator*(const Vector &lhs, const double &rhs) {
+  std::vector<double> y(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), y.begin(),
+                 [rhs](double x) { return x * rhs; });
+  return Vector(y);
+}
+
 Tuple operator*(const Tuple &lhs, const Tuple &rhs) {
   std::vector<double> z(lhs._vals.size());
   std::transform(lhs._vals.begin(), lhs._vals.end(), rhs._vals.begin(),
                  z.begin(), [](double x, double y) { return (x * y); });
   return Tuple(z);
+}
+
+Vector operator/(const Vector &lhs, const double &rhs) {
+  std::vector<double> y(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), y.begin(),
+                 [rhs](double x) { return x / rhs; });
+  return Vector(y);
 }
 
 Tuple operator/(const Tuple &lhs, const double &rhs) {
@@ -53,6 +67,20 @@ Tuple operator+(const Tuple &lhs, const Tuple &rhs) {
   return Tuple(z);
 }
 
+Point operator+(const Point &lhs, const Vector &rhs) {
+  std::vector<double> z(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), rhs._vals.begin(),
+                 z.begin(), [](double x, double y) { return (x + y); });
+  return Point(z);
+}
+
+Vector operator+(const Vector &lhs, const Vector &rhs) {
+  std::vector<double> z(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), rhs._vals.begin(),
+                 z.begin(), [](double x, double y) { return (x + y); });
+  return Vector(z);
+}
+
 Tuple operator-(const Tuple &lhs, const Tuple &rhs) {
   std::vector<double> z(lhs._vals.size());
   std::transform(lhs._vals.begin(), lhs._vals.end(), rhs._vals.begin(),
@@ -66,9 +94,6 @@ Tuple operator-(const Tuple &lhs) {
                  [](double x) { return 0 - x; });
   return Tuple(y);
 }
-
-Tuple Vector(double x, double y, double z) { return Tuple({x, y, z, 0.0}); }
-Tuple Point(double x, double y, double z) { return Tuple({x, y, z, 1.0}); }
 
 std::ostream &operator<<(std::ostream &out, const Tuple &c) {
   out << "( ";

@@ -44,6 +44,15 @@ Tuple operator*(const Matrix &lhs, const Tuple &rhs) {
   return (Tuple((lhs * tuplematrix).col(0)));
 }
 
+Point operator*(const Matrix &lhs, const Point &rhs) {
+  vector<vector<double>> tuplevals(rhs.size(), vector<double>(1));
+  for (unsigned int i = 0; i < rhs.size(); ++i) {
+    tuplevals[i] = {rhs.Values()[i]};
+  }
+  Matrix tuplematrix(tuplevals);
+  return (Point((lhs * tuplematrix).col(0)));
+}
+
 vector<double> Matrix::row(int rownum) const { return (_data[rownum]); }
 
 vector<double> Matrix::col(int colnum) const {

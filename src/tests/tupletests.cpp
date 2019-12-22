@@ -37,13 +37,13 @@ TEST(Tuples, IsVector) {
 }
 
 TEST(Tuples, CreatePoint) {
-  Tuple p(Point(4, -4, 3));
-  EXPECT_EQ(p, Tuple({4, -4, 3, 1}));
+  Point p(4, -4, 3);
+  EXPECT_EQ(p, Point({4, -4, 3, 1}));
   EXPECT_EQ(p.isPoint(), true);
 }
 
 TEST(Tuples, CreateVector) {
-  Tuple v(Vector(4, -4, 3));
+  Vector v(4, -4, 3);
   EXPECT_EQ(v, Tuple({4, -4, 3, 0.0}));
   EXPECT_EQ(v.isPoint(), false);
 }
