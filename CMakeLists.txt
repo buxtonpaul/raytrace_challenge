@@ -44,6 +44,7 @@ set(MODULE_SOURCES src/modules/tuples.cpp
             src/modules/color.cpp
             src/modules/canvas.cpp
             src/modules/matrix.cpp
+            src/modules/rays.cpp
             )
 
 
@@ -53,6 +54,7 @@ set (TESTS src/tests/tupletests.cpp
             src/tests/utilstests.cpp
             src/tests/matrixtests.cpp
             src/tests/transformationtests.cpp
+            src/tests/raytests.cpp
             )
 
 add_library(rays ${MODULE_SOURCES})

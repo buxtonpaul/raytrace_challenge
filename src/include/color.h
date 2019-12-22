@@ -2,12 +2,11 @@
 #ifndef color_h
 #define color_h
 
-class Color
-{
-private:
+class Color {
+ private:
   std::array<double, 3> _values;
 
-public:
+ public:
   explicit Color(std::array<double, 3> values) : _values(values) {}
   double red() const { return _values[0]; }
   double green() const { return _values[1]; }
@@ -23,4 +22,4 @@ Color operator*(const double scalar, const Color &color);
 Color operator*(const Color &lhs, const Color &rhs);
 std::ostream &operator<<(std::ostream &out, const Color &c);
 
-#endif //color_h
+#endif  // color_h

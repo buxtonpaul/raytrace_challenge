@@ -1,24 +1,22 @@
 #ifndef tuples_h
 #define tuples_h
 
-#include <vector>
-#include <functional>
 #include <algorithm>
-#include <limits>
-#include <iostream>
 #include <cmath>
+#include <functional>
+#include <iostream>
+#include <limits>
+#include <vector>
 #include "utils.h"
 
-namespace ray_lib
-{
+namespace ray_lib {
 
-class Tuple
-{
-private:
+class Tuple {
+ private:
   std::vector<double> _vals;
   unsigned int _size;
 
-public:
+ public:
   explicit Tuple(std::vector<double> a) : _vals(a), _size(a.size()) {}
   Tuple(const Tuple &r) : _vals(r._vals) {}
   bool isPoint() const { return (float_equals(_vals[3], 1.0) && (_size == 4)); }
@@ -28,8 +26,10 @@ public:
   double dotproduct(const Tuple &r) const;
   Tuple crossproduct(const Tuple &r) const;
 
-  bool operator==(const Tuple &obj) const { return (std::equal(begin(_vals), end(_vals),
-                                                               begin(obj._vals), end(obj._vals), float_equals)); }
+  bool operator==(const Tuple &obj) const {
+    return (std::equal(begin(_vals), end(_vals), begin(obj._vals),
+                       end(obj._vals), float_equals));
+  }
 
   // Operators
   friend std::ostream &operator<<(std::ostream &out, const Tuple &c);
@@ -54,5 +54,5 @@ public:
 Tuple Vector(double x, double y, double z);
 Tuple Point(double x, double y, double z);
 
-} //namespace ray_lib
+}  // namespace ray_lib
 #endif
