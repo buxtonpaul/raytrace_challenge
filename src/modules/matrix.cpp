@@ -168,4 +168,44 @@ Matrix Matrix::inverse() const
   return Matrix(res);
 }
 
-} //namespace ray_lib
+// translations , perhaps move into another function
+Matrix Translation(double x, double y, double z)
+{
+  return Matrix({{1, 0, 0, x},
+                 {0, 1, 0, y},
+                 {0, 0, 1, z},
+                 {0, 0, 0, 1}});
+}
+
+// translations , perhaps move into another function
+Matrix Scale(double x, double y, double z)
+{
+  return Matrix({{x, 0, 0, 0},
+                 {0, y, 0, 0},
+                 {0, 0, z, 0},
+                 {0, 0, 0, 1}});
+}
+
+Matrix Rotation_x(double radians)
+{
+  return Matrix({{1, 0, 0, 0},
+                 {0, cos(radians), -sin(radians), 0},
+                 {0, sin(radians), cos(radians), 0},
+                 {0, 0, 0, 1}});
+}
+Matrix Rotation_y(double radians)
+{
+  return Matrix({{cos(radians), 0, sin(radians), 0},
+                 {0, 1, 0, 0},
+                 {-sin(radians), 0, cos(radians), 0},
+                 {0, 0, 0, 1}});
+}
+Matrix Rotation_z(double radians)
+{
+  return Matrix({{cos(radians), -sin(radians), 0, 0},
+                 {sin(radians), cos(radians), 0, 0},
+                 {0, 0, 1, 0},
+                 {0, 0, 0, 1}});
+}
+
+} // namespace ray_lib

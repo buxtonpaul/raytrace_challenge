@@ -42,5 +42,12 @@ public:
   std::vector<double> &operator[](int index) { return _data[index]; }
 };
 const Matrix identity_4({{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}});
+Matrix Translation(double x, double y, double z);
+Matrix Scale(double x, double y, double z);
+
+Matrix Rotation_x(double radians);
+Matrix Rotation_y(double radians);
+Matrix Rotation_z(double radians);
+
 } //namespace ray_lib
 #endif //_matrix_h

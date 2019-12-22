@@ -52,6 +52,7 @@ set (TESTS src/tests/tupletests.cpp
             src/tests/canvastests.cpp
             src/tests/utilstests.cpp
             src/tests/matrixtests.cpp
+            src/tests/transformationtests.cpp
             )
 
 add_library(rays ${MODULE_SOURCES})
