@@ -89,4 +89,12 @@ std::ostream &operator<<(std::ostream &out, const Tuple &c)
   return out;
 }
 
+double Tuple::magnitude() const
+{
+  return sqrt(_vals[0] * _vals[0] +
+              _vals[1] * _vals[1] +
+              _vals[2] * _vals[2] +
+              _vals[3] * _vals[3]);
+}
+
 } //namespace ray_lib

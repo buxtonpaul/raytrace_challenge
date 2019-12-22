@@ -5,11 +5,11 @@ Build Status -: ![alt text](https://github.com/buxtonpaul/raytrace_challenge/wor
 
 # Todo 
 - [ ] Move tuple functions to cope with arbitrary lengths...
-- [ ] Implement time based filename generator
 - [ ] Add doxygen comments
 - [ ] Implment other point/vector functions
 - [ ] Move Vector and Point to inherted classes with raytuple as the base class
 - [ ] Rework using slices....
+- [x] Implement time based filename generator
 - [x] Tidy up test names
 - [x] Update to use namespace for matrix as well
 

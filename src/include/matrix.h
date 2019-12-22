@@ -32,6 +32,11 @@ public:
   std::vector<double> col(int colnum) const;
   Matrix transpose() const;
   double determinant() const;
+  Matrix submatrix(unsigned int remove_row, unsigned int remove_column) const;
+  double get_minor(unsigned int row, unsigned int column) const;
+  double cofactor(unsigned int row, unsigned int column) const;
+  bool invertable() const;
+  Matrix inverse() const;
   unsigned int columns() const { return _columns; }
   unsigned int rows() const { return _rows; }
   std::vector<double> &operator[](int index) { return _data[index]; }
