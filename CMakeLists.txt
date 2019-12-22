@@ -73,3 +73,8 @@ gtest_discover_tests(unittests)
 add_executable(app1 src/app1.cpp)
 target_include_directories(app1 PUBLIC src/include)
 target_link_libraries(app1 rays)
+
+# Build a simple test applicaiton
+add_executable(app2 src/app2.cpp)
+target_include_directories(app2 PUBLIC src/include)
+target_link_libraries(app2 rays)
