@@ -11,15 +11,6 @@
 
 namespace ray_lib
 {
-class Tuple;
-
-// A class to represent 4 element tuples used for ray tracing
-// these are represented using 4 elements x,y,z,w
-// where w==0 means it is a vector and w==1 means it is a point
-// non class helpers
-
-Tuple Vector(double x, double y, double z);
-Tuple Point(double x, double y, double z);
 
 class Tuple
 {
@@ -30,9 +21,9 @@ private:
 public:
   explicit Tuple(std::vector<double> a) : _vals(a), _size(a.size()) {}
   Tuple(const Tuple &r) : _vals(r._vals) {}
-  bool isPoint() const{ return (float_equals(_vals[3], 1.0) && (_size == 4)); }
-  bool isVector() const{ return ((!isPoint()) && (_size == 4)); }
-  double magnitude()const;
+  bool isPoint() const { return (float_equals(_vals[3], 1.0) && (_size == 4)); }
+  bool isVector() const { return ((!isPoint()) && (_size == 4)); }
+  double magnitude() const;
   Tuple normalise() const { return (*this / this->magnitude()); }
   double dotproduct(const Tuple &r) const;
   Tuple crossproduct(const Tuple &r) const;
@@ -58,6 +49,10 @@ public:
   const std::vector<double> &Values() const { return (_vals); }
   double &operator[](int index) { return _vals[index]; }
 };
+// helper functions to create Vectors and Points, which are tuples
+// of size 4 (x,y,z,w) with W being either 0 (Vector) or 1(point) depending on
+Tuple Vector(double x, double y, double z);
+Tuple Point(double x, double y, double z);
 
 } //namespace ray_lib
 #endif
