@@ -49,5 +49,7 @@ Matrix Rotation_x(double radians);
 Matrix Rotation_y(double radians);
 Matrix Rotation_z(double radians);
 
+Matrix Shear(double xy, double xz, double yx, double yz, double zx, double zy);
+
 } //namespace ray_lib
 #endif //_matrix_h

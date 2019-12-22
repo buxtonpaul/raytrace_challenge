@@ -6,6 +6,7 @@
 
 using ray_lib::Matrix;
 using ray_lib::Point;
+using ray_lib::Scale;
 using ray_lib::Tuple;
 using ray_lib::Vector;
 
@@ -103,3 +104,88 @@ TEST(Transformations, Rotz1)
   EXPECT_EQ(half_quarter * p, Point(-sqrt(2.0) / 2.0, sqrt(2.0) / 2.0, 0));
   EXPECT_EQ(full_quarter * p, Point(-1, 0, 0));
 }
+
+TEST(Transformations, Shear_xy)
+{
+  Matrix transform = ray_lib::Shear(1, 0, 0, 0, 0, 0);
+  Tuple p = Point(2, 3, 4);
+
+  EXPECT_EQ(transform * p, Point(5, 3, 4));
+}
+
+TEST(Transformations, Shear_xz)
+{
+  Matrix transform = ray_lib::Shear(0, 1, 0, 0, 0, 0);
+  Tuple p = Point(2, 3, 4);
+
+  EXPECT_EQ(transform * p, Point(6, 3, 4));
+}
+
+TEST(Transformations, Shear_yx)
+{
+  Matrix transform = ray_lib::Shear(0, 0, 1, 0, 0, 0);
+  Tuple p = Point(2, 3, 4);
+
+  EXPECT_EQ(transform * p, Point(2, 5, 4));
+}
+
+TEST(Transformations, Shear_yz)
+{
+  Matrix transform = ray_lib::Shear(0, 0, 0, 1, 0, 0);
+  Tuple p = Point(2, 3, 4);
+
+  EXPECT_EQ(transform * p, Point(2, 7, 4));
+}
+
+TEST(Transformations, Shear_zx)
+{
+  Matrix transform = ray_lib::Shear(0, 0, 0, 0, 1, 0);
+  Tuple p = Point(2, 3, 4);
+
+  EXPECT_EQ(transform * p, Point(2, 3, 6));
+}
+
+TEST(Transformations, Shear_zy)
+{
+  Matrix transform = ray_lib::Shear(0, 0, 0, 0, 0, 1);
+  Tuple p = Point(2, 3, 4);
+
+  EXPECT_EQ(transform * p, Point(2, 3, 7));
+}
+
+TEST(Transformation, Sequence)
+{
+  Tuple p = Point(1, 0, 1);
+  Matrix A = ray_lib::Rotation_x(M_PI / 2);
+  Matrix B = ray_lib::Scale(5, 5, 5);
+  Matrix C = ray_lib::Translation(10, 5, 7);
+
+  Tuple p2 = A * p;
+  EXPECT_EQ(p2, Point(1, -1, 0));
+
+  Tuple p3 = B * p2;
+  EXPECT_EQ(p3, Point(5, -5, 0));
+
+  Tuple p4 = C * p3;
+
+  EXPECT_EQ(p4, Point(15, 0, 7));
+}
+
+TEST(Transformation, ChainSequence)
+{
+  Tuple p = Point(1, 0, 1);
+  Matrix A = ray_lib::Rotation_x(M_PI / 2);
+  Matrix B = ray_lib::Scale(5, 5, 5);
+  Matrix C = ray_lib::Translation(10, 5, 7);
+
+  Matrix Combined = C * B * A;
+
+  EXPECT_EQ(Combined * p, Point(15, 0, 7));
+}
+
+// TEST(Transformation, FluentChainSequence)
+// {
+//   Tuple p = Point(1, 0, 1);
+//   Matrix t = ray_lib::identity_4.Rotation_x(M_PI / 2).Scale(5, 5, 5).Translation(10, 5, 7);
+//   EXPECT_EQ(t * p, Point(15, 0, 7));
+// }
