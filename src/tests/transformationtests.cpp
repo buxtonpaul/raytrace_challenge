@@ -183,9 +183,9 @@ TEST(Transformation, ChainSequence)
   EXPECT_EQ(Combined * p, Point(15, 0, 7));
 }
 
-// TEST(Transformation, FluentChainSequence)
-// {
-//   Tuple p = Point(1, 0, 1);
-//   Matrix t = ray_lib::identity_4.Rotation_x(M_PI / 2).Scale(5, 5, 5).Translation(10, 5, 7);
-//   EXPECT_EQ(t * p, Point(15, 0, 7));
-// }
+TEST(Transformation, FluentChainSequence)
+{
+   Tuple p = Point(1, 0, 1);
+   Matrix t = ray_lib::identity_4.Rotate_x(M_PI / 2).Scale(5, 5, 5).Translate(10, 5, 7);
+   EXPECT_EQ(t * p, Point(15, 0, 7));
+}

@@ -169,6 +169,60 @@ Matrix Matrix::inverse() const
 }
 
 // translations , perhaps move into another function
+Matrix Matrix::Translate(double x, double y, double z) const
+{
+  return Matrix({{1, 0, 0, x},
+                 {0, 1, 0, y},
+                 {0, 0, 1, z},
+                 {0, 0, 0, 1}}) *
+         *this;
+}
+
+// translations , perhaps move into another function
+Matrix Matrix::Scale(double x, double y, double z) const
+{
+  return Matrix({{x, 0, 0, 0},
+                 {0, y, 0, 0},
+                 {0, 0, z, 0},
+                 {0, 0, 0, 1}}) *
+         *this;
+}
+
+Matrix Matrix::Rotate_x(double radians) const
+{
+  return Matrix({{1, 0, 0, 0},
+                 {0, cos(radians), -sin(radians), 0},
+                 {0, sin(radians), cos(radians), 0},
+                 {0, 0, 0, 1}}) *
+         *this;
+}
+Matrix Matrix::Rotate_y(double radians) const
+{
+  return Matrix({{cos(radians), 0, sin(radians), 0},
+                 {0, 1, 0, 0},
+                 {-sin(radians), 0, cos(radians), 0},
+                 {0, 0, 0, 1}}) *
+         *this;
+}
+Matrix Matrix::Rotate_z(double radians) const
+{
+  return Matrix({{cos(radians), -sin(radians), 0, 0},
+                 {sin(radians), cos(radians), 0, 0},
+                 {0, 0, 1, 0},
+                 {0, 0, 0, 1}}) *
+         *this;
+}
+
+Matrix Matrix::Shear(double xy, double xz, double yx, double yz, double zx, double zy) const
+{
+  return Matrix({{1, xy, xz, 0},
+                 {yx, 1, yz, 0},
+                 {zx, zy, 1, 0},
+                 {0, 0, 0, 1}}) *
+         *this;
+}
+
+// translations , perhaps move into another function
 Matrix Translation(double x, double y, double z)
 {
   return Matrix({{1, 0, 0, x},

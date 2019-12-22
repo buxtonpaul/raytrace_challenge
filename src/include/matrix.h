@@ -40,6 +40,15 @@ public:
   unsigned int columns() const { return _columns; }
   unsigned int rows() const { return _rows; }
   std::vector<double> &operator[](int index) { return _data[index]; }
+  Matrix Translate(double x, double y, double z)const;
+  Matrix Scale(double x, double y, double z)const;
+
+  Matrix Rotate_x(double radians)const;
+  Matrix Rotate_y(double radians)const;
+  Matrix Rotate_z(double radians)const;
+  
+  Matrix Shear(double xy, double xz, double yx, double yz, double zx, double zy)const;
+
 };
 const Matrix identity_4({{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}});
 Matrix Translation(double x, double y, double z);
