@@ -18,6 +18,6 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 - [x] Update to use namespace for matrix as well
 
 ----
-Latest output
-![alt test](./latest.ppm)"Latest"
+## Latest output
+![alt test](./latest.png)
 
