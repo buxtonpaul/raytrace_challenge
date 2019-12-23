@@ -112,3 +112,4 @@ TEST(Tuples, CrossProduct) {
             Vector(-1.0, 2.0, -1.0));
   EXPECT_EQ(Vector(2, 3, 4).crossproduct(Vector(1, 2, 3)), Vector(1, -2, 1));
 }
+

@@ -18,6 +18,25 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 - [x] Update to use namespace for matrix as well
 
 ----
+# Implementation notes.
+Should the intersection routine be part of the object that is being intersected, or part of the ray?
+If it is part of the ray we have to add to the ray class each time we implement a new object type.
+However the returned intersections are relative to a specific ray, so from that point there is sense in it being part of the ray object?
+
+In general I think the best approach is for it to be part of the object being intersected.
+We should also allow plan for the rays to interact with a variety of objects so worth considering a hierarcy now.
+
+e.g. spheres, cubes etc are derived from generic objects.
+All objects will implement the intersects function
+and will have
+- Material
+- Position, may be different for different classes e.g. center + size for spheres, array of 3 points for triangles
+
+
+
+
+
+----
 ## Latest output
 ![alt test](./latest.png)
 

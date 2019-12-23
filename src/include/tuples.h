@@ -40,8 +40,11 @@ class Tuple {
   friend Tuple operator-(const Tuple &lhs, const Tuple &rhs);
   friend Tuple operator-(const Tuple &lhs);
 
+  friend Vector operator-(const Point &lhs, const Point &rhs);
+
   friend Point operator+(const Point &lhs, const Vector &rhs);
   friend Vector operator+(const Vector &lhs, const Vector &rhs);
+  friend Vector operator*(const double &lhs, const Vector &rhs);
   friend Vector operator*(const Vector &lhs, const double &rhs);
   friend Vector operator/(const Vector &lhs, const double &rhs);
 

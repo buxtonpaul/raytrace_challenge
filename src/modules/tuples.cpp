@@ -39,6 +39,13 @@ Vector operator*(const Vector &lhs, const double &rhs) {
   return Vector(y);
 }
 
+Vector operator*(const double &lhs, const Vector &rhs) {
+  std::vector<double> y(rhs._vals.size());
+  std::transform(rhs._vals.begin(), rhs._vals.end(), y.begin(),
+                 [lhs](double x) { return x * lhs; });
+  return Vector(y);
+}
+
 Tuple operator*(const Tuple &lhs, const Tuple &rhs) {
   std::vector<double> z(lhs._vals.size());
   std::transform(lhs._vals.begin(), lhs._vals.end(), rhs._vals.begin(),
@@ -86,6 +93,13 @@ Tuple operator-(const Tuple &lhs, const Tuple &rhs) {
   std::transform(lhs._vals.begin(), lhs._vals.end(), rhs._vals.begin(),
                  z.begin(), [](double x, double y) { return (x - y); });
   return Tuple(z);
+}
+
+Vector operator-(const Point &lhs, const Point &rhs) {
+  std::vector<double> z(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), rhs._vals.begin(),
+                 z.begin(), [](double x, double y) { return (x - y); });
+  return Vector(z);
 }
 
 Tuple operator-(const Tuple &lhs) {
