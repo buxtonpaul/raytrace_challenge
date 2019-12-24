@@ -2,7 +2,6 @@
 #include "matrix.h"
 #include "tuples.h"
 
-using ray_lib::identity_4;
 using ray_lib::Matrix;
 using ray_lib::Tuple;
 
@@ -89,12 +88,12 @@ TEST(Matrix, matrix_x_identity) {
             {5.5, 6.5, 7.5, 8.5},
             {9, 10, 11, 12},
             {13.5, 14.5, 15.5, 16.5}});
-  EXPECT_EQ(m * identity_4, m);
+  EXPECT_EQ(m * Matrix::Identity, m);
 }
 
 TEST(Matrix, tuple_x_identity) {
   Tuple t({1, 2, 3, 1});
-  EXPECT_EQ(identity_4 * t, t);
+  EXPECT_EQ(Matrix::Identity * t, t);
 }
 
 TEST(Matrix, transpose) {
@@ -105,7 +104,7 @@ TEST(Matrix, transpose) {
 }
 
 TEST(Matrix, transpose_identiry) {
-  EXPECT_EQ(identity_4.transpose(), identity_4);
+  EXPECT_EQ(Matrix::Identity.transpose(), Matrix::Identity);
 }
 
 TEST(Matrix, determinant_2x2) {

@@ -17,7 +17,8 @@ std::ostream &operator<<(std::ostream &out, const Intersection &i) {
   return out;
 }
 
-const Intersection *GetHit(const std::vector<Intersection> &intersections) {
+const Intersection *Intersection::GetHit(
+    const std::vector<Intersection> &intersections) {
   const Intersection *min = nullptr;
   for (unsigned int i = 0; i < intersections.size(); ++i) {
     if (intersections[i].t() > 0) {

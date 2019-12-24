@@ -42,14 +42,13 @@ class Intersection {
   else
     return false;
 }
-
+static const Intersection* GetHit(const std::vector<Intersection> &intersections);
 };
 
 class Shape {
  public:
   virtual std::vector<Intersection> intersects(const Ray &r) const = 0;
 };
-const Intersection* GetHit(const std::vector<Intersection> &intersections);
 std::ostream &operator<<(std::ostream &out, const Intersection &i);
 
 }  // namespace ray_lib

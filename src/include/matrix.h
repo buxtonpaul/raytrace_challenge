@@ -48,9 +48,9 @@ class Matrix {
 
   Matrix Shear(double xy, double xz, double yx, double yz, double zx,
                double zy) const;
+  static const Matrix Identity;
 };
-const Matrix identity_4(
-    {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}});
+
 Matrix Translation(double x, double y, double z);
 Matrix Scale(double x, double y, double z);
 

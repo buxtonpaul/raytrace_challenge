@@ -100,7 +100,7 @@ TEST(Ray, Intersection_Hits1) {
   i.push_back(i1);
   i.push_back(i2);
   EXPECT_EQ(i1 < i2, true);
-  const Intersection *xs = ray_lib::GetHit(i);
+  const Intersection *xs = ray_lib::Intersection::GetHit(i);
   EXPECT_EQ(*xs, i1);
 }
 
@@ -113,7 +113,7 @@ TEST(Ray, Intersection_Hits2) {
   Intersection i2(&s, 1, r);
   i.push_back(i1);
   i.push_back(i2);
-  const Intersection *xs = ray_lib::GetHit(i);
+  const Intersection *xs = ray_lib::Intersection::GetHit(i);
   EXPECT_EQ(*xs, i2);
 }
 TEST(Ray, Intersection_Hits3) {
@@ -125,7 +125,7 @@ TEST(Ray, Intersection_Hits3) {
   Intersection i2(&s, -1, r);
   i.push_back(i1);
   i.push_back(i2);
-  const Intersection *xs = ray_lib::GetHit(i);
+  const Intersection *xs = ray_lib::Intersection::GetHit(i);
   EXPECT_EQ(xs, nullptr);
 }
 TEST(Ray, Intersection_Hits4) {
@@ -141,6 +141,6 @@ TEST(Ray, Intersection_Hits4) {
   i.push_back(i2);
   i.push_back(i3);
   i.push_back(i4);
-  const Intersection *xs = ray_lib::GetHit(i);
+  const Intersection *xs = ray_lib::Intersection::GetHit(i);
   EXPECT_EQ(*xs, i4);
 }
