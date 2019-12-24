@@ -20,6 +20,9 @@ class Ray {
   Point Origin() const { return _origin; }
   Vector Direction() const { return _direction; }
   Point Position(double t) const { return _origin + _direction * t; }
+  Ray Transform(const Matrix &transform_matrix) const {
+    return Ray(transform_matrix * _origin, transform_matrix * _direction);
+  }
 };
 
 class Intersection {
@@ -36,18 +39,21 @@ class Intersection {
     return ((_obj_ptr == obj._obj_ptr) && (_t == obj._t) &&
             (&_ray == &obj._ray));
   }
-  bool operator <(const  Intersection &obj)const {
-  if (_t < obj._t)
-    return true;
-  else
-    return false;
-}
-static const Intersection* GetHit(const std::vector<Intersection> &intersections);
+  bool operator<(const Intersection &obj) const {
+    if (_t < obj._t)
+      return true;
+    else
+      return false;
+  }
+  static const Intersection *GetHit(
+      const std::vector<Intersection> &intersections);
 };
 
 class Shape {
  public:
   virtual std::vector<Intersection> intersects(const Ray &r) const = 0;
+  virtual const Matrix &Transform(const Matrix &m) = 0;
+  virtual const Matrix &Transform() const = 0;
 };
 std::ostream &operator<<(std::ostream &out, const Intersection &i);
 

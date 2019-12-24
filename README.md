@@ -8,6 +8,7 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 
 # Todo 
 - [ ] Add doxygen comments
+- [ ] Refactor shape and intersection files
 - [ ] Improve float_equals to handle zero
 - [ ] Implment other point/vector functions/tests. Try ad tidy up operators
 - [ ] Rework using slices....

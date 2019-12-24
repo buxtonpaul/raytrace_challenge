@@ -5,6 +5,7 @@
 #include "tuples.h"
 
 using ray_lib::Intersection;
+using ray_lib::Matrix;
 using ray_lib::Point;
 using ray_lib::Ray;
 using ray_lib::Vector;
@@ -143,4 +144,53 @@ TEST(Ray, Intersection_Hits4) {
   i.push_back(i4);
   const Intersection *xs = ray_lib::Intersection::GetHit(i);
   EXPECT_EQ(*xs, i4);
+}
+
+TEST(Ray, RayTranslation) {
+  Ray r(Point(1, 2, 3), Vector(0, 1, 0));
+  Matrix m(Matrix::Identity.Translate(3, 4, 5));
+  Ray r2 = r.Transform(m);
+  EXPECT_EQ(r2.Origin(), Point(4, 6, 8));
+  EXPECT_EQ(r2.Direction(), Vector(0, 1, 0));
+}
+
+TEST(Ray, RayScaling) {
+  Ray r(Point(1, 2, 3), Vector(0, 1, 0));
+  Matrix m(Matrix::Identity.Scale(2, 3, 4));
+  Ray r2 = r.Transform(m);
+  EXPECT_EQ(r2.Origin(), Point(2, 6, 12));
+  EXPECT_EQ(r2.Direction(), Vector(0, 3, 0));
+}
+
+TEST(Sphere, DefaultTransform) {
+  ray_lib::Sphere s;
+  Matrix m = s.Transform();
+  EXPECT_EQ(m, Matrix::Identity);
+}
+
+TEST(Sphere, SetTransform) {
+  ray_lib::Sphere s;
+  Matrix transform = Matrix::Identity.Translate(2, 3, 4);
+  s.Transform(transform);
+  EXPECT_EQ(s.Transform(), transform);
+}
+
+TEST(Ray, ScaledSphereIntersection) {
+  ray_lib::Sphere s;
+  ray_lib::Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  s.Transform(Matrix::Identity.Scale(2, 2, 2));
+
+  std::vector<Intersection> i = s.intersects(r);
+  EXPECT_EQ(i.size(), 2);
+  EXPECT_EQ(i[0].t(), 3);
+  EXPECT_EQ(i[1].t(), 7);
+}
+
+TEST(Ray, TranslatedSphereIntersection) {
+  ray_lib::Sphere s;
+  ray_lib::Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  s.Transform(Matrix::Identity.Translate(5, 0, 0));
+
+  std::vector<Intersection> i = s.intersects(r);
+  EXPECT_EQ(i.size(), 0);
 }

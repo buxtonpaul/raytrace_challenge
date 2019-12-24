@@ -5,14 +5,17 @@
 #include "tuples.h"
 namespace ray_lib {
 class Sphere : public Shape {
-  Point _center;
-  double _size;
+  Matrix _m;
 
  public:
-  Sphere() : _center(0, 0, 0), _size(1) {}
-  explicit Sphere(Point center, double size = 1.0)
-      : _center(center), _size(size) {}
+  Sphere() : _m(Matrix::Identity) {}
+  explicit Sphere(const Matrix &m) : _m(m) {}
   std::vector<Intersection> intersects(const Ray &r) const;
+  const Matrix &Transform(const Matrix &m) {
+    _m = m;
+    return _m;
+  }
+  const Matrix &Transform() const { return _m; }
 };
 };  // namespace ray_lib
 

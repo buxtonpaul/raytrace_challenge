@@ -32,6 +32,8 @@ class Tuple {
 
   // Operators
   friend std::ostream &operator<<(std::ostream &out, const Tuple &c);
+  friend std::ostream &operator<<(std::ostream &out, const Point &c);
+  friend std::ostream &operator<<(std::ostream &out, const Vector &c);
   friend Tuple operator*(const double &lhs, const Tuple &rhs);
   friend Tuple operator*(const Tuple &lhs, const double &rhs);
   friend Tuple operator*(const Tuple &lhs, const Tuple &rhs);

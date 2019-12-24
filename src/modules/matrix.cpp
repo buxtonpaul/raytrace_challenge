@@ -44,6 +44,15 @@ Tuple operator*(const Matrix &lhs, const Tuple &rhs) {
   return (Tuple((lhs * tuplematrix).col(0)));
 }
 
+Vector operator*(const Matrix &lhs, const Vector &rhs) {
+  vector<vector<double>> tuplevals(rhs.size(), vector<double>(1));
+  for (unsigned int i = 0; i < rhs.size(); ++i) {
+    tuplevals[i] = {rhs.Values()[i]};
+  }
+  Matrix tuplematrix(tuplevals);
+  return (Vector((lhs * tuplematrix).col(0)));
+}
+
 Point operator*(const Matrix &lhs, const Point &rhs) {
   vector<vector<double>> tuplevals(rhs.size(), vector<double>(1));
   for (unsigned int i = 0; i < rhs.size(); ++i) {
@@ -219,7 +228,7 @@ Matrix Rotation_z(double radians) {
 Matrix Shear(double xy, double xz, double yx, double yz, double zx, double zy) {
   return Matrix({{1, xy, xz, 0}, {yx, 1, yz, 0}, {zx, zy, 1, 0}, {0, 0, 0, 1}});
 }
-const Matrix Matrix::Identity = Matrix({{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}});
-
+const Matrix Matrix::Identity =
+    Matrix({{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}});
 
 }  // namespace ray_lib

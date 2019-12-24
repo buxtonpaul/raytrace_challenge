@@ -116,6 +116,21 @@ std::ostream &operator<<(std::ostream &out, const Tuple &c) {
   return out;
 }
 
+std::ostream &operator<<(std::ostream &out, const Point &c) {
+  out << "( ";
+  for (auto a : c._vals) out << a << ",";
+  out << ")";
+  return out;
+}
+
+std::ostream &operator<<(std::ostream &out, const Vector &c) {
+  out << "( ";
+  for (auto a : c._vals) out << a << ",";
+  out << ")";
+  return out;
+}
+
+
 double Tuple::magnitude() const {
   return sqrt(_vals[0] * _vals[0] + _vals[1] * _vals[1] + _vals[2] * _vals[2] +
               _vals[3] * _vals[3]);
