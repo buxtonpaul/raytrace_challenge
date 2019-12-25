@@ -2,8 +2,8 @@
 #include <cmath>
 #include <vector>
 #include "rays.h"
-#include "tuples.h"
 #include "shape.h"
+#include "tuples.h"
 namespace ray_lib {
 
 std::vector<Intersection> Sphere::intersects(const Ray &r) const {
@@ -29,4 +29,14 @@ std::vector<Intersection> Sphere::intersects(const Ray &r) const {
   }
   return results;
 }
+
+const Vector Sphere::Normal(const Point &position) const {
+  // return position - Point(0, 0, 0);
+  Point object_point = Transform().inverse() * position;
+  Vector object_normal = object_point - Point(0, 0, 0);
+  Vector world_normal = Transform().inverse().transpose() * object_normal;
+  world_normal.w(0);
+  return world_normal.normalise();
+};
+
 }  // namespace ray_lib

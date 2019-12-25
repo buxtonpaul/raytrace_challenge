@@ -57,6 +57,24 @@ class Tuple {
   double y() const { return _vals[1]; }
   double z() const { return _vals[2]; }
   double w() const { return _vals[3]; }
+
+  double x(double x) {
+    _vals[0] = x;
+    return _vals[0];
+  }
+  double y(double y) {
+    _vals[1] = y;
+    return _vals[1];
+  }
+  double z(double z) {
+    _vals[2] = z;
+    return _vals[2];
+  }
+  double w(double w) {
+    _vals[3] = w;
+    return _vals[3];
+  }
+
   double magnitude() const;
   unsigned int size() const { return _size; }
   const std::vector<double> &Values() const { return (_vals); }
@@ -107,8 +125,6 @@ T operator/(const T &lhs, const double &rhs) {
                  [rhs](double x) { return x / rhs; });
   return T(y);
 }
-
-
 
 }  // namespace ray_lib
 #endif

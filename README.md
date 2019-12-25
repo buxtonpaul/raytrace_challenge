@@ -42,3 +42,18 @@ and will have
 ## Latest output
 ![alt test](./latest.png)
 
+----
+## Performance
+### Debug
+```
+real    1m48.105s
+user    1m48.016s
+sys     0m0.063s
+```
+
+### Release
+```
+real    0m10.918s
+user    0m10.875s
+sys     0m0.016s
+```

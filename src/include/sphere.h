@@ -2,8 +2,8 @@
 #define _sphere_h
 #include <vector>
 #include "rays.h"
-#include "tuples.h"
 #include "shape.h"
+#include "tuples.h"
 
 namespace ray_lib {
 class Sphere : public Shape {
@@ -18,7 +18,8 @@ class Sphere : public Shape {
     return _m;
   }
   const Matrix &Transform() const { return _m; }
+  const Vector Normal(const Point &position) const;
 };
-};  // namespace ray_lib
+}  // namespace ray_lib
 
 #endif  //_sphere_h

@@ -192,3 +192,52 @@ TEST(Ray, TranslatedSphereIntersection) {
   std::vector<Intersection> i = s.intersects(r);
   EXPECT_EQ(i.size(), 0);
 }
+
+TEST(Ray, SphereNormal_xAxis) {
+  ray_lib::Sphere s;
+  Vector n = s.Normal(Point(1, 0, 0));
+  EXPECT_EQ(n, Vector(1, 0, 0));
+}
+
+TEST(Ray, SphereNormal_yAxis) {
+  ray_lib::Sphere s;
+  Vector n = s.Normal(Point(0, 1, 0));
+  EXPECT_EQ(n, Vector(0, 1, 0));
+}
+
+TEST(Ray, SphereNormal_zAxis) {
+  ray_lib::Sphere s;
+  Vector n = s.Normal(Point(0, 0, 1));
+  EXPECT_EQ(n, Vector(0, 0, 1));
+}
+
+TEST(Ray, SphereNormal_nonAxial) {
+  ray_lib::Sphere s;
+  Vector n = s.Normal(Point(sqrt(3.0) / 3.0, sqrt(3.0) / 3.0, sqrt(3.0) / 3.0));
+  EXPECT_EQ(n, Vector(sqrt(3.0) / 3.0, sqrt(3.0) / 3.0, sqrt(3.0) / 3.0));
+}
+
+TEST(Ray, SphereNormal_isnormalised) {
+  ray_lib::Sphere s;
+  Vector n = s.Normal(Point(sqrt(3.0) / 3.0, sqrt(3.0) / 3.0, sqrt(3.0) / 3.0));
+  EXPECT_EQ(n, n.normalise());
+}
+
+TEST(Ray, SphereNormal_translated) {
+  ray_lib::Sphere s;
+  s.Transform(Matrix::Identity.Translate(0, 1, 0));
+  Vector n = s.Normal(Point(0, 1.70711, -0.70711));
+  EXPECT_EQ(n, Vector(0, 0.70711, -0.70711));
+}
+
+TEST(Ray, SphereNormal_transformed) {
+  ray_lib::Sphere s;
+  ray_lib::Matrix m =
+      Matrix::Identity.Scale(1, 0.5, 1) * Matrix::Identity.Rotate_z(M_PI / 5.0);
+  s.Transform(m);
+
+  // in the canonical form this is the Rotate first, followed by the scale!
+  // s.Transform(Matrix::Identity.Rotate_z(M_PI / 5.0).Scale(1, 0.5, 1));
+  Vector n = s.Normal(Point(0, sqrt(2.0) / 2.0, -sqrt(2.0) / 2.0));
+  EXPECT_EQ(n, Vector(0, 0.97014, -0.24254));
+}
