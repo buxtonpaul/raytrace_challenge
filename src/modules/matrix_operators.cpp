@@ -1,11 +1,10 @@
-#include "matrix.h"
 #include <algorithm>
 #include <iostream>
+#include "matrix.h"
 #include "tuples.h"
 
 using std::vector;
 namespace ray_lib {
-
 
 bool operator==(const Matrix &lhs, const Matrix &rhs) {
   // check sizes match
@@ -37,33 +36,6 @@ Matrix operator*(const Matrix &lhs, const Matrix &rhs) {
   return Matrix(res);
 }
 
-Tuple operator*(const Matrix &lhs, const Tuple &rhs) {
-  vector<vector<double>> tuplevals(rhs.size(), vector<double>(1));
-  for (unsigned int i = 0; i < rhs.size(); ++i) {
-    tuplevals[i] = {rhs.Values()[i]};
-  }
-  Matrix tuplematrix(tuplevals);
-  return (Tuple((lhs * tuplematrix).col(0)));
-}
-
-Vector operator*(const Matrix &lhs, const Vector &rhs) {
-  vector<vector<double>> tuplevals(rhs.size(), vector<double>(1));
-  for (unsigned int i = 0; i < rhs.size(); ++i) {
-    tuplevals[i] = {rhs.Values()[i]};
-  }
-  Matrix tuplematrix(tuplevals);
-  return (Vector((lhs * tuplematrix).col(0)));
-}
-
-Point operator*(const Matrix &lhs, const Point &rhs) {
-  vector<vector<double>> tuplevals(rhs.size(), vector<double>(1));
-  for (unsigned int i = 0; i < rhs.size(); ++i) {
-    tuplevals[i] = {rhs.Values()[i]};
-  }
-  Matrix tuplematrix(tuplevals);
-  return (Point((lhs * tuplematrix).col(0)));
-}
-
 std::ostream &operator<<(std::ostream &out, const Matrix &v) {
   out << "{";
   for (auto row : v._data) {
@@ -75,4 +47,4 @@ std::ostream &operator<<(std::ostream &out, const Matrix &v) {
   return out;
 }
 
-}
+}  // namespace ray_lib

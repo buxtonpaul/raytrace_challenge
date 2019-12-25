@@ -14,7 +14,7 @@ namespace ray_lib {
 class Point;
 class Vector;
 class Tuple {
- private:
+ protected:
   std::vector<double> _vals;
   unsigned int _size;
 
@@ -29,26 +29,28 @@ class Tuple {
     return (std::equal(begin(_vals), end(_vals), begin(obj._vals),
                        end(obj._vals), float_equals));
   }
+  // scalar operators
+  template <class T>
+  friend T operator*(const double &lhs, const T &rhs);
+  template <class T>
+  friend T operator*(const T &lhs, const double &rhs);
+  template <class T>
+  friend T operator/(const T &lhs, const double &rhs);
 
-  // Operators
+  // IOstream Operators
   friend std::ostream &operator<<(std::ostream &out, const Tuple &c);
   friend std::ostream &operator<<(std::ostream &out, const Point &c);
   friend std::ostream &operator<<(std::ostream &out, const Vector &c);
-  friend Tuple operator*(const double &lhs, const Tuple &rhs);
-  friend Tuple operator*(const Tuple &lhs, const double &rhs);
+
   friend Tuple operator*(const Tuple &lhs, const Tuple &rhs);
-  friend Tuple operator/(const Tuple &lhs, const double &rhs);
   friend Tuple operator+(const Tuple &lhs, const Tuple &rhs);
   friend Tuple operator-(const Tuple &lhs, const Tuple &rhs);
   friend Tuple operator-(const Tuple &lhs);
 
   friend Vector operator-(const Point &lhs, const Point &rhs);
+  friend Vector operator+(const Vector &lhs, const Vector &rhs);
 
   friend Point operator+(const Point &lhs, const Vector &rhs);
-  friend Vector operator+(const Vector &lhs, const Vector &rhs);
-  friend Vector operator*(const double &lhs, const Vector &rhs);
-  friend Vector operator*(const Vector &lhs, const double &rhs);
-  friend Vector operator/(const Vector &lhs, const double &rhs);
 
   friend double magnitude();
   double x() const { return _vals[0]; }
@@ -79,6 +81,34 @@ class Point : public Tuple {
   Point(double x, double y, double z) : Point({x, y, z, 0.0}) {}
   friend Point operator+(const Point &lhs, const Vector &rhs);
 };
+
+// The template operators.
+// have to be in a header due to being compiled on demand
+template <class T>
+T operator*(const double &lhs, const T &rhs) {
+  std::vector<double> y(rhs._vals.size());
+  std::transform(rhs._vals.begin(), rhs._vals.end(), y.begin(),
+                 [lhs](double x) { return x * lhs; });
+  return T(y);
+}
+
+template <class T>
+T operator*(const T &lhs, const double &rhs) {
+  std::vector<double> y(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), y.begin(),
+                 [rhs](double x) { return x * rhs; });
+  return T(y);
+}
+
+template <class T>
+T operator/(const T &lhs, const double &rhs) {
+  std::vector<double> y(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), y.begin(),
+                 [rhs](double x) { return x / rhs; });
+  return T(y);
+}
+
+
 
 }  // namespace ray_lib
 #endif

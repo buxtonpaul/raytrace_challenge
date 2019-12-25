@@ -25,11 +25,8 @@ class Matrix {
   friend bool operator!=(const Matrix &lhs, const Matrix &rhs);
   friend Matrix operator*(const Matrix &lhs, const Matrix &rhs);
 
-  // Would be nice to replace these three with a template
-  friend Tuple operator*(const Matrix &lhs, const Tuple &rhs);
-  friend Point operator*(const Matrix &lhs, const Point &rhs);
-  friend Vector operator*(const Matrix &lhs, const Vector &rhs);
-
+  template <class T>
+  friend T operator*(const Matrix &lhs, const T &rhs);
   friend std::ostream &operator<<(std::ostream &out, const Matrix &v);
   std::vector<double> row(int rownum) const;
   std::vector<double> col(int colnum) const;
@@ -63,6 +60,17 @@ Matrix Rotation_y(double radians);
 Matrix Rotation_z(double radians);
 
 Matrix Shear(double xy, double xz, double yx, double yz, double zx, double zy);
+
+template <class T>
+T operator*(const Matrix &lhs, const T &rhs) {
+  std::vector<std::vector<double>> tuplevals(rhs.size(),
+                                             std::vector<double>(1));
+  for (unsigned int i = 0; i < rhs.size(); ++i) {
+    tuplevals[i] = {rhs.Values()[i]};
+  }
+  Matrix tuplematrix(tuplevals);
+  return (T((lhs * tuplematrix).col(0)));
+}
 
 }  // namespace ray_lib
 #endif  //_matrix_h
