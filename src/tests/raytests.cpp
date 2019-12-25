@@ -179,7 +179,6 @@ TEST(Ray, ScaledSphereIntersection) {
   ray_lib::Sphere s;
   ray_lib::Ray r(Point(0, 0, -5), Vector(0, 0, 1));
   s.Transform(Matrix::Identity.Scale(2, 2, 2));
-
   std::vector<Intersection> i = s.intersects(r);
   EXPECT_EQ(i.size(), 2);
   EXPECT_EQ(i[0].t(), 3);
@@ -190,7 +189,6 @@ TEST(Ray, TranslatedSphereIntersection) {
   ray_lib::Sphere s;
   ray_lib::Ray r(Point(0, 0, -5), Vector(0, 0, 1));
   s.Transform(Matrix::Identity.Translate(5, 0, 0));
-
   std::vector<Intersection> i = s.intersects(r);
   EXPECT_EQ(i.size(), 0);
 }
