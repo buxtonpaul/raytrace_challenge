@@ -46,6 +46,8 @@ set(MODULE_SOURCES src/modules/tuples.cpp
             src/modules/matrix.cpp
             src/modules/rays.cpp
             src/modules/sphere.cpp
+            src/modules/matrix_operators.cpp
+            src/modules/tuple_operators.cpp
             )
 
 
