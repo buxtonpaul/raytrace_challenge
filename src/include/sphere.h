@@ -3,6 +3,8 @@
 #include <vector>
 #include "rays.h"
 #include "tuples.h"
+#include "shape.h"
+
 namespace ray_lib {
 class Sphere : public Shape {
   Matrix _m;

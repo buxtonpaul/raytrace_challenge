@@ -49,12 +49,6 @@ class Intersection {
       const std::vector<Intersection> &intersections);
 };
 
-class Shape {
- public:
-  virtual std::vector<Intersection> intersects(const Ray &r) const = 0;
-  virtual const Matrix &Transform(const Matrix &m) = 0;
-  virtual const Matrix &Transform() const = 0;
-};
 std::ostream &operator<<(std::ostream &out, const Intersection &i);
 
 }  // namespace ray_lib

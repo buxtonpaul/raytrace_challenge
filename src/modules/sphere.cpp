@@ -3,12 +3,12 @@
 #include <vector>
 #include "rays.h"
 #include "tuples.h"
+#include "shape.h"
 namespace ray_lib {
 
 std::vector<Intersection> Sphere::intersects(const Ray &r) const {
   std::vector<Intersection> results;
-  Ray input_ray = r.Transform(
-      Transform().inverse());  // r.Transform(this->Transform().inverse());
+  Ray input_ray = r.Transform(Transform().inverse());
   Vector sphere_to_ray = input_ray.Origin() - Point(0, 0, 0);
 
   double a = input_ray.Direction().dotproduct(input_ray.Direction());
