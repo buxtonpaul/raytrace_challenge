@@ -15,6 +15,8 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 - [ ] Implement vector negate
 - [ ] Rework using slices....
 - [ ] Rework color to use RGB inputs
+- [ ] Look at gtest shared setup.
+- [x] Enable use of pre-build gtest.
 - [x] Move Vector and Point to inherted classes with raytuple as the base class
 - [x] Implement transforms and identits as class members to allow chaining!
 - [x] Implement time based filename generator

@@ -4,6 +4,17 @@ project(raytrace_challenge)
 
 set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# should set this through a configure value
+set (GTEST_ROOT /home/paulb/gtest_install)
+find_package(GTest)
+
+if(GTest_FOUND)
+INCLUDE_DIRECTORIES(${GTEST_INCLUDE_DIRS})
+set (GTLIBS GTest::GTest GTest::Main)
+Message("Using installed GTest")
+else()
+Message("GTest not found, Downloading")
 # Download and unpack googletest at configure time
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
@@ -36,6 +47,9 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 if (CMAKE_VERSION VERSION_LESS 2.8.11)
   include_directories("${gtest_SOURCE_DIR}/include")
 endif()
+set(GTLIBS gtest_main)
+endif()
+
 
 enable_testing()
 
@@ -69,12 +83,12 @@ target_include_directories(rays PUBLIC  src/include)
 
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(gtesttest gtesttest.cpp)
-target_link_libraries(gtesttest gtest_main)
+target_link_libraries(gtesttest  ${GTLIBS})
 
 # Build the unit tests and add them
 add_executable(unittests ${TESTS})
 target_include_directories(unittests PUBLIC  src/include)
-target_link_libraries(unittests gtest_main rays)
+target_link_libraries(unittests  ${GTLIBS}  rays)
 gtest_discover_tests(unittests)
 
 # Build a simple test applicaiton
