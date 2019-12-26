@@ -11,8 +11,10 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 - [ ] Refactor shape and intersection files
 - [ ] Implement pre_inverse of objects transformations
 - [ ] Improve float_equals to handle zero
-- [ ] Implment other point/vector functions/tests. Try ad tidy up operators
+- [ ] Implment other point/vector functions/tests. Try ad tidy up operators again (VECTOR-VECTOR)
+- [ ] Implement vector negate
 - [ ] Rework using slices....
+- [ ] Rework color to use RGB inputs
 - [x] Move Vector and Point to inherted classes with raytuple as the base class
 - [x] Implement transforms and identits as class members to allow chaining!
 - [x] Implement time based filename generator
@@ -21,20 +23,9 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 
 ----
 # Implementation notes.
-Should the intersection routine be part of the object that is being intersected, or part of the ray?
-If it is part of the ray we have to add to the ray class each time we implement a new object type.
-However the returned intersections are relative to a specific ray, so from that point there is sense in it being part of the ray object?
 
-In general I think the best approach is for it to be part of the object being intersected.
-We should also allow plan for the rays to interact with a variety of objects so worth considering a hierarcy now.
-
-e.g. spheres, cubes etc are derived from generic objects.
-All objects will implement the intersects function
-and will have
-- Material
-- Position, may be different for different classes e.g. center + size for spheres, array of 3 points for triangles
-
-
+Currently the lighting calculation is a stand alone function in the light module.
+Perhaps will need to be turned into class or similar?
 
 
 
@@ -46,14 +37,14 @@ and will have
 ## Performance
 ### Debug
 ```
-real    1m48.105s
-user    1m48.016s
+real    2m44.407s
+user    2m44.297s
 sys     0m0.063s
 ```
 
 ### Release
 ```
-real    0m10.918s
-user    0m10.875s
-sys     0m0.016s
+real    0m16.793s
+user    0m16.703s
+sys     0m0.078s
 ```

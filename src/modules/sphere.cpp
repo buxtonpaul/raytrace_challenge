@@ -37,6 +37,6 @@ const Vector Sphere::Normal(const Point &position) const {
   Vector world_normal = Transform().inverse().transpose() * object_normal;
   world_normal.w(0);
   return world_normal.normalise();
-};
+}
 
 }  // namespace ray_lib

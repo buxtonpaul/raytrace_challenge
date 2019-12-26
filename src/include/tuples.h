@@ -46,11 +46,13 @@ class Tuple {
   friend Tuple operator+(const Tuple &lhs, const Tuple &rhs);
   friend Tuple operator-(const Tuple &lhs, const Tuple &rhs);
   friend Tuple operator-(const Tuple &lhs);
+  friend Vector operator*(const Vector &lhs, const Vector &rhs);
 
   friend Vector operator-(const Point &lhs, const Point &rhs);
   friend Vector operator+(const Vector &lhs, const Vector &rhs);
 
   friend Point operator+(const Point &lhs, const Vector &rhs);
+  friend Vector operator-(const Vector &lhs, const Vector &rhs);
 
   friend double magnitude();
   double x() const { return _vals[0]; }
@@ -90,6 +92,7 @@ class Vector : public Tuple {
   Vector normalise() const { return (*this / this->magnitude()); }
   double dotproduct(const Vector &r) const;
   Vector crossproduct(const Vector &r) const;
+  Vector reflect(const Vector &n) const;
 };
 
 class Point : public Tuple {

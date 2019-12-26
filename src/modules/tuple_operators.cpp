@@ -6,7 +6,6 @@
 
 namespace ray_lib {
 
-
 Tuple operator*(const Tuple &lhs, const Tuple &rhs) {
   std::vector<double> z(lhs._vals.size());
   std::transform(lhs._vals.begin(), lhs._vals.end(), rhs._vals.begin(),
@@ -14,6 +13,12 @@ Tuple operator*(const Tuple &lhs, const Tuple &rhs) {
   return Tuple(z);
 }
 
+Vector operator*(const Vector &lhs, const Vector &rhs) {
+  std::vector<double> z(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), rhs._vals.begin(),
+                 z.begin(), [](double x, double y) { return (x * y); });
+  return Vector(z);
+}
 
 Tuple operator+(const Tuple &lhs, const Tuple &rhs) {
   std::vector<double> z(lhs._vals.size());
@@ -44,6 +49,13 @@ Tuple operator-(const Tuple &lhs, const Tuple &rhs) {
 }
 
 Vector operator-(const Point &lhs, const Point &rhs) {
+  std::vector<double> z(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), rhs._vals.begin(),
+                 z.begin(), [](double x, double y) { return (x - y); });
+  return Vector(z);
+}
+
+Vector operator-(const Vector &lhs, const Vector &rhs) {
   std::vector<double> z(lhs._vals.size());
   std::transform(lhs._vals.begin(), lhs._vals.end(), rhs._vals.begin(),
                  z.begin(), [](double x, double y) { return (x - y); });

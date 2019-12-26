@@ -86,30 +86,43 @@ TEST(Tuples, Division_scalar) {
   EXPECT_EQ(Tuple({1, -2, 3, -4}) / 2, Tuple({0.5, -1, 1.5, -2}));
 }
 
-TEST(Tuples, Magniture_Unit) {
+TEST(Vectors, Magnitude_Unit) {
   EXPECT_FLOAT_EQ(Vector(1, 0, 0).magnitude(), 1);
   EXPECT_FLOAT_EQ(Vector(0, 1, 0).magnitude(), 1);
   EXPECT_FLOAT_EQ(Vector(0, 0, 1).magnitude(), 1);
 }
 
-TEST(Tuples, Magniture_NonUnit) {
+TEST(Vectors, Magnitude_NonUnit) {
   EXPECT_FLOAT_EQ(Vector(1, 2, 3).magnitude(), sqrt(14));
   EXPECT_FLOAT_EQ(Vector(-1, -2, -3).magnitude(), sqrt(14));
 }
 
-TEST(Tuples, Normalise) {
+TEST(Vectors, Normalise) {
   EXPECT_EQ(Vector(4, 0, 0).normalise(), Vector(1, 0, 0));
   EXPECT_EQ(Vector(1, 2, 3).normalise(), Vector(0.26726, 0.53452, 0.80178));
   EXPECT_FLOAT_EQ(Vector(1, 2, 3).normalise().magnitude(), 1.0);
 }
 
-TEST(Tuples, DotProduct) {
+TEST(Vectors, DotProduct) {
   EXPECT_FLOAT_EQ(Vector(1, 2, 3).dotproduct(Vector(2, 3, 4)), 20.0);
 }
 
-TEST(Tuples, CrossProduct) {
+TEST(Vectors, CrossProduct) {
   EXPECT_EQ(Vector(1, 2, 3).crossproduct(Vector(2, 3, 4)),
             Vector(-1.0, 2.0, -1.0));
   EXPECT_EQ(Vector(2, 3, 4).crossproduct(Vector(1, 2, 3)), Vector(1, -2, 1));
 }
 
+TEST(Vectors, reflect_45) {
+  Vector v(1, -1, 0);
+  Vector n(0, 1, 0);
+  Vector r = v.reflect(n);
+  EXPECT_EQ(r, Vector(1, 1, 0));
+}
+
+TEST(Vectors, reflect_slanted) {
+  Vector v(0, -1, 0);
+  Vector n(sqrt(2.0) / 2.0, sqrt(2.0) / 2.0, 0);
+  Vector r = v.reflect(n);
+  EXPECT_EQ(r, Vector(1, 0, 0));
+}

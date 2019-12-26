@@ -18,10 +18,13 @@ Vector Vector::crossproduct(const Vector &r) const {
                 this->x() * r.y() - this->y() * r.x());
 }
 
-
 double Tuple::magnitude() const {
   return sqrt(_vals[0] * _vals[0] + _vals[1] * _vals[1] + _vals[2] * _vals[2] +
               _vals[3] * _vals[3]);
 }
 
+Vector Vector::reflect(const Vector &n) const {
+  Vector a = *this - n * 2 * dotproduct(n);
+  return a;
+}
 }  // namespace ray_lib

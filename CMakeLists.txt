@@ -48,6 +48,8 @@ set(MODULE_SOURCES src/modules/tuples.cpp
             src/modules/sphere.cpp
             src/modules/matrix_operators.cpp
             src/modules/tuple_operators.cpp
+            src/modules/material.cpp
+            src/modules/light.cpp
             )
 
 
@@ -58,6 +60,7 @@ set (TESTS src/tests/tupletests.cpp
             src/tests/matrixtests.cpp
             src/tests/transformationtests.cpp
             src/tests/raytests.cpp
+            src/tests/shadertests.cpp
             )
 
 add_library(rays ${MODULE_SOURCES})
@@ -88,3 +91,8 @@ target_link_libraries(app2 rays)
 add_executable(app3 src/app3.cpp)
 target_include_directories(app3 PUBLIC src/include)
 target_link_libraries(app3 rays)
+
+# Build a simple test applicaiton
+add_executable(app4 src/app4.cpp)
+target_include_directories(app4 PUBLIC src/include)
+target_link_libraries(app4 rays)
