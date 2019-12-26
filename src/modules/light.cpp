@@ -10,8 +10,8 @@ Color lighting(const Material &m, const Light &l, const Point &p,
   Color effective_color = m.GetColor() * l.Intensity();
   Vector lightv = (l.Position() - p).normalise();
   Color ambient = effective_color * m.Ambient();
-  Color diffuse = Color({0, 0, 0});
-  Color specular = Color({0, 0, 0});
+  Color diffuse = Color(0, 0, 0);
+  Color specular = Color(0, 0, 0);
 
   double light_dot_normal = lightv.dotproduct(Normal);
 

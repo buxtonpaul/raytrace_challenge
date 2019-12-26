@@ -11,7 +11,7 @@ Color Canvas::Pixel(const unsigned int x, const unsigned int y) const {
 
   unsigned int index = (y * _width + x) * 3;
   return Color(
-      {_canvasdata[index], _canvasdata[index + 1], _canvasdata[index + 2]});
+      _canvasdata[index], _canvasdata[index + 1], _canvasdata[index + 2]);
 }
 
 void Canvas::Pixel(const unsigned int x, const unsigned int y,

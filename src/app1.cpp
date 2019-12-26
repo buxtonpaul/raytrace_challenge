@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 
   Canvas c(900, 550);
   do {
-    c.Pixel(p.Position().x(), c.height() - p.Position().y(), Color({1, 0, 0}));
+    c.Pixel(p.Position().x(), c.height() - p.Position().y(), Color(1, 0, 0));
     p = tick(e, p);
     std::cout << "x,y = " << p.Position().x() << ", "
               << c.height() - p.Position().y() << std::endl;
@@ -52,20 +52,3 @@ int main(int argc, char *argv[]) {
   outfile << c.ppm();
   outfile.close();
 }
-
-// int main (int argc, char *argv[])
-// {
-//   Canvas c(32, 32);
-//   for (int i = 0; i < c.height(); ++i){
-//     for (int j = 0; j < c.width(); ++j){
-//       if ( i == j)
-//       {
-//         c.Pixel(j, i, Color({1, 0, 0}));
-//       }
-//     }
-//   }
-//   std::ofstream outfile("somefile.ppm");
-//   outfile<< c.ppm();
-//   outfile.close();
-
-// }

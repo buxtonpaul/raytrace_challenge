@@ -7,7 +7,7 @@ Color operator+(const Color &lhs, const Color &rhs) {
   for (unsigned int i = 0; i < 3; ++i) {
     vals[i] = lhs.Values()[i] + rhs.Values()[i];
   }
-  return Color(vals);
+  return Color(vals[0], vals[1], vals[2]);
 }
 
 Color operator-(const Color &lhs, const Color &rhs) {
@@ -15,7 +15,7 @@ Color operator-(const Color &lhs, const Color &rhs) {
   for (unsigned int i = 0; i < 3; ++i) {
     vals[i] = lhs.Values()[i] - rhs.Values()[i];
   }
-  return Color(vals);
+  return Color(vals[0], vals[1], vals[2]);
 }
 
 Color operator*(const Color &color, const double scalar) {
@@ -23,7 +23,7 @@ Color operator*(const Color &color, const double scalar) {
   for (unsigned int i = 0; i < 3; ++i) {
     vals[i] = color.Values()[i] * scalar;
   }
-  return Color(vals);
+  return Color(vals[0], vals[1], vals[2]);
 }
 
 Color operator*(const double scalar, const Color &color) {
@@ -31,7 +31,7 @@ Color operator*(const double scalar, const Color &color) {
   for (unsigned int i = 0; i < 3; ++i) {
     vals[i] = color.Values()[i] * scalar;
   }
-  return Color(vals);
+  return Color(vals[0], vals[1], vals[2]);
 }
 
 Color operator*(const Color &lhs, const Color &rhs) {
@@ -40,7 +40,7 @@ Color operator*(const Color &lhs, const Color &rhs) {
        ++i) {  // multiplcation according to the hadamard product
     vals[i] = lhs.Values()[i] * rhs.Values()[i];
   }
-  return Color(vals);
+  return Color(vals[0], vals[1], vals[2]);
 }
 
 bool operator==(const Color &lhs, const Color &rhs) {

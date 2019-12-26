@@ -27,10 +27,10 @@ int main(int argc, char *argv[]) {
 
   Sphere s;
   Material m;
-  m.SetColor(Color({1.0, 0.2, 1.0}));
+  m.SetColor(Color(1.0, 0.2, 1.0));
   s.Mat(m);
 
-  Light l(Color({1.0, 1.0, 1.0}), Point(-10, 10, -10));
+  Light l(Color(1.0, 1.0, 1.0), Point(-10, 10, -10));
 
   for (unsigned int i = 0; i < c.height(); ++i) {
     for (unsigned int j = 0; j < c.height(); ++j) {

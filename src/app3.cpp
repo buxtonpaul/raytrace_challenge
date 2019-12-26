@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
       ray_lib::Ray r(Point(0, 0, -5), ray_lib::Vector(xpos, ypos, 10));
       std::vector<ray_lib::Intersection> xs = s.intersects(r);
       if (xs.size() > 0) {  // we have hit the sphere
-        c.Pixel(j, c.height() - i, Color({1, 0, 0}));
+        c.Pixel(j, c.height() - i, Color(1, 0, 0));
       }
       xpos += step_size;
     }

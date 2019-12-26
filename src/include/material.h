@@ -14,7 +14,7 @@ class Material {
 
  public:
   Material(double a = 0.1, double d = 0.9, double spec = 0.9, double shin = 200,
-           Color c = Color({1, 1, 1}))
+           Color c = Color(1, 1, 1))
       : _ambient(a),
         _diffuse(d),
         _specular(spec),

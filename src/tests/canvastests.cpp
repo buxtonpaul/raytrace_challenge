@@ -8,14 +8,14 @@ TEST(Canvas, Canvas_Initialise) {
   Canvas c(10, 20);
   for (unsigned int i = 0; i < c.width(); ++i) {
     for (unsigned int j = 0; j < c.height(); ++j) {
-      EXPECT_EQ(c.Pixel(i, j), Color({0, 0, 0}));
+      EXPECT_EQ(c.Pixel(i, j), Color(0, 0, 0));
     }
   }
 }
 
 TEST(Canvas, Set_Pixel) {
   Canvas c(10, 20);
-  Color red({1, 0, 0});
+  Color red(1, 0, 0);
   c.Pixel(2, 3, red);
   EXPECT_EQ(c.Pixel(2, 3), red);
 }
@@ -31,9 +31,9 @@ TEST(Canvas, Canvas_to_ppm_header) {
 
 TEST(Canvas, Canvas_to_ppm_data) {
   Canvas c(5, 3);
-  Color c1({1.5, 0, 0});
-  Color c2({0, 0.5, 0});
-  Color c3({-0.5, 0, 1});
+  Color c1(1.5, 0, 0);
+  Color c2(0, 0.5, 0);
+  Color c3(-0.5, 0, 1);
 
   c.Pixel(0, 0, c1);
   c.Pixel(2, 1, c2);
@@ -46,11 +46,11 @@ TEST(Canvas, Canvas_to_ppm_data) {
   EXPECT_EQ(ppm[3], l1);
   EXPECT_EQ(ppm[4], l2);
   EXPECT_EQ(ppm[5], l3);
-};
+}
 
 TEST(Canvas, ppm_long_lines) {
   Canvas c(10, 2);
-  Color c1({1, 0.8, 0.6});
+  Color c1(1, 0.8, 0.6);
 
   for (unsigned int i = 0; i < c.width(); ++i) {
     for (unsigned int j = 0; j < c.height(); ++j) {
@@ -66,4 +66,4 @@ TEST(Canvas, ppm_long_lines) {
   EXPECT_EQ(ppm[4], l2);
   EXPECT_EQ(ppm[5], l1);
   EXPECT_EQ(ppm[6], l2);
-};
+}
