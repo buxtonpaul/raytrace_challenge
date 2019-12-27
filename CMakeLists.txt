@@ -63,6 +63,7 @@ set(MODULE_SOURCES src/modules/tuples.cpp
             src/modules/tuple_operators.cpp
             src/modules/material.cpp
             src/modules/light.cpp
+            src/modules/world.cpp
             )
 
 
@@ -74,6 +75,7 @@ set (TESTS src/tests/tupletests.cpp
             src/tests/transformationtests.cpp
             src/tests/raytests.cpp
             src/tests/shadertests.cpp
+            src/tests/worldtests.cpp
             )
 
 add_library(rays ${MODULE_SOURCES})

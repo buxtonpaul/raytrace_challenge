@@ -1,6 +1,7 @@
 #ifndef _shape_h_
 #define _shape_h_
 #include <vector>
+#include "rays.h"
 namespace ray_lib {
 
 class Shape {

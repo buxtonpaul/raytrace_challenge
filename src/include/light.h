@@ -13,6 +13,7 @@ class Light {
 
  public:
   Light(Color c, Point p) : _intensity(c), _position(p) {}
+  Light() : _intensity(Color(1, 1, 1)), _position(Point(0, 0, 0)) {}
   Color Intensity() const { return _intensity; }
   Color Intensity(Color n) {
     _intensity = n;
