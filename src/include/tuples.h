@@ -36,6 +36,8 @@ class Tuple {
   friend T operator*(const T &lhs, const double &rhs);
   template <class T>
   friend T operator/(const T &lhs, const double &rhs);
+  template <class T>
+  friend T operator-(const T &lhs);
 
   // IOstream Operators
   friend std::ostream &operator<<(std::ostream &out, const Tuple &c);
@@ -43,9 +45,10 @@ class Tuple {
   friend std::ostream &operator<<(std::ostream &out, const Vector &c);
 
   friend Tuple operator*(const Tuple &lhs, const Tuple &rhs);
+  friend Point operator-(const Point &lhs, const Vector &rhs);
   friend Tuple operator+(const Tuple &lhs, const Tuple &rhs);
   friend Tuple operator-(const Tuple &lhs, const Tuple &rhs);
-  friend Tuple operator-(const Tuple &lhs);
+
   friend Vector operator*(const Vector &lhs, const Vector &rhs);
 
   friend Vector operator-(const Point &lhs, const Point &rhs);
@@ -126,6 +129,14 @@ T operator/(const T &lhs, const double &rhs) {
   std::vector<double> y(lhs._vals.size());
   std::transform(lhs._vals.begin(), lhs._vals.end(), y.begin(),
                  [rhs](double x) { return x / rhs; });
+  return T(y);
+}
+
+template <class T>
+T operator-(const T &lhs) {
+  std::vector<double> y(lhs._vals.size());
+  std::transform(lhs._vals.begin(), lhs._vals.end(), y.begin(),
+                 [](double x) { return 0 - x; });
   return T(y);
 }
 
