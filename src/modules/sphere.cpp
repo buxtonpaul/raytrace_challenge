@@ -20,11 +20,11 @@ std::vector<Intersection> Sphere::intersects(const Ray &r) const {
     double t1 = (-b - sqrt(descriminant)) / (2 * a);
     double t2 = (-b + sqrt(descriminant)) / (2 * a);
     if (t1 > t2) {
-      results.push_back(Intersection(this, t2, r));
-      results.push_back(Intersection(this, t1, r));
+      results.push_back(Intersection(*this, t2, r));
+      results.push_back(Intersection(*this, t1, r));
     } else {
-      results.push_back(Intersection(this, t1, r));
-      results.push_back(Intersection(this, t2, r));
+      results.push_back(Intersection(*this, t1, r));
+      results.push_back(Intersection(*this, t2, r));
     }
   }
   return results;

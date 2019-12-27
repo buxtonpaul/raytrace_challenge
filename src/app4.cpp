@@ -41,10 +41,10 @@ int main(int argc, char *argv[]) {
         const ray_lib::Intersection *intersection =
             ray_lib::Intersection::GetHit(xs);
         Point p = r.Position(intersection->t());
-        const Vector normal = intersection->GetShape()->Normal(p);
+        const Vector normal = intersection->GetShape().Normal(p);
         Vector eye = Vector(0, 0, 0) - r.Direction();
-        Color out = ray_lib::lighting(intersection->GetShape()->Mat(), l, p,
-                                      eye, normal);
+        Color out = ray_lib::lighting(intersection->GetShape().Mat(), l, p, eye,
+                                      normal);
         c.Pixel(j, c.height() - i, out);
       }
       xpos += step_size;

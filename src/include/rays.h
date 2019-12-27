@@ -26,18 +26,17 @@ class Ray {
 };
 
 class Intersection {
-  const Shape *_obj_ptr;
+  const Shape &_obj;
   const double _t;
   const Ray &_ray;  // we may not need this...
  public:
-  Intersection(const Shape *ptr, const double t, const Ray &ray)
-      : _obj_ptr(ptr), _t(t), _ray(ray) {}
+  Intersection(const Shape &sp, const double t, const Ray &ray)
+      : _obj(sp), _t(t), _ray(ray) {}
   double t() const { return _t; }
-  const Shape *GetShape() const { return _obj_ptr; }
+  const Shape &GetShape() const { return _obj; }
   const Ray &GetRay() const { return _ray; }
   bool operator==(const Intersection &obj) const {
-    return ((_obj_ptr == obj._obj_ptr) && (_t == obj._t) &&
-            (&_ray == &obj._ray));
+    return ((&_obj == &obj._obj) && (_t == obj._t) && (&_ray == &obj._ray));
   }
   bool operator<(const Intersection &obj) const {
     if (_t < obj._t)
