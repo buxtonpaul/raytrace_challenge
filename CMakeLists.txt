@@ -5,8 +5,7 @@ project(raytrace_challenge)
 set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# TODO should set this through a configure value
-set (GTEST_ROOT /home/paulb/gtest_install)
+Message("GTEST_ROOT set to ${GTEST_ROOT}")
 find_package(GTest)
 
 if(GTest_FOUND)

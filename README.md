@@ -7,15 +7,16 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 ----
 
 # Todo 
-- [ ] Add doxygen comments
-- [ ] Refactor shape and intersection files
-- [ ] Implement pre_inverse of objects transformations
 - [ ] Improve float_equals to handle zero
+- [ ] Implement pre_inverse of objects transformations
+- [ ] Add doxygen comments
+- [ ] Refactor cmake and folders to be cleaner
 - [ ] Implment other point/vector functions/tests. Try ad tidy up operators again (VECTOR-VECTOR)
-- [ ] Implement vector negate
+- [ ] Refactor shape and intersection files
 - [ ] Rework using slices....
-- [ ] Rework color to use RGB inputs
-- [ ] Look at gtest shared setup.
+- [x] Implement vector negate
+- [x] Look at gtest shared setup.
+- [x] Rework color to use RGB inputs
 - [x] Enable use of pre-build gtest.
 - [x] Move Vector and Point to inherted classes with raytuple as the base class
 - [x] Implement transforms and identits as class members to allow chaining!
@@ -24,7 +25,28 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 - [x] Update to use namespace for matrix as well
 
 ----
+# Build info
+The project uses cmake
+Basic build would look like
+```
+mkdir build
+cd build
+cmake <path to source>
+make
+```
+
+If you have downloaded gtest then you can point cmake at it so that you do not need to redownloade/build it using
+```
+mkdir build
+cd build
+cmake -DGTEST_ROOT=<path to gtest install> <path to source>
+make 
+```
 # Implementation notes.
+
+Build instructions
+mkdir build
+cd buil
 
 Currently the lighting calculation is a stand alone function in the light module.
 Perhaps will need to be turned into class or similar?
