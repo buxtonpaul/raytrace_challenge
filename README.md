@@ -11,9 +11,12 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 - [ ] Implement pre_inverse of objects transformations
 - [ ] Add doxygen comments
 - [ ] Refactor cmake and folders to be cleaner
-- [ ] Implment other point/vector functions/tests. Try ad tidy up operators again (VECTOR-VECTOR)
+- [ ] Implment other point/vector functions/tests. Try and tidy up operators again (VECTOR-VECTOR)
 - [ ] Refactor shape and intersection files
 - [ ] Rework using slices....
+- [ ] Parallel For
+- [ ] Canvas as a template
+- [ ] Other file output (PNG/TIFF)?
 - [x] Implement vector negate
 - [x] Look at gtest shared setup.
 - [x] Rework color to use RGB inputs
