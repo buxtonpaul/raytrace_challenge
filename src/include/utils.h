@@ -1,5 +1,6 @@
 #ifndef utils_h
 #define utils_h
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -9,4 +10,11 @@ std::string limitlinelength(std::string in, unsigned int length);
 double vector_product(const std::vector<double> &a,
                       const std::vector<double> &b);
 std::string genfilestring();
+
+template <typename t>
+bool Contains(std::vector<t> container, t data) {
+  if (std::find(container.begin(), container.end(), data) == container.end())
+    return false;
+  return true;
+}
 #endif

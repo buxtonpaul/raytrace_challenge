@@ -73,10 +73,9 @@ TEST(Ray, Sphere_Ray_behind) {
 TEST(Ray, IntersctionHandle) {
   Ray r(Point(0, 0, 5), Vector(0, 0, 1));
   ray_lib::Sphere s;
-  Intersection i(s, 3.5, r);
+  Intersection i(&s, 3.5);
   EXPECT_FLOAT_EQ(i.t(), 3.5);
-  EXPECT_EQ(&i.GetShape(), &s);
-  EXPECT_EQ(&i.GetRay(), &r);
+  EXPECT_EQ(i.GetShape(), &s);
 }
 
 TEST(Ray, AggregateIntersections) {
@@ -85,10 +84,8 @@ TEST(Ray, AggregateIntersections) {
   ray_lib::Shape &l = s;
   std::vector<Intersection> intersections = s.intersects(r);
   EXPECT_EQ(intersections.size(), 2);
-  EXPECT_EQ(&intersections[0].GetShape(), &s);
-  EXPECT_EQ(&intersections[1].GetShape(), &s);
-  EXPECT_EQ(&intersections[0].GetRay(), &r);
-  EXPECT_EQ(&intersections[1].GetRay(), &r);
+  EXPECT_EQ(intersections[0].GetShape(), &s);
+  EXPECT_EQ(intersections[1].GetShape(), &s);
 }
 
 TEST(Ray, Intersection_Hits1) {
@@ -96,8 +93,8 @@ TEST(Ray, Intersection_Hits1) {
   ray_lib::Sphere s;
 
   std::vector<Intersection> i;
-  Intersection i1(s, 1, r);
-  Intersection i2(s, 2, r);
+  Intersection i1(&s, 1);
+  Intersection i2(&s, 2);
   i.push_back(i1);
   i.push_back(i2);
   EXPECT_EQ(i1 < i2, true);
@@ -110,8 +107,8 @@ TEST(Ray, Intersection_Hits2) {
   ray_lib::Sphere s;
 
   std::vector<Intersection> i;
-  Intersection i1(s, -1, r);
-  Intersection i2(s, 1, r);
+  Intersection i1(&s, -1);
+  Intersection i2(&s, 1);
   i.push_back(i1);
   i.push_back(i2);
   const Intersection *xs = ray_lib::Intersection::GetHit(i);
@@ -122,8 +119,8 @@ TEST(Ray, Intersection_Hits3) {
   ray_lib::Sphere s;
 
   std::vector<Intersection> i;
-  Intersection i1(s, -2, r);
-  Intersection i2(s, -1, r);
+  Intersection i1(&s, -2);
+  Intersection i2(&s, -1);
   i.push_back(i1);
   i.push_back(i2);
   const Intersection *xs = ray_lib::Intersection::GetHit(i);
@@ -134,10 +131,10 @@ TEST(Ray, Intersection_Hits4) {
   ray_lib::Sphere s;
 
   std::vector<Intersection> i;
-  Intersection i1(s, 5, r);
-  Intersection i2(s, 7, r);
-  Intersection i3(s, -3, r);
-  Intersection i4(s, 2, r);
+  Intersection i1(&s, 5);
+  Intersection i2(&s, 7);
+  Intersection i3(&s, -3);
+  Intersection i4(&s, 2);
   i.push_back(i1);
   i.push_back(i2);
   i.push_back(i3);

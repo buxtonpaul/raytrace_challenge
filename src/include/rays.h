@@ -1,9 +1,11 @@
 #ifndef _rays_h
 #define _rays_h
+#include <utility>
 #include <vector>
 #include "matrix.h"
 #include "tuples.h"
 #include "utils.h"
+
 namespace ray_lib {
 
 class Intersection;
@@ -16,6 +18,8 @@ class Ray {
  public:
   Ray(Point origin, Vector direction)
       : _origin(origin), _direction(direction) {}
+  Ray(const Ray &r) : _origin(r._origin), _direction(r._direction) {}
+
   friend std::ostream &operator<<(std::ostream &out, const Ray &r);
   Point Origin() const { return _origin; }
   Vector Direction() const { return _direction; }
@@ -26,27 +30,21 @@ class Ray {
 };
 
 class Intersection {
-  const Shape &_obj;
-  const double _t;
-  const Ray &_ray;  // we may not need this...
+  Shape *_obj;
+  double _t;
+
  public:
-  Intersection(const Shape &sp, const double t, const Ray &ray)
-      : _obj(sp), _t(t), _ray(ray) {}
+  Intersection(Shape *sp, const double t) : _obj(sp), _t(t) {}
+  Intersection(const Intersection &i) : _obj(i._obj), _t(i._t) {}
   double t() const { return _t; }
-  const Shape &GetShape() const { return _obj; }
-  const Ray &GetRay() const { return _ray; }
+  const Shape *GetShape() const { return _obj; }
   bool operator==(const Intersection &obj) const {
-    return ((&_obj == &obj._obj) && (_t == obj._t) && (&_ray == &obj._ray));
+    return ((_obj == obj._obj) && (_t == obj._t));
   }
-  bool operator<(const Intersection &obj) const {
-    if (_t < obj._t)
-      return true;
-    else
-      return false;
-  }
+  bool operator<(const Intersection &obj) const { return (_t < obj._t); }
   static const Intersection *GetHit(
       const std::vector<Intersection> &intersections);
-};
+};  // namespace ray_lib
 
 std::ostream &operator<<(std::ostream &out, const Intersection &i);
 

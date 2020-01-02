@@ -8,16 +8,15 @@ namespace ray_lib {
 class World {
  private:
   // cannot have an vector of references.. ro using pointers instead
-  std::vector<ray_lib::Shape*> _shapes;
-  std::vector<ray_lib::Light*> _lights;
+  std::vector<ray_lib::Shape *> _shapes;
+  std::vector<ray_lib::Light *> _lights;
 
  public:
   World() {}
-  std::vector<ray_lib::Light*> &WorldLights();
-  std::vector<ray_lib::Shape*> &WorldShapes();
-
-  void AddLight(ray_lib::Light *l){}
-  void AddShape(ray_lib::Shape *s){}
+  std::vector<ray_lib::Light *> &WorldLights();
+  std::vector<ray_lib::Shape *> &WorldShapes();
+  std::vector<ray_lib::Intersection> WorldIntersections(
+      const ray_lib::Ray &theray) const;
 };
 
 }  // namespace ray_lib
