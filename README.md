@@ -9,6 +9,8 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 # Todo 
 - [ ] Improve float_equals to handle zero
 - [ ] Implement pre_inverse of objects transformations
+- [ ] Rewrite gethit using lower_bound
+- [ ] Refactor color to be simple struct
 - [ ] Add doxygen comments
 - [ ] Refactor cmake and folders to be cleaner
 - [ ] Implment other point/vector functions/tests. Try and tidy up operators again (VECTOR-VECTOR)

@@ -1,8 +1,13 @@
 #ifndef _shape_h_
 #define _shape_h_
 #include <vector>
-#include "rays.h"
 namespace ray_lib {
+
+class Ray;
+class Intersection;
+class Material;
+class Vector;
+class Matrix;
 
 class Shape {
  public:

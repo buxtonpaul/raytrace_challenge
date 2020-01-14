@@ -73,3 +73,32 @@ TEST_F(DefaultWorldTest, TestSimpleIntersections) {
   EXPECT_EQ(xs[2].t(), 5.5);
   EXPECT_EQ(xs[3].t(), 6);
 }
+
+TEST_F(DefaultWorldTest, PrecomputeTest) {
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  ray_lib::Intersection xs(&s1, 4.0);
+
+  ray_lib::IntersectionState i(xs, r);
+  EXPECT_EQ(i.Position(), Point(0, 0, -1));
+  EXPECT_EQ(i.Eye(), Vector(0, 0, -1));
+  EXPECT_EQ(i.Normal(), Vector(0, 0, -1));
+  EXPECT_EQ(i.Object(), &s1);
+  EXPECT_EQ(i.t(), xs.t());
+}
+
+TEST_F(DefaultWorldTest, PrecomputeInsideTestOutside) {
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  ray_lib::Intersection xs(&s1, 4.0);
+
+  ray_lib::IntersectionState i(xs, r);
+  EXPECT_EQ(i.Inside(), false);
+}
+
+TEST_F(DefaultWorldTest, PrecomputeInsideTestInside) {
+  Ray r(Point(0, 0, 0), Vector(0, 0, 1));
+  ray_lib::Intersection xs(&s1, 1.0);
+
+  ray_lib::IntersectionState i(xs, r);
+  EXPECT_EQ(i.Inside(), true);
+  EXPECT_EQ(i.Normal(), Vector(0, 0, -1));
+}

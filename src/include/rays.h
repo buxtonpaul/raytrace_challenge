@@ -3,13 +3,13 @@
 #include <utility>
 #include <vector>
 #include "matrix.h"
+#include "shape.h"
 #include "tuples.h"
 #include "utils.h"
 
 namespace ray_lib {
-
-class Intersection;
 class Shape;
+class Intersection;
 class Ray {
  private:
   Point _origin;
@@ -47,6 +47,57 @@ class Intersection {
 };  // namespace ray_lib
 
 std::ostream &operator<<(std::ostream &out, const Intersection &i);
+
+/**
+ * @brief Class to contain the precomputed values for an intersection with an
+ * object.
+ *
+ */
+class IntersectionState {
+  double _t;
+  const Shape *_object;
+  Point _position;
+  Vector _eye;
+  Vector _normal = Vector(0, 0, 0);
+  bool _inside;
+
+ public:
+  const Shape *Object() const { return _object; }
+  const double t() const { return _t; }
+  const Vector &Normal() const { return _normal; }
+  const Vector &Eye() const { return _eye; }
+  const Point &Position() const { return _position; }
+  const bool Inside() const { return _inside; }
+
+  // Constructor with all params
+  IntersectionState(const Point &p, const Vector &eyev, const Vector &Normal,
+                    double t, Shape *object)
+      : _position(p), _eye(eyev), _normal(Normal), _t(t), _object(object) {
+    initInside();
+  }
+  // constructor that will derive the normal from the shape, less
+  // efficient if the normal has already been calculated elsewhere.
+
+  IntersectionState(const Intersection &i, const Ray &r)
+      : _t(i.t()),
+        _object(i.GetShape()),
+        _eye(-r.Direction()),
+        _position(r.Position(_t)),
+        _normal(_object->Normal(_position)) {
+    initInside();
+  }
+
+ private:
+  void initInside() {
+    if (_normal.dotproduct(_eye) < 0.0) {
+      _inside = true;
+      _normal = -_normal;
+    } else {
+      _inside = false;
+    }
+  }
+  // To get the normal we would call the shape with the position
+};
 
 }  // namespace ray_lib
 

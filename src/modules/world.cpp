@@ -28,5 +28,6 @@ std::vector<ray_lib::Intersection> World::WorldIntersections(
   }
   std::sort(outputs.begin(), outputs.end());
   return outputs;
+  // it isn't clear if these should be clipped to only those >0...
 }
 }  // namespace ray_lib
