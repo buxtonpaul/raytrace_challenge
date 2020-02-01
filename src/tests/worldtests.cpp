@@ -145,8 +145,12 @@ TEST_F(DefaultWorldTest, Colot_at_inside) {
   ray_lib::Shape* inner = w.WorldShapes()[0];
   ray_lib::Shape* outer = w.WorldShapes()[1];
 
+  ray_lib::Material m2;
+  // m2.Ambient(1);
+  // s1.Mat(m2);
+  // s2.Mat(m2);
   // Need to add setteres to teh material :-(
-  // outer->Mat(Ambient(1))
-  // Ray r(Point(0, 0, -5), Vector(0, 1, 0));
+  outer->Mat(ray_lib::Material().Ambient(1.0));
+  inner->Mat(ray_lib::Material().Ambient(1.0));
   EXPECT_EQ(w.color_at(r), inner->Mat().GetColor());
 }
