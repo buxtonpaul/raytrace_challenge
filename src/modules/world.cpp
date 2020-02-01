@@ -30,4 +30,20 @@ std::vector<ray_lib::Intersection> World::WorldIntersections(
   return outputs;
   // it isn't clear if these should be clipped to only those >0...
 }
+Color World::shade_hit(const IntersectionState &precomps) const {
+  // return Color(0, 0, 0);
+  return ray_lib::lighting(precomps.Object()->Mat(), *_lights[0],
+                           precomps.Position(), precomps.Eye(),
+                           precomps.Normal());
+}
+
+Color World::color_at(const Ray &theray) const {
+  std::vector<ray_lib::Intersection> intersections = WorldIntersections(theray);
+
+  const Intersection *hit = ray_lib::Intersection::GetHit(intersections);
+  if (hit == nullptr) return Color(0, 0, 0);
+  ray_lib::IntersectionState i(*hit, theray);
+
+  return shade_hit(i);
+}
 }  // namespace ray_lib

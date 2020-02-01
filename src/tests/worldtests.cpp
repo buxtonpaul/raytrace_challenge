@@ -45,6 +45,7 @@ class DefaultWorldTest : public ::testing::Test {
     w.WorldLights().push_back(&l);
     w.WorldShapes().push_back(&s1);
     w.WorldShapes().push_back(&s2);
+    s1.Mat(m);
   }
 
   // put destructor here if required
@@ -101,4 +102,51 @@ TEST_F(DefaultWorldTest, PrecomputeInsideTestInside) {
   ray_lib::IntersectionState i(xs, r);
   EXPECT_EQ(i.Inside(), true);
   EXPECT_EQ(i.Normal(), Vector(0, 0, -1));
+}
+
+TEST_F(DefaultWorldTest, ShadeHit) {
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  ray_lib::Shape* firstshape = w.WorldShapes()[0];
+  ray_lib::Intersection xs(firstshape, 4.0);
+
+  ray_lib::IntersectionState i(xs, r);
+
+  Color c = w.shade_hit(i);
+  EXPECT_EQ(c, Color(0.38066, 0.47583, 0.2855));
+}
+
+TEST_F(DefaultWorldTest, ShadeHit_inside) {
+  l.Position(Point(0, 0.25, 0));
+  l.Intensity(Color(1, 1, 1));
+
+  Ray r(Point(0, 0, 0), Vector(0, 0, 1));
+
+  ray_lib::Shape* secondshape = w.WorldShapes()[1];
+  ray_lib::Intersection xs(secondshape, 0.5);
+
+  ray_lib::IntersectionState i(xs, r);
+
+  Color c = w.shade_hit(i);
+  EXPECT_EQ(c, Color(0.90498, 0.90498, 0.90498));
+}
+
+TEST_F(DefaultWorldTest, Colot_at_miss) {
+  Ray r(Point(0, 0, -5), Vector(0, 1, 0));
+  EXPECT_EQ(w.color_at(r), Color(0, 0, 0));
+}
+
+TEST_F(DefaultWorldTest, Colot_at_hit) {
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  EXPECT_EQ(w.color_at(r), Color(0.38066, 0.47583, 0.2855));
+}
+
+TEST_F(DefaultWorldTest, Colot_at_inside) {
+  Ray r(Point(0, 0, 0.75), Vector(0, 0, -1));
+  ray_lib::Shape* inner = w.WorldShapes()[0];
+  ray_lib::Shape* outer = w.WorldShapes()[1];
+
+  // Need to add setteres to teh material :-(
+  // outer->Mat(Ambient(1))
+  // Ray r(Point(0, 0, -5), Vector(0, 1, 0));
+  EXPECT_EQ(w.color_at(r), inner->Mat().GetColor());
 }
