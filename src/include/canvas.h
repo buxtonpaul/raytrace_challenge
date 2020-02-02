@@ -1,3 +1,5 @@
+#ifndef _canvas_h_
+#define _canvas_h_
 #include <string>
 #include <vector>
 #include "color.h"
@@ -16,3 +18,5 @@ class Canvas {
   unsigned int width() const { return _width; }
   unsigned int height() const { return _height; }
 };
+
+#endif  //_canvas_h_
