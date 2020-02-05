@@ -140,7 +140,7 @@ TEST_F(DefaultWorldTest, Colot_at_hit) {
   EXPECT_EQ(w.color_at(r), Color(0.38066, 0.47583, 0.2855));
 }
 
-TEST_F(DefaultWorldTest, Colot_at_inside) {
+TEST_F(DefaultWorldTest, Color_at_inside) {
   Ray r(Point(0, 0, 0.75), Vector(0, 0, -1));
   ray_lib::Shape* inner = w.WorldShapes()[0];
   ray_lib::Shape* outer = w.WorldShapes()[1];
