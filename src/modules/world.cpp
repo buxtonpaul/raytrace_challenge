@@ -32,9 +32,10 @@ std::vector<ray_lib::Intersection> World::WorldIntersections(
 }
 Color World::shade_hit(const IntersectionState &precomps) const {
   // return Color(0, 0, 0);
+  // TODO: iterate over all the lights and sum the results
   return ray_lib::lighting(precomps.Object()->Mat(), *_lights[0],
-                           precomps.Position(), precomps.Eye(),
-                           precomps.Normal());
+                           precomps.OverPoint(), precomps.Eye(),
+                           precomps.Normal(), isShadowed(precomps.OverPoint()));
 }
 
 Color World::color_at(const Ray &theray) const {
@@ -45,5 +46,17 @@ Color World::color_at(const Ray &theray) const {
   ray_lib::IntersectionState i(*hit, theray);
 
   return shade_hit(i);
+}
+
+bool World::isShadowed(const Point &p) const {
+  Vector v = _lights[0]->Position() - p;
+  double distance = v.magnitude();
+  Vector direction = v.normalise();
+  Ray r(p, direction);
+  std::vector<ray_lib::Intersection> intersections = WorldIntersections(r);
+
+  const Intersection *hit = ray_lib::Intersection::GetHit(intersections);
+  if (hit != nullptr && (hit->t() < distance)) return true;
+  return false;
 }
 }  // namespace ray_lib

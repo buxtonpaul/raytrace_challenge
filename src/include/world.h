@@ -21,6 +21,7 @@ class World {
       const ray_lib::Ray &theray) const;
   Color shade_hit(const IntersectionState &precomps) const;
   Color color_at(const Ray &theray) const;
+  bool isShadowed(const Point &p) const;
 };
 
 }  // namespace ray_lib

@@ -90,3 +90,15 @@ TEST(Shader, lighting5) {
   Color result = ray_lib::lighting(m, point_light, p, eyev, normalv);
   EXPECT_EQ(result, Color(0.1, 0.1, 0.1));
 }
+
+TEST(Shader, inshadow1) {
+  Material m;
+  Point p(0, 0, 0);
+
+  Vector eyev(0, 0, -1);
+  Vector normalv(0, 0, -1);
+  Light point_light(Color(1, 1, 1), Point(0, 0, -10));
+  bool inShadow = true;
+  Color result = ray_lib::lighting(m, point_light, p, eyev, normalv, inShadow);
+  EXPECT_EQ(result, Color(0.1, 0.1, 0.1));
+}

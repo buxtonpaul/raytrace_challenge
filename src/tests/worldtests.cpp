@@ -12,9 +12,11 @@
 #include "utils.h"
 #include "world.h"
 
+using ray_lib::Light;
 using ray_lib::Point;
 using ray_lib::Ray;
 using ray_lib::Vector;
+using ray_lib::World;
 
 class EmptyWorldTest : public ::testing::Test {
  protected:
@@ -53,11 +55,11 @@ class DefaultWorldTest : public ::testing::Test {
 
   // Variables go here...
 
-  ray_lib::Light l;
+  Light l;
   ray_lib::Material m;
   ray_lib::Sphere s1;
   ray_lib::Sphere s2;
-  ray_lib::World w;
+  World w;
 };
 
 TEST_F(DefaultWorldTest, TestDefault) {
@@ -153,4 +155,56 @@ TEST_F(DefaultWorldTest, Color_at_inside) {
   outer->Mat(ray_lib::Material().Ambient(1.0));
   inner->Mat(ray_lib::Material().Ambient(1.0));
   EXPECT_EQ(w.color_at(r), inner->Mat().GetColor());
+}
+
+TEST_F(DefaultWorldTest, Shadow_NoShadow) {
+  Point p(0, 10, 0);
+
+  EXPECT_EQ(w.isShadowed(p), false);
+}
+
+TEST_F(DefaultWorldTest, Shadow_ObjectBetweenLight) {
+  Point p(10, -10, 10);
+
+  EXPECT_EQ(w.isShadowed(p), true);
+}
+
+TEST_F(DefaultWorldTest, Shadow_ObjectBehindLight) {
+  Point p(-20, 20, -20);
+
+  EXPECT_EQ(w.isShadowed(p), false);
+}
+
+TEST_F(DefaultWorldTest, Shadow_ObjectBehindPoint) {
+  Point p(-2, 2, -2);
+
+  EXPECT_EQ(w.isShadowed(p), false);
+}
+
+TEST(World, Shadow_IntersectionInShadow) {
+  World w;
+  Light l(Color(1, 1, 1), Point(0, 0, -10));
+  w.WorldLights().push_back(&l);
+  ray_lib::Sphere s1;
+  ray_lib::Sphere s2;
+  s2.Transform(ray_lib::Translation(0, 0, 10));
+  w.WorldShapes().push_back(&s1);
+  w.WorldShapes().push_back(&s2);
+  Ray r(Point(0, 0, 5), Vector(0, 0, 1));
+  ray_lib::Intersection xs(&s2, 4);
+  ray_lib::IntersectionState i(xs, r);
+
+  Color c = w.shade_hit(i);
+  EXPECT_EQ(c, Color(0.1, 0.1, 0.1));
+}
+
+TEST(World, Shadow_RayAtHitOffset) {
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  ray_lib::Sphere s1;
+  s1.Transform(ray_lib::Translation(0, 0, 1));
+
+  ray_lib::Intersection xs(&s1, 5);
+  ray_lib::IntersectionState i(xs, r);
+  EXPECT_EQ(true, i.OverPoint().z() < -DBL_EPSILON / 2.0);
+  EXPECT_EQ(true, i.Position().z() > i.OverPoint().z());
 }

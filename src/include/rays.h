@@ -60,6 +60,7 @@ class IntersectionState {
   Vector _eye;
   Vector _normal = Vector(0, 0, 0);
   bool _inside;
+  Point _overPoint = Point(0, 0, 0);
 
  public:
   const Shape *Object() const { return _object; }
@@ -68,12 +69,12 @@ class IntersectionState {
   const Vector &Eye() const { return _eye; }
   const Point &Position() const { return _position; }
   const bool Inside() const { return _inside; }
-
+  const Point &OverPoint() const { return _overPoint; }
   // Constructor with all params
   IntersectionState(const Point &p, const Vector &eyev, const Vector &Normal,
                     double t, Shape *object)
       : _position(p), _eye(eyev), _normal(Normal), _t(t), _object(object) {
-    initInside();
+    initComputed();
   }
   // constructor that will derive the normal from the shape, less
   // efficient if the normal has already been calculated elsewhere.
@@ -84,17 +85,18 @@ class IntersectionState {
         _eye(-r.Direction()),
         _position(r.Position(_t)),
         _normal(_object->Normal(_position)) {
-    initInside();
+    initComputed();
   }
 
  private:
-  void initInside() {
+  void initComputed() {
     if (_normal.dotproduct(_eye) < 0.0) {
       _inside = true;
       _normal = -_normal;
     } else {
       _inside = false;
     }
+    _overPoint = _position + _normal * (1.0 * __FLT_EPSILON__);
   }
   // To get the normal we would call the shape with the position
 };

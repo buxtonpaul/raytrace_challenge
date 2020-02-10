@@ -6,13 +6,14 @@
 namespace ray_lib {
 
 Color lighting(const Material &m, const Light &l, const Point &p,
-               const Vector &eye, const Vector &Normal) {
+               const Vector &eye, const Vector &Normal, const bool inShadow) {
   Color effective_color = m.GetColor() * l.Intensity();
   Vector lightv = (l.Position() - p).normalise();
   Color ambient = effective_color * m.Ambient();
   Color diffuse = Color(0, 0, 0);
   Color specular = Color(0, 0, 0);
 
+  if (inShadow) return ambient;
   double light_dot_normal = lightv.dotproduct(Normal);
 
   if (light_dot_normal >= 0) {
