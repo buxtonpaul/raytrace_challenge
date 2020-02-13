@@ -16,9 +16,9 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 - [ ] Implment other point/vector functions/tests. Try and tidy up operators again (VECTOR-VECTOR)
 - [ ] Refactor shape and intersection files
 - [ ] Rework using slices....
-- [ ] Parallel For
 - [ ] Canvas as a template
 - [ ] Other file output (PNG/TIFF)?
+- [x] Parallel For
 - [x] Implement vector negate
 - [x] Look at gtest shared setup.
 - [x] Rework color to use RGB inputs
@@ -63,17 +63,17 @@ Perhaps will need to be turned into class or similar?
 ![alt test](./latest.png)
 
 ----
-## Performance
-### Debug
+## Performance (rendering latest image)
+### Single threaded
 ```
-real    2m44.407s
-user    2m44.297s
-sys     0m0.063s
+real    1m5.921s
+user    1m5.688s
+sys     0m0.000s
 ```
 
-### Release
+### Multi Threaded (using OpenMP parallel for)
 ```
-real    0m16.793s
-user    0m16.703s
-sys     0m0.078s
+real    0m19.478s
+user    2m28.016s
+sys     0m0.000s
 ```

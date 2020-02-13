@@ -7,6 +7,7 @@ set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
 Message("GTEST_ROOT set to ${GTEST_ROOT}")
 find_package(GTest)
+find_package(OpenMP)
 
 if(GTest_FOUND)
 INCLUDE_DIRECTORIES(${GTEST_INCLUDE_DIRS})
@@ -81,6 +82,7 @@ set (TESTS src/tests/tupletests.cpp
             )
 
 add_library(rays ${MODULE_SOURCES})
+target_link_libraries(rays  OpenMP::OpenMP_CXX)
 target_include_directories(rays PUBLIC  src/include)
 
 

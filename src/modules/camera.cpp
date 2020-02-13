@@ -25,7 +25,6 @@ Ray Camera::ray_for_pixel(const unsigned int px, const unsigned int py) const {
   double world_x = _halfWidth - xoffset;
   double world_y = _halfHeight - yoffset;
 
-
   Point pixel(_viewtransform.inverse() * Point(world_x, world_y, -1));
   Point origin(_viewtransform.inverse() * Point(0, 0, 0));
   Vector direction = (pixel - origin).normalise();
@@ -35,6 +34,7 @@ Ray Camera::ray_for_pixel(const unsigned int px, const unsigned int py) const {
 Canvas Camera::Render(World w) const {
   Canvas c(_hsize, _vsize);
 
+#pragma omp parallel for
   for (unsigned int y = 0; y < _vsize; ++y) {
     for (unsigned int x = 0; x < _hsize; ++x) {
       Ray r = ray_for_pixel(x, y);
