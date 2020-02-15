@@ -34,7 +34,7 @@ Ray Camera::ray_for_pixel(const unsigned int px, const unsigned int py) const {
 Canvas Camera::Render(World w) const {
   Canvas c(_hsize, _vsize);
 
-#pragma omp parallel for
+#pragma omp parallel for collapse(2) schedule(guided)
   for (unsigned int y = 0; y < _vsize; ++y) {
     for (unsigned int x = 0; x < _hsize; ++x) {
       Ray r = ray_for_pixel(x, y);

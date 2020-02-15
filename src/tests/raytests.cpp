@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "matrix.h"
+#include "plane.h"
 #include "rays.h"
 #include "sphere.h"
 #include "tuples.h"
@@ -245,4 +246,43 @@ TEST(Shape, Reference) {
 
   sp.Mat(ray_lib::Material(1.23, 1.7, 112.1, 20.1, Color(.5, .5, .5)));
   EXPECT_FLOAT_EQ(sp.Mat().Diffuse(), sp.Mat().Diffuse());
+}
+
+TEST(Plane, Constant_Normal) {
+  ray_lib::Plane p;
+  EXPECT_EQ(p.Normal(Point(0, 0, 0)), Vector(0, 1, 0));
+  EXPECT_EQ(p.Normal(Point(10, 0, -10)), Vector(0, 1, 0));
+  EXPECT_EQ(p.Normal(Point(-5, 0, 150)), Vector(0, 1, 0));
+}
+
+TEST(Plane, Intersects_parallel) {
+  ray_lib::Plane p;
+  ray_lib::Ray r(Point(0, 10, 0), Vector(0, 0, 1));
+  std::vector<Intersection> intersections = p.intersects(r);
+  EXPECT_EQ(intersections.empty(), true);
+}
+
+TEST(Plane, Intersects_Coplanar) {
+  ray_lib::Plane p;
+  ray_lib::Ray r(Point(0, 0, 0), Vector(0, 0, 1));
+  std::vector<Intersection> intersections = p.intersects(r);
+  EXPECT_EQ(intersections.empty(), true);
+}
+
+TEST(Plane, Intersects_FromAbove) {
+  ray_lib::Plane p;
+  ray_lib::Ray r(Point(0, 1, 0), Vector(0, -1, 0));
+  std::vector<Intersection> intersections = p.intersects(r);
+  EXPECT_EQ(intersections.size(), 1);
+  EXPECT_EQ(intersections[0].t(), 1);
+  EXPECT_EQ(intersections[0].GetShape(), &p);
+}
+
+TEST(Plane, Intersects_FromBelow) {
+  ray_lib::Plane p;
+  ray_lib::Ray r(Point(0, -1, 0), Vector(0, 1, 0));
+  std::vector<Intersection> intersections = p.intersects(r);
+  EXPECT_EQ(intersections.size(), 1);
+  EXPECT_EQ(intersections[0].t(), 1);
+  EXPECT_EQ(intersections[0].GetShape(), &p);
 }
