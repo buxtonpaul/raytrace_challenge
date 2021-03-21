@@ -11,6 +11,7 @@
 #include "tuples.h"
 #include "utils.h"
 #include "world.h"
+#include "pattern.h"
 
 using ray_lib::Light;
 using ray_lib::Point;
@@ -38,7 +39,8 @@ TEST_F(EmptyWorldTest, EmptyWorld) {
 class DefaultWorldTest : public ::testing::Test {
  protected:
   void SetUp() override {
-    m.SetColor(Color(0.8, 1, 0.6));
+    p.setColor(Color(0.8, 1, 0.6));
+    m.SetPattern((ray_lib::Pattern*)&p);
     m.Diffuse(0.7);
     m.Specular(0.2);
     l.Position(ray_lib::Point(-10, 10, -10));
@@ -57,6 +59,7 @@ class DefaultWorldTest : public ::testing::Test {
 
   Light l;
   ray_lib::Material m;
+  ray_lib::SolidPattern p;
   ray_lib::Sphere s1;
   ray_lib::Sphere s2;
   World w;
@@ -154,7 +157,7 @@ TEST_F(DefaultWorldTest, Color_at_inside) {
   // Need to add setteres to teh material :-(
   outer->Mat(ray_lib::Material().Ambient(1.0));
   inner->Mat(ray_lib::Material().Ambient(1.0));
-  EXPECT_EQ(w.color_at(r), inner->Mat().GetColor());
+  EXPECT_EQ(w.color_at(r), inner->Mat().GetPat()->getColor(Point(0,0,0)));
 }
 
 TEST_F(DefaultWorldTest, Shadow_NoShadow) {

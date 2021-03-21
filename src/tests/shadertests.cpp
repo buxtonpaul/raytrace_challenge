@@ -22,7 +22,7 @@ TEST(Shader, Material)
   EXPECT_FLOAT_EQ(m.Diffuse(), 0.9);
   EXPECT_FLOAT_EQ(m.Specular(), 0.9);
   EXPECT_FLOAT_EQ(m.Shininess(), 200);
-  EXPECT_EQ(m.GetColor(), Color(1, 1, 1));
+  // EXPECT_EQ(m.GetColor(), Color(1, 1, 1));
 }
 TEST(Shader, Sphere_mat)
 {
@@ -43,6 +43,8 @@ TEST(Shader, Sphere_mat_assign)
 TEST(Shader, lighting1)
 {
   Material m;
+  ray_lib::SolidPattern s;
+  m.SetPattern((ray_lib::Pattern*)&s);
   Point p(0, 0, 0);
 
   Vector eyev(0, 0, -1);
@@ -55,6 +57,9 @@ TEST(Shader, lighting1)
 TEST(Shader, lighting2)
 {
   Material m;
+    ray_lib::SolidPattern s;
+  m.SetPattern((ray_lib::Pattern*)&s);
+
   Point p(0, 0, 0);
 
   Vector eyev(0, sqrt(2.0) / 2.0, sqrt(2.0) / 2.0);
@@ -67,6 +72,9 @@ TEST(Shader, lighting2)
 TEST(Shader, lighting3)
 {
   Material m;
+    ray_lib::SolidPattern s;
+  m.SetPattern((ray_lib::Pattern*)&s);
+
   Point p(0, 0, 0);
 
   Vector eyev(0, 0, -1);
@@ -79,6 +87,9 @@ TEST(Shader, lighting3)
 TEST(Shader, lighting4)
 {
   Material m;
+    ray_lib::SolidPattern s;
+  m.SetPattern((ray_lib::Pattern*)&s);
+
   Point p(0, 0, 0);
 
   Vector eyev(0, -sqrt(2.0) / 2.0, -sqrt(2.0) / 2.0);
@@ -91,6 +102,9 @@ TEST(Shader, lighting4)
 TEST(Shader, lighting5)
 {
   Material m;
+    ray_lib::SolidPattern s;
+  m.SetPattern((ray_lib::Pattern*)&s);
+
   Point p(0, 0, 0);
 
   Vector eyev(0, 0, -1);
@@ -103,6 +117,9 @@ TEST(Shader, lighting5)
 TEST(Shader, inshadow1)
 {
   Material m;
+    ray_lib::SolidPattern s;
+  m.SetPattern((ray_lib::Pattern*)&s);
+
   Point p(0, 0, 0);
 
   Vector eyev(0, 0, -1);
@@ -116,7 +133,7 @@ TEST(Shader, inshadow1)
 TEST(Shader, Pattern1)
 {
   ray_lib::StripePattern s(Color(1, 1, 1), Color(0, 0, 0));
-  Material m(1.0, 0.0, 0.0, 0.0, Color(1, 0, 0), (ray_lib::Pattern*) &s);
+  Material m(1.0, 0.0, 0.0, 0.0, (ray_lib::Pattern*) &s);
 
   Vector eyev(0, 0, -1);
   Vector normalv(0, 0, -1);

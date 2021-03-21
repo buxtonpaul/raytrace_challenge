@@ -11,5 +11,6 @@ Color SolidPattern::getColor(ray_lib::Point p) const {
   return (_a);
 }
 
+SolidPattern SolidWhite(Color::White); 
 
 }  // namespace ray_lib

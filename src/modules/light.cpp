@@ -11,11 +11,7 @@ namespace ray_lib
   {
 
     const Pattern   *pat = m.GetPat();
-    Color effective_color(0, 0, 0);
-    if (pat)
-      effective_color = pat->getColor(p) * l.Intensity();
-    else
-      effective_color = m.GetColor() * l.Intensity();
+    Color effective_color = pat->getColor(p) * l.Intensity();
     Vector lightv = (l.Position() - p).normalise();
     Color ambient = effective_color * m.Ambient();
     Color diffuse = Color(0, 0, 0);

@@ -10,6 +10,7 @@
 #include "sphere.h"
 #include "tuples.h"
 #include "world.h"
+#include "pattern.h"
 
 using ray_lib::Camera;
 using ray_lib::Light;
@@ -28,8 +29,9 @@ int main(int argc, char *argv[]) {
 
   Sphere floor;
   Material m_floor;
+  ray_lib::SolidPattern mfloor_pat(Color(1.0, 0.9, 0.9));
+  m_floor.SetPattern((ray_lib::Pattern *)&mfloor_pat);
   floor.Transform(ray_lib::Scale(10, 0.01, 10));
-  m_floor.SetColor(Color(1.0, 0.9, 0.9));
   m_floor.Specular(0);
   floor.Mat(m_floor);
   w.WorldShapes().push_back(&floor);
@@ -52,7 +54,9 @@ int main(int argc, char *argv[]) {
   Sphere middle;
   middle.Transform(ray_lib::Translation(-0.5, 1, 0.5));
   Material middle_mat;
-  middle_mat.SetColor(Color(0.1, 1, 0.5));
+  ray_lib::SolidPattern middle_pat(Color(0.1, 1, 0.5));
+  middle_mat.SetPattern((ray_lib::Pattern *)&middle_pat);
+
   middle_mat.Specular(0.3);
   middle_mat.Diffuse(0.7);
   middle.Mat(middle_mat);
@@ -60,7 +64,10 @@ int main(int argc, char *argv[]) {
   Sphere right;
   right.Transform(ray_lib::Scale(0.5, 0.5, 0.5).Translate(1.5, 0.5, -0.5));
   Material right_mat;
-  right_mat.SetColor(Color(0.5, 1, 0.1));
+
+  ray_lib::SolidPattern right_pat(Color(0.5, 1, 0.1));
+  right_mat.SetPattern((ray_lib::Pattern *)&right_pat);
+
   right_mat.Specular(0.3);
   right_mat.Diffuse(0.7);
   right.Mat(right_mat);
@@ -68,7 +75,9 @@ int main(int argc, char *argv[]) {
   Sphere left;
   left.Transform(ray_lib::Scale(0.33, 0.33, 0.33).Translate(-1.5, 0.33, -0.75));
   Material left_mat;
-  left_mat.SetColor(Color(1, 0.8, 0.1));
+  ray_lib::SolidPattern left_pat(Color(1, 0.8, 0.1));
+  left_mat.SetPattern((ray_lib::Pattern *)&left_pat);
+
   left_mat.Specular(0.3);
   left_mat.Diffuse(0.7);
   left.Mat(left_mat);

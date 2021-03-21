@@ -39,13 +39,15 @@ namespace ray_lib
 
   public:
     Color getColor(const Point p) const;
-    SolidPattern(Color a) : _a(a) {}
+    SolidPattern(Color a = Color::White) : _a(a) {}
     Color setColor(const Color &newcol)
     {
       _a = newcol;
       return _a;
     }
   };
+
+  extern SolidPattern SolidWhite;
 
 } // namespace ray_lib
 #endif // _pattern_h_

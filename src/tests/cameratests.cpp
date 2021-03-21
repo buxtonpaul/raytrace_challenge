@@ -7,6 +7,7 @@
 #include "rays.h"
 #include "sphere.h"
 #include "world.h"
+#include "pattern.h"
 
 using ray_lib::Camera;
 using ray_lib::Matrix;
@@ -17,7 +18,8 @@ using ray_lib::Vector;
 
 TEST(Camera, Camera_Initialise_test) { EXPECT_EQ(1, 1); }
 
-TEST(Camera, Camera_Initialise_Zpos) {
+TEST(Camera, Camera_Initialise_Zpos)
+{
   Point from(0, 0, 0);
   Point to(0, 0, 1);
   Vector up(0, 1, 0);
@@ -25,7 +27,8 @@ TEST(Camera, Camera_Initialise_Zpos) {
   EXPECT_EQ(t, ray_lib::Scale(-1, 1, -1));
 }
 
-TEST(Camera, Camera_Initialise_Zneg) {
+TEST(Camera, Camera_Initialise_Zneg)
+{
   Point from(0, 0, 8);
   Point to(0, 0, 0);
   Vector up(0, 1, 0);
@@ -34,7 +37,8 @@ TEST(Camera, Camera_Initialise_Zneg) {
   EXPECT_EQ(t, ray_lib::Translation(0, 0, -8));
 }
 
-TEST(Camera, Camera_Initialise_arbitrary) {
+TEST(Camera, Camera_Initialise_arbitrary)
+{
   Point from(1, 3, 2);
   Point to(4, -2, 8);
   Vector up(1, 1, 0);
@@ -46,7 +50,8 @@ TEST(Camera, Camera_Initialise_arbitrary) {
   EXPECT_EQ(t, m);
 }
 
-TEST(Camera, Camera_initparams) {
+TEST(Camera, Camera_initparams)
+{
   Camera c(160, 120, M_PI / 2);
 
   EXPECT_FLOAT_EQ(c.FOV(), M_PI / 2);
@@ -55,19 +60,22 @@ TEST(Camera, Camera_initparams) {
   EXPECT_EQ(c.viewTransform(), ray_lib::Matrix::Identity);
 }
 
-TEST(Camera, Camera_pelsize1) {
+TEST(Camera, Camera_pelsize1)
+{
   Camera c(200, 125, M_PI / 2);
 
   EXPECT_FLOAT_EQ(c.pixelSize(), 0.01);
 }
 
-TEST(Camera, Camera_pelsize2) {
+TEST(Camera, Camera_pelsize2)
+{
   Camera c(125, 200, M_PI / 2);
 
   EXPECT_FLOAT_EQ(c.pixelSize(), 0.01);
 }
 
-TEST(Camera, Camera_raycenter) {
+TEST(Camera, Camera_raycenter)
+{
   Camera c(201, 101, M_PI / 2);
 
   Ray r = c.ray_for_pixel(100, 50);
@@ -76,7 +84,8 @@ TEST(Camera, Camera_raycenter) {
   EXPECT_EQ(r.Direction(), Vector(0, 0, -1));
 }
 
-TEST(Camera, Camera_raycorner) {
+TEST(Camera, Camera_raycorner)
+{
   Camera c(201, 101, M_PI / 2);
 
   Ray r = c.ray_for_pixel(0, 0);
@@ -85,7 +94,8 @@ TEST(Camera, Camera_raycorner) {
   EXPECT_EQ(r.Direction(), Vector(0.66519, 0.33259, -0.66851));
 }
 
-TEST(Camera, Camera_rayTransformed) {
+TEST(Camera, Camera_rayTransformed)
+{
   Camera c(201, 101, M_PI / 2);
 
   c.viewTransform(Matrix::Identity.Translate(0, -2, 5).Rotate_y(M_PI / 4));
@@ -95,10 +105,14 @@ TEST(Camera, Camera_rayTransformed) {
   EXPECT_EQ(r.Direction(), Vector(sqrt(2.0) / 2.0, 0, -sqrt(2.0) / 2.0));
 }
 
-class DefaultWorldCameraTest : public ::testing::Test {
- protected:
-  void SetUp() override {
-    m.SetColor(Color(0.8, 1, 0.6));
+class DefaultWorldCameraTest : public ::testing::Test
+{
+protected:
+  void SetUp() override
+  {
+    p.setColor(Color(0.8, 1, 0.6));
+    m.SetPattern((ray_lib::Pattern *)&p);
+
     m.Diffuse(0.7);
     m.Specular(0.2);
     l.Position(ray_lib::Point(-10, 10, -10));
@@ -120,9 +134,11 @@ class DefaultWorldCameraTest : public ::testing::Test {
   ray_lib::Sphere s1;
   ray_lib::Sphere s2;
   ray_lib::World w;
+  ray_lib::SolidPattern p;
 };
 
-TEST_F(DefaultWorldCameraTest, RenderTest) {
+TEST_F(DefaultWorldCameraTest, RenderTest)
+{
   Camera c(11, 11, M_PI / 2);
 
   Point from(0, 0, -5);

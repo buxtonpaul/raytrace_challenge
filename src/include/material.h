@@ -6,24 +6,21 @@
 namespace ray_lib
 {
 
-class Material
+  class Material
   {
   protected:
     double _ambient;
     double _diffuse;
     double _specular;
     double _shininess;
-    Color _color;
     const Pattern *_pat;
 
   public:
-    Material(double a = 0.1, double d = 0.9, double spec = 0.9, double shin = 200,
-             Color c = Color(1, 1, 1), Pattern *inpat = nullptr)
+    Material(double a = 0.1, double d = 0.9, double spec = 0.9, double shin = 200, Pattern *inpat = (ray_lib::Pattern *)&ray_lib::SolidWhite)
         : _ambient(a),
           _diffuse(d),
           _specular(spec),
           _shininess(shin),
-          _color(c),
           _pat(inpat)
 
     {
@@ -48,25 +45,18 @@ class Material
       _shininess = n;
       return n;
     }
-    Color SetColor(Color n)
-    {
-      _color = n;
-      return n;
-    }
 
-    void SetPattern(Pattern * const pattern){ _pat = pattern; }
-
+    void SetPattern(Pattern *const pattern) { _pat = pattern; }
 
     const Pattern *GetPat() const { return _pat; }
     double Ambient() const { return _ambient; }
     double Diffuse() const { return _diffuse; }
     double Specular() const { return _specular; }
     double Shininess() const { return _shininess; }
-    Color GetColor() const { return _color; }
     friend std::ostream &operator<<(std::ostream &out, const Material &m);
     bool operator==(const Material &rhs) const
     {
-      return (_color == rhs._color && float_equals(_ambient, rhs._ambient) &&
+      return (_pat == rhs._pat && float_equals(_ambient, rhs._ambient) &&
               float_equals(_diffuse, rhs._diffuse) &&
               float_equals(_specular, rhs._specular) &&
               float_equals(_shininess, rhs._shininess));
