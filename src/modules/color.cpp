@@ -54,3 +54,6 @@ std::ostream &operator<<(std::ostream &out, const Color &c) {
   out << ")";
   return out;
 }
+
+const Color Color::Black = Color(0.0, 0.0, 0.0);
+const Color Color::White = Color(1.0, 1.0, 1.0);

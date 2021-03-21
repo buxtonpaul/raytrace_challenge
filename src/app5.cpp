@@ -42,6 +42,8 @@ int main(int argc, char *argv[]) {
   middle_mat.SetColor(Color(0.1, 1, 0.5));
   middle_mat.Specular(0.3);
   middle_mat.Diffuse(0.7);
+  ray_lib::StripePattern candy(Color (0.7,.5,.7), Color(1,1,0));
+  middle_mat.SetPattern((ray_lib::Pattern*)&candy);
   middle.Mat(middle_mat);
 
   Sphere right;

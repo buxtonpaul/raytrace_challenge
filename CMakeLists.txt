@@ -67,6 +67,7 @@ set(MODULE_SOURCES src/modules/tuples.cpp
             src/modules/world.cpp
             src/modules/camera.cpp
             src/modules/plane.cpp
+            src/modules/pattern.cpp
             )
 
 
@@ -80,6 +81,7 @@ set (TESTS src/tests/tupletests.cpp
             src/tests/shadertests.cpp
             src/tests/worldtests.cpp
             src/tests/cameratests.cpp
+            src/tests/patterntests.cpp
             )
 
 add_library(rays ${MODULE_SOURCES})

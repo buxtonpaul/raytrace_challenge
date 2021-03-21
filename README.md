@@ -18,6 +18,8 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 - [ ] Rework using slices....
 - [ ] Canvas as a template
 - [ ] Other file output (PNG/TIFF)?
+- [ ] Refactor Materials to accept patterns
+- [ ] Refactor tuples/vectors/points. 
 - [x] Parallel For
 - [x] Implement vector negate
 - [x] Look at gtest shared setup.

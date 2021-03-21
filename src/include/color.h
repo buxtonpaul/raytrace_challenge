@@ -13,6 +13,8 @@ class Color {
   double green() const { return _values[1]; }
   double blue() const { return _values[2]; }
   const std::array<double, 3> &Values() const { return _values; }
+  static const Color Black;
+  static const Color White;
 };
 
 bool operator==(const Color &lhs, const Color &rhs);
