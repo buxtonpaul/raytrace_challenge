@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
   ray_lib::SolidPattern p_floor(Color(1.0, 0.9, 0.9));
 
   m_floor.Specular(0);
-  m_floor.SetPattern((ray_lib::Pattern *)&p_floor);
+  m_floor.SetPattern(p_floor.asPattern());
   floor.Mat(m_floor);
   w.WorldShapes().push_back(&floor);
 
@@ -42,18 +42,18 @@ int main(int argc, char *argv[])
   middle.Transform(ray_lib::Translation(-0.5, 1, 0.5));
   Material middle_mat;
   ray_lib::SolidPattern p_mat(Color(0.1, 1, 0.5));
-  middle_mat.SetPattern((ray_lib::Pattern *)&p_mat);
+  middle_mat.SetPattern(p_mat.asPattern());
   middle_mat.Specular(0.3);
   middle_mat.Diffuse(0.7);
   ray_lib::StripePattern candy(Color(0.7, .5, .7), Color(1, 1, 0));
-  middle_mat.SetPattern((ray_lib::Pattern *)&candy);
+  middle_mat.SetPattern(candy.asPattern());
   middle.Mat(middle_mat);
 
   Sphere right;
   right.Transform(ray_lib::Scale(0.5, 0.5, 0.5).Translate(1.5, 0.5, -0.5));
   Material right_mat;
   ray_lib::SolidPattern p_rightmat(Color(0.5, 1, 0.1));
-  right_mat.SetPattern((ray_lib::Pattern *)&p_rightmat);
+  right_mat.SetPattern(p_rightmat.asPattern());
   right_mat.Specular(0.3);
   right_mat.Diffuse(0.7);
   right.Mat(right_mat);
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
   left.Transform(ray_lib::Scale(0.33, 0.33, 0.33).Translate(-1.5, 0.33, -0.75));
   Material left_mat;
   ray_lib::SolidPattern p_leftmat(Color(1, 0.8, 0.1));
-  left_mat.SetPattern((ray_lib::Pattern *)&p_leftmat);
+  left_mat.SetPattern(p_leftmat.asPattern());
   left_mat.Specular(0.3);
   left_mat.Diffuse(0.7);
   left.Mat(left_mat);

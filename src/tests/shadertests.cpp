@@ -44,7 +44,7 @@ TEST(Shader, lighting1)
 {
   Material m;
   ray_lib::SolidPattern s;
-  m.SetPattern((ray_lib::Pattern*)&s);
+  m.SetPattern(s.asPattern());
   Point p(0, 0, 0);
 
   Vector eyev(0, 0, -1);
@@ -58,7 +58,7 @@ TEST(Shader, lighting2)
 {
   Material m;
     ray_lib::SolidPattern s;
-  m.SetPattern((ray_lib::Pattern*)&s);
+  m.SetPattern(s.asPattern());
 
   Point p(0, 0, 0);
 
@@ -73,7 +73,7 @@ TEST(Shader, lighting3)
 {
   Material m;
     ray_lib::SolidPattern s;
-  m.SetPattern((ray_lib::Pattern*)&s);
+  m.SetPattern(s.asPattern());
 
   Point p(0, 0, 0);
 
@@ -88,7 +88,7 @@ TEST(Shader, lighting4)
 {
   Material m;
     ray_lib::SolidPattern s;
-  m.SetPattern((ray_lib::Pattern*)&s);
+  m.SetPattern(s.asPattern());
 
   Point p(0, 0, 0);
 
@@ -103,7 +103,7 @@ TEST(Shader, lighting5)
 {
   Material m;
     ray_lib::SolidPattern s;
-  m.SetPattern((ray_lib::Pattern*)&s);
+  m.SetPattern(s.asPattern());
 
   Point p(0, 0, 0);
 
@@ -118,7 +118,7 @@ TEST(Shader, inshadow1)
 {
   Material m;
     ray_lib::SolidPattern s;
-  m.SetPattern((ray_lib::Pattern*)&s);
+  m.SetPattern(s.asPattern());
 
   Point p(0, 0, 0);
 

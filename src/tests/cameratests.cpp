@@ -111,7 +111,7 @@ protected:
   void SetUp() override
   {
     p.setColor(Color(0.8, 1, 0.6));
-    m.SetPattern((ray_lib::Pattern *)&p);
+    m.SetPattern(p.asPattern());
 
     m.Diffuse(0.7);
     m.Specular(0.2);

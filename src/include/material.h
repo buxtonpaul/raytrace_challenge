@@ -16,7 +16,7 @@ namespace ray_lib
     const Pattern *_pat;
 
   public:
-    Material(double a = 0.1, double d = 0.9, double spec = 0.9, double shin = 200, Pattern *inpat = (ray_lib::Pattern *)&ray_lib::SolidWhite)
+    Material(double a = 0.1, double d = 0.9, double spec = 0.9, double shin = 200, Pattern *inpat = ray_lib::SolidWhite.asPattern())
         : _ambient(a),
           _diffuse(d),
           _specular(spec),

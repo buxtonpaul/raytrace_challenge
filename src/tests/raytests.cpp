@@ -272,7 +272,7 @@ TEST(Shape, Reference)
   ray_lib::Sphere sp;
   ray_lib::Shape &p = sp;
   ray_lib::SolidPattern pattern(Color(.5, .5, .5));
-  sp.Mat(ray_lib::Material(1.23, 1.7, 112.1, 20.1, (ray_lib::Pattern *)&pattern));
+  sp.Mat(ray_lib::Material(1.23, 1.7, 112.1, 20.1, pattern.asPattern()));
   EXPECT_FLOAT_EQ(sp.Mat().Diffuse(), sp.Mat().Diffuse());
 }
 
