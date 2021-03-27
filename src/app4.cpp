@@ -20,8 +20,9 @@ using ray_lib::Sphere;
 using ray_lib::Vector;
 using ray_lib::World;
 
-int main(int argc, char *argv[]) {
-  Camera c(640, 480, M_PI / 2);
+int main(int argc, char *argv[])
+{
+  Camera c{640, 480, M_PI / 2};
   c.viewTransform(ray_lib::view_transform(Point(0, 1.5, -5), Point(0, 1, 0),
                                           Vector(0, 1, 0)));
 
@@ -29,7 +30,7 @@ int main(int argc, char *argv[]) {
 
   Sphere floor;
   Material m_floor;
-  ray_lib::SolidPattern mfloor_pat(Color(1.0, 0.9, 0.9));
+  ray_lib::SolidPattern mfloor_pat{Color(1.0, 0.9, 0.9)};
   m_floor.SetPattern(mfloor_pat.asPattern());
   floor.Transform(ray_lib::Scale(10, 0.01, 10));
   m_floor.Specular(0);
@@ -82,7 +83,7 @@ int main(int argc, char *argv[]) {
   left_mat.Diffuse(0.7);
   left.Mat(left_mat);
 
-  Light l(Color(1.0, 1.0, 1.0), Point(-10, 10, -10));
+  Light l{Color(1.0, 1.0, 1.0), Point(-10, 10, -10)};
 
   w.WorldShapes().push_back(&right_wall);
   w.WorldShapes().push_back(&middle);
@@ -90,7 +91,7 @@ int main(int argc, char *argv[]) {
   w.WorldShapes().push_back(&right);
   w.WorldLights().push_back(&l);
 
-  Canvas outimage = c.Render(w);
+  Canvas outimage{c.Render(w)};
 
   std::ofstream outfile(genfilestring() + ".ppm");
   outfile << outimage.ppm();

@@ -22,7 +22,6 @@ TEST(Shader, Material)
   EXPECT_FLOAT_EQ(m.Diffuse(), 0.9);
   EXPECT_FLOAT_EQ(m.Specular(), 0.9);
   EXPECT_FLOAT_EQ(m.Shininess(), 200);
-  // EXPECT_EQ(m.GetColor(), Color(1, 1, 1));
 }
 TEST(Shader, Sphere_mat)
 {
@@ -45,70 +44,70 @@ TEST(Shader, lighting1)
   Material m;
   ray_lib::SolidPattern s;
   m.SetPattern(s.asPattern());
-  Point p(0, 0, 0);
+  Point p{0, 0, 0};
 
-  Vector eyev(0, 0, -1);
-  Vector normalv(0, 0, -1);
-  Light point_light(Color(1, 1, 1), Point(0, 0, -10));
-  Color result = ray_lib::lighting(m, point_light, p, eyev, normalv);
+  Vector eyev{0, 0, -1};
+  Vector normalv{0, 0, -1};
+  Light point_light{Color(1, 1, 1), Point(0, 0, -10)};
+  Color result{ray_lib::lighting(m, point_light, p, eyev, normalv)};
   EXPECT_EQ(result, Color(1.9, 1.9, 1.9));
 }
 
 TEST(Shader, lighting2)
 {
   Material m;
-    ray_lib::SolidPattern s;
+  ray_lib::SolidPattern s;
   m.SetPattern(s.asPattern());
 
-  Point p(0, 0, 0);
+  Point p{0, 0, 0};
 
-  Vector eyev(0, sqrt(2.0) / 2.0, sqrt(2.0) / 2.0);
-  Vector normalv(0, 0, -1);
-  Light point_light(Color(1, 1, 1), Point(0, 0, -10));
-  Color result = ray_lib::lighting(m, point_light, p, eyev, normalv);
+  Vector eyev{0, sqrt(2.0) / 2.0, sqrt(2.0) / 2.0};
+  Vector normalv{0, 0, -1};
+  Light point_light{Color(1, 1, 1), Point(0, 0, -10)};
+  Color result{ray_lib::lighting(m, point_light, p, eyev, normalv)};
   EXPECT_EQ(result, Color(1.0, 1.0, 1.0));
 }
 
 TEST(Shader, lighting3)
 {
   Material m;
-    ray_lib::SolidPattern s;
+  ray_lib::SolidPattern s;
   m.SetPattern(s.asPattern());
 
-  Point p(0, 0, 0);
+  Point p{0, 0, 0};
 
-  Vector eyev(0, 0, -1);
-  Vector normalv(0, 0, -1);
-  Light point_light(Color(1, 1, 1), Point(0, 10, -10));
-  Color result = ray_lib::lighting(m, point_light, p, eyev, normalv);
+  Vector eyev{0, 0, -1};
+  Vector normalv{0, 0, -1};
+  Light point_light{Color(1, 1, 1), Point(0, 10, -10)};
+  Color result{ray_lib::lighting(m, point_light, p, eyev, normalv)};
   EXPECT_EQ(result, Color(0.7364, 0.7364, 0.7364));
 }
 
 TEST(Shader, lighting4)
 {
   Material m;
-    ray_lib::SolidPattern s;
+  ray_lib::SolidPattern s;
   m.SetPattern(s.asPattern());
 
-  Point p(0, 0, 0);
+  Point p{0, 0, 0};
 
-  Vector eyev(0, -sqrt(2.0) / 2.0, -sqrt(2.0) / 2.0);
-  Vector normalv(0, 0, -1);
-  Light point_light(Color(1, 1, 1), Point(0, 10, -10));
-  Color result = ray_lib::lighting(m, point_light, p, eyev, normalv);
+  Vector eyev{0, -sqrt(2.0) / 2.0, -sqrt(2.0) / 2.0};
+  Vector normalv{0, 0, -1};
+  Light point_light{Color(1, 1, 1), Point(0, 10, -10)};
+  Color result{ray_lib::lighting(m, point_light, p, eyev, normalv)};
   EXPECT_EQ(result, Color(1.6364, 1.6364, 1.6364));
 }
 
 TEST(Shader, lighting5)
 {
   Material m;
-    ray_lib::SolidPattern s;
+  ray_lib::SolidPattern s;
   m.SetPattern(s.asPattern());
 
-  Point p(0, 0, 0);
+  Point p{0, 0, 0};
 
-  Vector eyev(0, 0, -1);
-  Vector normalv(0, 0, -1);
+  Vector eyev{0, 0, -1};
+  Vector normalv{0, 0, -1};
   Light point_light(Color(1, 1, 1), Point(0, 0, 10));
   Color result = ray_lib::lighting(m, point_light, p, eyev, normalv);
   EXPECT_EQ(result, Color(0.1, 0.1, 0.1));
@@ -117,30 +116,30 @@ TEST(Shader, lighting5)
 TEST(Shader, inshadow1)
 {
   Material m;
-    ray_lib::SolidPattern s;
+  ray_lib::SolidPattern s;
   m.SetPattern(s.asPattern());
 
-  Point p(0, 0, 0);
+  Point p{0, 0, 0};
 
-  Vector eyev(0, 0, -1);
-  Vector normalv(0, 0, -1);
-  Light point_light(Color(1, 1, 1), Point(0, 0, -10));
-  bool inShadow = true;
-  Color result = ray_lib::lighting(m, point_light, p, eyev, normalv, inShadow);
+  Vector eyev{0, 0, -1};
+  Vector normalv{0, 0, -1};
+  Light point_light{Color(1, 1, 1), Point(0, 0, -10)};
+  bool inShadow{true};
+  Color result{ray_lib::lighting(m, point_light, p, eyev, normalv, inShadow)};
   EXPECT_EQ(result, Color(0.1, 0.1, 0.1));
 }
 
 TEST(Shader, Pattern1)
 {
   ray_lib::StripePattern s(Color(1, 1, 1), Color(0, 0, 0));
-  Material m(1.0, 0.0, 0.0, 0.0, (ray_lib::Pattern*) &s);
+  Material m(1.0, 0.0, 0.0, 0.0, (ray_lib::Pattern *)&s);
 
-  Vector eyev(0, 0, -1);
-  Vector normalv(0, 0, -1);
-  Light point_light(Color(1, 1, 1), Point(0, 0, -10));
-  Point p(0, 0, 0);
-  Color c1 = ray_lib::lighting(m, point_light, Point(0.9, 0, 0), eyev, normalv, false);
-  Color c2 = ray_lib::lighting(m, point_light, Point(1.1, 0, 0), eyev, normalv, false);
+  Vector eyev{0, 0, -1};
+  Vector normalv{0, 0, -1};
+  Light point_light{Color(1, 1, 1), Point(0, 0, -10)};
+  Point p{0, 0, 0};
+  Color c1{ray_lib::lighting(m, point_light, Point(0.9, 0, 0), eyev, normalv, false)};
+  Color c2{ray_lib::lighting(m, point_light, Point(1.1, 0, 0), eyev, normalv, false)};
 
   EXPECT_EQ(c1, Color(1, 1, 1));
   EXPECT_EQ(c2, Color(0, 0, 0));

@@ -30,11 +30,11 @@ class Ray {
 };
 
 class Intersection {
-  Shape *_obj;
+  const Shape *_obj;
   double _t;
 
  public:
-  Intersection(Shape *sp, const double t) : _obj(sp), _t(t) {}
+  Intersection(const Shape *sp, const double t) : _obj(sp), _t(t) {}
   Intersection(const Intersection &i) : _obj(i._obj), _t(i._t) {}
   double t() const { return _t; }
   const Shape *GetShape() const { return _obj; }
