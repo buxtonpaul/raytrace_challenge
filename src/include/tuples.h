@@ -83,7 +83,7 @@ class Tuple {
   double magnitude() const;
   unsigned int size() const { return _size; }
   const std::vector<double> &Values() const { return (_vals); }
-  double &operator[](int index) { return _vals[index]; }
+  const double &operator[](int index) const{ return _vals[index]; }
 };
 
 class Vector : public Tuple {

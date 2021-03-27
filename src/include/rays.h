@@ -58,9 +58,9 @@ class IntersectionState {
   const Shape *_object;
   Point _position;
   Vector _eye;
-  Vector _normal = Vector(0, 0, 0);
+  Vector _normal {Vector(0, 0, 0)};
   bool _inside;
-  Point _overPoint = Point(0, 0, 0);
+  Point _overPoint {Point(0, 0, 0)};
 
  public:
   const Shape *Object() const { return _object; }

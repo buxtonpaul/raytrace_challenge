@@ -21,7 +21,7 @@ class Plane : public Shape {
   }
   const Matrix &Transform() const { return _m; }
   const Vector Normal(const Point &position) const;
-  const Material &Mat(const Material m) {
+  const Material &Mat(const Material &m) {
     _mat = m;
     return _mat;
   }

@@ -7,7 +7,7 @@
 #include "world.h"
 namespace ray_lib {
 
-Matrix view_transform(Point from, Point to, Vector up);
+Matrix view_transform(const Point &from, const Point &to, const Vector &up);
 
 class Camera {
   unsigned int _hsize;
@@ -56,7 +56,7 @@ class Camera {
   }
   double pixelSize() { return _pixelSize; }
   Ray ray_for_pixel(const unsigned int px, const unsigned int py) const;
-  Canvas Render(World w) const;
+  Canvas Render(const World &w) const;
 };
 }  // namespace ray_lib
 #endif  //_camera_h_

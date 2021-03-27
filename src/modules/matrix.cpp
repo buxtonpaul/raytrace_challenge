@@ -105,20 +105,20 @@ namespace ray_lib
   }
 
   // translations , perhaps move into another function
-  Matrix Matrix::Translate(double x, double y, double z) const
+  Matrix Matrix::Translate(const double x, const double y, const double z) const
   {
     return Matrix({{1, 0, 0, x}, {0, 1, 0, y}, {0, 0, 1, z}, {0, 0, 0, 1}}) *
            *this;
   }
 
   // translations , perhaps move into another function
-  Matrix Matrix::Scale(double x, double y, double z) const
+  Matrix Matrix::Scale(const double x, const double y, const double z) const
   {
     return Matrix({{x, 0, 0, 0}, {0, y, 0, 0}, {0, 0, z, 0}, {0, 0, 0, 1}}) *
            *this;
   }
 
-  Matrix Matrix::Rotate_x(double radians) const
+  Matrix Matrix::Rotate_x(const double radians) const
   {
     return Matrix({{1, 0, 0, 0},
                    {0, cos(radians), -sin(radians), 0},
@@ -126,7 +126,7 @@ namespace ray_lib
                    {0, 0, 0, 1}}) *
            *this;
   }
-  Matrix Matrix::Rotate_y(double radians) const
+  Matrix Matrix::Rotate_y(const double radians) const
   {
     return Matrix({{cos(radians), 0, sin(radians), 0},
                    {0, 1, 0, 0},
@@ -134,7 +134,7 @@ namespace ray_lib
                    {0, 0, 0, 1}}) *
            *this;
   }
-  Matrix Matrix::Rotate_z(double radians) const
+  Matrix Matrix::Rotate_z(const double radians) const
   {
     return Matrix({{cos(radians), -sin(radians), 0, 0},
                    {sin(radians), cos(radians), 0, 0},
@@ -143,8 +143,8 @@ namespace ray_lib
            *this;
   }
 
-  Matrix Matrix::Shear(double xy, double xz, double yx, double yz, double zx,
-                       double zy) const
+  Matrix Matrix::Shear(const double xy, const double xz, const double yx, const double yz, const double zx,
+                       const double zy) const
   {
     return Matrix(
                {{1, xy, xz, 0}, {yx, 1, yz, 0}, {zx, zy, 1, 0}, {0, 0, 0, 1}}) *
@@ -152,32 +152,32 @@ namespace ray_lib
   }
 
   // translations , perhaps move into another function
-  Matrix Translation(double x, double y, double z)
+  Matrix Translation(const double x,const double y,const double z)
   {
     return Matrix({{1, 0, 0, x}, {0, 1, 0, y}, {0, 0, 1, z}, {0, 0, 0, 1}});
   }
 
   // translations , perhaps move into another function
-  Matrix Scale(double x, double y, double z)
+  Matrix Scale(const double x,const  double y,const  double z)
   {
     return Matrix({{x, 0, 0, 0}, {0, y, 0, 0}, {0, 0, z, 0}, {0, 0, 0, 1}});
   }
 
-  Matrix Rotation_x(double radians)
+  Matrix Rotation_x(const double radians)
   {
     return Matrix({{1, 0, 0, 0},
                    {0, cos(radians), -sin(radians), 0},
                    {0, sin(radians), cos(radians), 0},
                    {0, 0, 0, 1}});
   }
-  Matrix Rotation_y(double radians)
+  Matrix Rotation_y(const double radians)
   {
     return Matrix({{cos(radians), 0, sin(radians), 0},
                    {0, 1, 0, 0},
                    {-sin(radians), 0, cos(radians), 0},
                    {0, 0, 0, 1}});
   }
-  Matrix Rotation_z(double radians)
+  Matrix Rotation_z(const double radians)
   {
     return Matrix({{cos(radians), -sin(radians), 0, 0},
                    {sin(radians), cos(radians), 0, 0},
@@ -185,7 +185,7 @@ namespace ray_lib
                    {0, 0, 0, 1}});
   }
 
-  Matrix Shear(double xy, double xz, double yx, double yz, double zx, double zy)
+  Matrix Shear(const double xy,const double xz,const double yx,const double yz,const double zx,const double zy)
   {
     return Matrix({{1, xy, xz, 0}, {yx, 1, yz, 0}, {zx, zy, 1, 0}, {0, 0, 0, 1}});
   }

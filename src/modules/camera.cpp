@@ -5,7 +5,7 @@
 
 namespace ray_lib
 {
-  Matrix view_transform(Point from, Point to, Vector up)
+  Matrix view_transform(const Point &from, const Point &to, const Vector &up)
   {
     Vector forward((to - from).normalise());
     Vector upn(up.normalise());
@@ -34,7 +34,7 @@ namespace ray_lib
 
     return Ray(origin, direction);
   }
-  Canvas Camera::Render(World w) const
+  Canvas Camera::Render(const World &w) const
   {
     Canvas c{_hsize, _vsize};
 

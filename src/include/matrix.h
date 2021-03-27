@@ -5,18 +5,22 @@
 #include "tuples.h"
 #include "utils.h"
 
-namespace ray_lib {
-class Matrix {
+namespace ray_lib
+{
+class Matrix
+{
   std::vector<std::vector<double>> _data;
   unsigned int _columns;
   unsigned int _rows;
 
- public:
+public:
   explicit Matrix(const std::vector<std::vector<double>> &input)
       : _data(input), _columns(input[0].size()), _rows(input.size()) {}
   explicit Matrix(const Tuple &input)
-      : _columns(1), _rows(input.Values().size()) {
-    for (auto a : input.Values()) {
+      : _columns(1), _rows(input.Values().size())
+  {
+    for (auto a : input.Values())
+    {
       _data.push_back({a});
     }
   }
@@ -48,29 +52,31 @@ class Matrix {
   Matrix Rotate_z(double radians) const;
 
   Matrix Shear(double xy, double xz, double yx, double yz, double zx,
-               double zy) const;
+                double zy) const;
   static const Matrix Identity;
 };
 
-Matrix Translation(double x, double y, double z);
-Matrix Scale(double x, double y, double z);
+Matrix Translation(const double x, const double y, const double z);
+Matrix Scale(const double x, const double y, const double z);
 
-Matrix Rotation_x(double radians);
-Matrix Rotation_y(double radians);
-Matrix Rotation_z(double radians);
+Matrix Rotation_x(const double radians);
+Matrix Rotation_y(const double radians);
+Matrix Rotation_z(const double radians);
 
-Matrix Shear(double xy, double xz, double yx, double yz, double zx, double zy);
+Matrix Shear(const double xy, const double xzconst, double yx, const double yz, const double zx, const double zy);
 
 template <class T>
-T operator*(const Matrix &lhs, const T &rhs) {
+T operator*(const Matrix &lhs, const T &rhs)
+{
   std::vector<std::vector<double>> tuplevals(rhs.size(),
-                                             std::vector<double>(1));
-  for (unsigned int i = 0; i < rhs.size(); ++i) {
+                                              std::vector<double>(1));
+  for (unsigned int i = 0; i < rhs.size(); ++i)
+  {
     tuplevals[i] = {rhs.Values()[i]};
   }
   Matrix tuplematrix(tuplevals);
   return (T((lhs * tuplematrix).col(0)));
 }
 
-}  // namespace ray_lib
-#endif  //_matrix_h
+} // namespace ray_lib
+#endif //_matrix_h

@@ -16,7 +16,7 @@ class Shape {
   virtual const Matrix &Transform() const = 0;
   virtual const Vector Normal(const Point &position) const = 0;
   virtual const Material &Mat() const = 0;
-  virtual const Material &Mat(const Material m) = 0;
+  virtual const Material &Mat(const Material &m) = 0;
 };
 }  // namespace ray_lib
 
