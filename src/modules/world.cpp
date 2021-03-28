@@ -41,7 +41,7 @@ namespace ray_lib
     // TODO(me): iterate over all the lights and sum the results
     return ray_lib::lighting(precomps.Object()->Mat(), *_lights[0],
                              precomps.OverPoint(), precomps.Eye(),
-                             precomps.Normal(), isShadowed(precomps.OverPoint()));
+                             precomps.Normal(), *precomps.Object(), isShadowed(precomps.OverPoint()));
   }
 
   Color World::color_at(const Ray &theray) const

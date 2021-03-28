@@ -3,20 +3,20 @@
 #include "color.h"
 #include "tuples.h"
 #include "matrix.h"
-
+#include "shape.h"
 namespace ray_lib
 {
   class Pattern
   {
   public:
-    virtual Color getColor(const Point &p, const Matrix &worldtransform = Matrix::Identity) const = 0;
+    virtual Color getColor(const Point &p) const = 0;
     Pattern *asPattern() { return reinterpret_cast<Pattern *>(this); }
   };
 
   class StripePattern : public Pattern
   {
   public:
-    Color getColor(const Point &p, const Matrix &worldtransform = Matrix::Identity) const;
+    Color getColor(const Point &p) const;
     Color getColor_a() const { return _a; }
     Color getColor_b() const { return _b; }
     StripePattern(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity) : _a(a), _b(b), _transform(transform) {}
@@ -42,7 +42,7 @@ namespace ray_lib
     Color _a;
 
   public:
-    Color getColor(const Point &p, const Matrix &worldtransform = Matrix::Identity) const;
+    Color getColor(const Point &p) const;
     explicit SolidPattern(const Color &a = Color::White) : _a(a) {}
     Color setColor(const Color &newcol)
     {
@@ -53,5 +53,6 @@ namespace ray_lib
 
   extern SolidPattern SolidWhite;
 
+  Color PatternAtObject(const Pattern &pat, const Shape &s, const Point &p);
 } // namespace ray_lib
 #endif // _pattern_h_
