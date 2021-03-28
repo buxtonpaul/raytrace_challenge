@@ -39,13 +39,13 @@ int main(int argc, char *argv[])
   w.WorldShapes().push_back(&floor);
 
   Sphere middle;
-  middle.Transform( ray_lib::Translation(-0.75, 1, 0.5)*ray_lib::Rotation_y(1.0)*ray_lib::Rotation_z(1.0));
+  middle.Transform(ray_lib::Translation(-0.75, 1, 0.5) * ray_lib::Rotation_y(1.0)*ray_lib::Rotation_z(1.0));
   Material middle_mat;
   ray_lib::SolidPattern p_mat{Color(0.1, 1, 0.5)};
   middle_mat.SetPattern(p_mat.asPattern());
   middle_mat.Specular(0.3);
   middle_mat.Diffuse(0.7);
-  ray_lib::StripePattern candy{Color(0.7, .5, .7), Color(1, 1, 0),ray_lib::Scale(0.25,0.25,0.25)};
+  ray_lib::StripePattern candy{Color(0.7, .5, .7), Color(1, 1, 0), ray_lib::Scale(0.25, 0.25, 0.25)};
   middle_mat.SetPattern(candy.asPattern());
   middle.Mat(middle_mat);
 

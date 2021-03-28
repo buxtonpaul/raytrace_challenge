@@ -5,7 +5,7 @@ namespace ray_lib
 {
   Color StripePattern::getColor(const ray_lib::Point &p) const
   {
-    Point patPoint{_transform.inverse() * p};
+    Point patPoint{_inverse * p};
     int c{static_cast<int>(floor(patPoint.x()))};
     return ((c % 2) == 0 ? _a : _b);
   }

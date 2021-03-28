@@ -7,6 +7,7 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 ----
 
 # Todo 
+- [ ] Refactor shapes to move initialisation to base class
 - [ ] Improve float_equals to handle zero
 - [ ] Implement pre_inverse of objects transformations
 - [ ] Rewrite gethit using lower_bound

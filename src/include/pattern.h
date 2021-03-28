@@ -11,6 +11,10 @@ namespace ray_lib
   public:
     virtual Color getColor(const Point &p) const = 0;
     Pattern *asPattern() { return reinterpret_cast<Pattern *>(this); }
+    explicit Pattern(const Matrix &transform = Matrix::Identity) : _transform(transform), _inverse(transform.inverse()) {}
+  protected:
+    Matrix _transform;
+    Matrix _inverse;
   };
 
   class StripePattern : public Pattern
@@ -19,7 +23,7 @@ namespace ray_lib
     Color getColor(const Point &p) const;
     Color getColor_a() const { return _a; }
     Color getColor_b() const { return _b; }
-    StripePattern(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity) : _a(a), _b(b), _transform(transform) {}
+    StripePattern(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity) : Pattern(transform), _a(a), _b(b) {}
     Color setColor_a(const Color &newcol)
     {
       _a = newcol;
@@ -34,7 +38,6 @@ namespace ray_lib
   private:
     Color _a;
     Color _b;
-    Matrix _transform;
   };
 
   class SolidPattern : public Pattern
