@@ -56,6 +56,5 @@ namespace ray_lib
 
   extern SolidPattern SolidWhite;
 
-  Color PatternAtObject(const Pattern &pat, const Shape &s, const Point &p);
 } // namespace ray_lib
 #endif // _pattern_h_

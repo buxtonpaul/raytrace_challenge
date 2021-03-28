@@ -17,11 +17,5 @@ namespace ray_lib
 
   SolidPattern SolidWhite(Color::White);
 
-  Color PatternAtObject(const Pattern &pat, const Shape &s, const Point &p)
-  {
-    Point objpoint{  s.Transform().inverse() * p};
-
-    return pat.getColor(objpoint);
-  }
 
 } // namespace ray_lib

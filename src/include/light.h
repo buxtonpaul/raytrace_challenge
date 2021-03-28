@@ -29,6 +29,8 @@ class Light {
 Color lighting(const Material &m, const Light &l, const Point &p,
                const Vector &eye, const Vector &Normal, const Shape &s,
                const bool inShadow = false);
+Color PatternAtObject(const Pattern &pat, const Shape &s, const Point &p);
+
 }  // namespace ray_lib
 
 #endif

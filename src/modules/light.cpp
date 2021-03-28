@@ -36,4 +36,12 @@ namespace ray_lib
 
     return ambient + diffuse + specular;
   }
+
+  Color PatternAtObject(const Pattern &pat, const Shape &s, const Point &p)
+  {
+    Point objpoint{  s.Transform().inverse() * p};
+
+    return pat.getColor(objpoint);
+  }
+
 } // namespace ray_lib

@@ -4,6 +4,7 @@
 #include "tuples.h"
 #include "sphere.h"
 #include "matrix.h"
+#include "light.h"
 
 using ray_lib::Point;
 using ray_lib::StripePattern;
