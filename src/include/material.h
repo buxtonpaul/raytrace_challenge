@@ -16,7 +16,13 @@ protected:
   const Pattern *_pat;
 
 public:
-  Material(double a = 0.1, double d = 0.9, double spec = 0.9, double shin = 200, Pattern *inpat = ray_lib::SolidWhite.asPattern())
+  Material() :_ambient(0.1),
+        _diffuse(0.9),
+        _specular(0.9),
+        _shininess(200),
+        _pat(ray_lib::SolidWhite.asPattern())
+        {}
+  Material(double a , double d, double spec , double shin , Pattern *inpat )
       : _ambient(a),
         _diffuse(d),
         _specular(spec),

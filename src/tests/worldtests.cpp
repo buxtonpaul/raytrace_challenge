@@ -165,12 +165,9 @@ TEST_F(DefaultWorldTest, Color_at_inside)
   ray_lib::Shape *outer{w.WorldShapes()[1]};
 
   ray_lib::Material m2;
-  // m2.Ambient(1);
-  // s1.Mat(m2);
-  // s2.Mat(m2);
-  // Need to add setteres to teh material :-(
-  outer->Mat(ray_lib::Material().Ambient(1.0));
-  inner->Mat(ray_lib::Material().Ambient(1.0));
+  m2.Ambient(1.0);
+  outer->Mat(m2);
+  inner->Mat(m2);
   EXPECT_EQ(w.color_at(r), inner->Mat().GetPat()->getColor(Point(0, 0, 0)));
 }
 

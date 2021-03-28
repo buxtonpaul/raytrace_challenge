@@ -25,7 +25,7 @@ public:
   }
   const Matrix &Transform() const { return _m; }
   Shape() : _m(Matrix::Identity) {}
-  Shape(const Matrix &m) : _m(m) {}
+  explicit Shape(const Matrix &m) : _m(m) {}
 
 protected:
   Matrix _m;
