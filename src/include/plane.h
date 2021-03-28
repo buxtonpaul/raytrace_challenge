@@ -15,11 +15,6 @@ class Plane : public Shape {
   explicit Plane(const Matrix &m) : Shape(m) {}
   std::vector<Intersection> intersects(const Ray &r) const;
   const Vector Normal(const Point &position) const;
-  const Material &Mat(const Material &m) {
-    _mat = m;
-    return _mat;
-  }
-  const Material &Mat() const { return _mat; }
 };
 }  // namespace ray_lib
 

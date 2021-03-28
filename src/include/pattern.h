@@ -3,7 +3,6 @@
 #include "color.h"
 #include "tuples.h"
 #include "matrix.h"
-#include "shape.h"
 namespace ray_lib
 {
   class Pattern

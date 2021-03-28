@@ -4,7 +4,7 @@
 #include "light.h"
 #include "material.h"
 #include "tuples.h"
-
+#include "shape.h"
 namespace ray_lib {
 class Light {
  protected:

@@ -8,7 +8,6 @@
 
 namespace ray_lib {
 class Sphere : public Shape {
-  Material _mat;
 
  public:
   Sphere() : Shape(Matrix::Identity) {}
@@ -16,11 +15,6 @@ class Sphere : public Shape {
   std::vector<Intersection> intersects(const Ray &r) const;
     const Vector Normal(const Point &position) const;
 
-  const Material &Mat(const Material &m) {
-    _mat = m;
-    return _mat;
-  }
-  const Material &Mat() const { return _mat; }
 };
 }  // namespace ray_lib
 

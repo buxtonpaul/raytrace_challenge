@@ -7,7 +7,7 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 ----
 
 # Todo 
-- [ ] Refactor shapes to move initialisation to base class
+- [ ] Provide additional constructros for shape to take material
 - [ ] Improve float_equals to handle zero
 - [ ] Implement pre_inverse of objects transformations
 - [ ] Rewrite gethit using lower_bound
@@ -19,8 +19,9 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 - [ ] Rework using slices....
 - [ ] Canvas as a template
 - [ ] Other file output (PNG/TIFF)?
-- [ ] Refactor Materials to accept patterns
 - [ ] Refactor tuples/vectors/points. 
+- [x] Refactor shapes to move initialisation to base class
+- [x] Refactor Materials to accept patterns
 - [x] Parallel For
 - [x] Implement vector negate
 - [x] Look at gtest shared setup.
