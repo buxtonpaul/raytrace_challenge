@@ -31,11 +31,12 @@ int main(int argc, char *argv[])
 
   Plane floor;
   Material m_floor;
-  ray_lib::SolidPattern p_floor{Color(1.0, 0.9, 0.9)};
+  ray_lib::CheckPattern3d p_floor{Color(0.9, 0.9, 0.9),Color(0.1,0.1,0.1)};
 
   m_floor.Specular(0);
   m_floor.Reflectivity(0.5);
   m_floor.Ambient(0.1);
+  m_floor.Diffuse(0.25);
   m_floor.SetPattern(p_floor.asPattern());
   floor.Mat(m_floor);
   w.WorldShapes().push_back(&floor);
