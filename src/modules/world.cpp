@@ -35,16 +35,30 @@ namespace ray_lib
     return outputs;
     // it isn't clear if these should be clipped to only those >0...
   }
-  Color World::shade_hit(const IntersectionState &precomps) const
+  Color World::shade_hit(const IntersectionState &precomps, int depth) const
   {
-    // return Color(0, 0, 0);
     // TODO(me): iterate over all the lights and sum the results
-    return ray_lib::lighting(precomps.Object()->Mat(), *_lights[0],
+    Color Surface_color{ ray_lib::lighting(precomps.Object()->Mat(), *_lights[0],
                              precomps.OverPoint(), precomps.Eye(),
-                             precomps.Normal(), *precomps.Object(), isShadowed(precomps.OverPoint()));
+                             precomps.Normal(), *precomps.Object(), isShadowed(precomps.OverPoint()))};
+
+    Color Reflected_color{reflection_hit(precomps, depth)};
+    return Surface_color + Reflected_color;
   }
 
-  Color World::color_at(const Ray &theray) const
+
+  Color World::reflection_hit(const IntersectionState &precomps, int depth) const
+  {
+    if (precomps.Object()->Mat().Reflectivity() == 0.0)
+      return Color(0, 0, 0);
+    if (depth <= 0)
+      return Color(0, 0, 0);
+    ray_lib::Ray reflected{precomps.OverPoint(), precomps.ReflectV()};
+    return color_at(reflected, depth-1) * precomps.Object()->Mat().Reflectivity();
+  }
+
+
+  Color World::color_at(const Ray &theray, int depth) const
   {
     std::vector<ray_lib::Intersection> intersections{WorldIntersections(theray)};
 
@@ -53,7 +67,7 @@ namespace ray_lib
       return Color(0, 0, 0);
     ray_lib::IntersectionState i{*hit, theray};
 
-    return shade_hit(i);
+    return shade_hit(i, depth);
   }
 
   bool World::isShadowed(const Point &p) const

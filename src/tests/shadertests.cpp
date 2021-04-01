@@ -133,7 +133,7 @@ TEST(Shader, inshadow1)
 TEST(Shader, Pattern1)
 {
   ray_lib::StripePattern s(Color(1, 1, 1), Color(0, 0, 0));
-  Material m(1.0, 0.0, 0.0, 0.0, (ray_lib::Pattern *)&s);
+  Material m(1.0, 0.0, 0.0, 0.0, 0.0, (ray_lib::Pattern *)&s);
 
   Vector eyev{0, 0, -1};
   Vector normalv{0, 0, -1};
@@ -145,4 +145,11 @@ TEST(Shader, Pattern1)
 
   EXPECT_EQ(c1, Color(1, 1, 1));
   EXPECT_EQ(c2, Color(0, 0, 0));
+}
+
+
+TEST(Material, DefaultReflectivity)
+{
+  Material m;
+  EXPECT_EQ(m.Reflectivity(), 0.0);
 }

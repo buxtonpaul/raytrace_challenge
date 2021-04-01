@@ -9,28 +9,25 @@ namespace ray_lib
 class Material
 {
 protected:
-  double _ambient;
-  double _diffuse;
-  double _specular;
-  double _shininess;
-  const Pattern *_pat;
+  double _ambient = 0.1;
+  double _diffuse = 0.9;
+  double _specular = 0.9;
+  double _shininess = 200;
+  double _reflectiveness = 0;
+  const Pattern *_pat = ray_lib::SolidWhite.asPattern();
 
 public:
-  Material() :_ambient(0.1),
-        _diffuse(0.9),
-        _specular(0.9),
-        _shininess(200),
-        _pat(ray_lib::SolidWhite.asPattern())
-        {}
-  Material(double a , double d, double spec , double shin , Pattern *inpat )
-      : _ambient(a),
-        _diffuse(d),
-        _specular(spec),
-        _shininess(shin),
-        _pat(inpat)
+  Material(double a , double d, double spec , double shin , double reflectiveness, Pattern *inpat )
+      : _ambient{a},
+        _diffuse{d},
+        _specular{spec},
+        _shininess{shin},
+        _reflectiveness{reflectiveness},
+        _pat{inpat}
 
   {
   }
+  Material(){}
   double Ambient(double n)
   {
     _ambient = n;
@@ -52,6 +49,12 @@ public:
     return n;
   }
 
+  double Reflectivity(double n)
+  {
+    _reflectiveness = n;
+    return n;
+  }
+
   void SetPattern(Pattern *const pattern) { _pat = pattern; }
 
   const Pattern *GetPat() const { return _pat; }
@@ -59,6 +62,7 @@ public:
   double Diffuse() const { return _diffuse; }
   double Specular() const { return _specular; }
   double Shininess() const { return _shininess; }
+  double Reflectivity() const { return _reflectiveness; }
   friend std::ostream &operator<<(std::ostream &out, const Material &m);
   bool operator==(const Material &rhs) const
   {

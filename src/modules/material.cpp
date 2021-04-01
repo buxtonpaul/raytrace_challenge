@@ -8,6 +8,7 @@ std::ostream &operator<<(std::ostream &out, const Material &m) {
   out << "Ambient = " << m._ambient << std::endl;
   out << "Diffuse = " << m._diffuse << std::endl;
   out << "Specular= " << m._specular << std::endl;
+  out << "Reflectiveness= " << m._reflectiveness << std::endl;
   out << "Shininess" << m._shininess << " )" << std::endl;
   return out;
 }

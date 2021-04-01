@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <vector>
+#include <cmath>
 #include "color.h"
 #include "gtest/gtest.h"
 #include "light.h"
@@ -8,6 +9,7 @@
 #include "rays.h"
 #include "shape.h"
 #include "sphere.h"
+#include "plane.h"
 #include "tuples.h"
 #include "utils.h"
 #include "world.h"
@@ -18,6 +20,9 @@ using ray_lib::Point;
 using ray_lib::Ray;
 using ray_lib::Vector;
 using ray_lib::World;
+
+
+
 
 class EmptyWorldTest : public ::testing::Test
 {
@@ -227,4 +232,75 @@ TEST(World, Shadow_RayAtHitOffset)
   ray_lib::IntersectionState i{xs, r};
   EXPECT_EQ(true, i.OverPoint().z() < -DBL_EPSILON / 2.0);
   EXPECT_EQ(true, i.Position().z() > i.OverPoint().z());
+}
+
+
+
+TEST_F(DefaultWorldTest, PrecomputeReflectionVector)
+{
+  Ray r{Point(0, 1, -1), Vector(0, -sqrt(2.0)/2.0 , sqrt(2.0)/2.0)};
+  ray_lib::Plane p;
+  ray_lib::Intersection xs(&p, sqrt(2.0));
+
+  ray_lib::IntersectionState i{xs, r};
+  EXPECT_EQ(i.ReflectV(), Vector(0.0, sqrt(2.0)/2.0, sqrt(2.0)/2.0));
+}
+
+TEST_F(DefaultWorldTest, NonReflective)
+{
+  Ray r{Point(0, 0, 0), Vector(0, 0 , -1)};
+  ray_lib::Shape *inner{w.WorldShapes()[0]};
+  ray_lib::Shape *outer{w.WorldShapes()[1]};
+
+  ray_lib::Material m2;
+  m2.Ambient(1.0);
+  outer->Mat(m2);
+  ray_lib::Intersection xs{outer, 1};
+  ray_lib::IntersectionState i{xs, r};
+  EXPECT_EQ(w.reflection_hit(i), Color(0, 0, 0));
+}
+
+TEST_F(DefaultWorldTest, ReflectiveTest)
+{
+  ray_lib::Material plane_pat;
+  plane_pat.Reflectivity(0.5);
+  ray_lib::Plane p(ray_lib::Translation(0, -1, 0));
+  p.Mat(plane_pat);
+  w.WorldShapes().push_back(&p);
+
+  Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0)/2.0, sqrt(2.0)/2.0)};
+
+  ray_lib::Intersection xs{&p, sqrt(2)};
+  ray_lib::IntersectionState i{xs, r};
+  EXPECT_EQ(w.reflection_hit(i), Color(0.19032, 0.2379, 0.14274));
+}
+
+TEST_F(DefaultWorldTest, ReflectiveTest2)
+{
+  ray_lib::Material plane_pat;
+  plane_pat.Reflectivity(0.5);
+  ray_lib::Plane p(ray_lib::Translation(0, -1, 0));
+  p.Mat(plane_pat);
+  w.WorldShapes().push_back(&p);
+
+  Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0)/2.0, sqrt(2.0)/2.0)};
+
+  ray_lib::Intersection xs{&p, sqrt(2)};
+  ray_lib::IntersectionState i{xs, r};
+  EXPECT_EQ(w.shade_hit(i), Color(0.87677, 0.92436, 0.82918));
+}
+
+TEST_F(DefaultWorldTest, ReflectiveRecursion)
+{
+  ray_lib::Material plane_pat;
+  plane_pat.Reflectivity(0.5);
+  ray_lib::Plane p(ray_lib::Translation(0, -1, 0));
+  p.Mat(plane_pat);
+  w.WorldShapes().push_back(&p);
+
+  Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0)/2.0, sqrt(2.0)/2.0)};
+
+  ray_lib::Intersection xs{&p, sqrt(2)};
+  ray_lib::IntersectionState i{xs, r};
+  EXPECT_EQ(w.reflection_hit(i, 0), Color(0.0, 0.0, 0.0));
 }

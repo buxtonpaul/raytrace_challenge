@@ -272,7 +272,7 @@ TEST(Shape, Reference)
   ray_lib::Sphere sp;
   ray_lib::Shape &p{sp}; // why is this here?
   ray_lib::SolidPattern pattern{Color(.5, .5, .5)};
-  sp.Mat(ray_lib::Material(1.23, 1.7, 112.1, 20.1, pattern.asPattern()));
+  sp.Mat(ray_lib::Material(1.23, 1.7, 112.1, 20.1, 0.0, pattern.asPattern()));
   EXPECT_FLOAT_EQ(sp.Mat().Diffuse(), sp.Mat().Diffuse());
 }
 
@@ -319,3 +319,4 @@ TEST(Plane, Intersects_FromBelow)
   EXPECT_EQ(intersections[0].t(), 1);
   EXPECT_EQ(intersections[0].GetShape(), &p);
 }
+

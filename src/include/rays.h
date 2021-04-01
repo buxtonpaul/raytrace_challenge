@@ -61,6 +61,7 @@ class IntersectionState {
   Vector _normal {Vector(0, 0, 0)};
   bool _inside;
   Point _overPoint {Point(0, 0, 0)};
+  Vector _reflect{Vector(0, 0, 0)};
 
  public:
   const Shape *Object() const { return _object; }
@@ -69,6 +70,7 @@ class IntersectionState {
   const Vector &Eye() const { return _eye; }
   const Point &Position() const { return _position; }
   const bool Inside() const { return _inside; }
+  const Vector &ReflectV() const { return _reflect; }
   const Point &OverPoint() const { return _overPoint; }
   // Constructor with all params
   IntersectionState(const Point &p, const Vector &eyev, const Vector &Normal,
@@ -84,7 +86,8 @@ class IntersectionState {
         _object(i.GetShape()),
         _eye(-r.Direction()),
         _position(r.Position(_t)),
-        _normal(_object->Normal(_position)) {
+        _normal(_object->Normal(_position)),
+        _reflect(r.Direction().reflect(_normal)) {
     initComputed();
   }
 

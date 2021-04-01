@@ -19,8 +19,9 @@ class World {
   std::vector<ray_lib::Shape *> &WorldShapes();
   std::vector<ray_lib::Intersection> WorldIntersections(
       const ray_lib::Ray &theray) const;
-  Color shade_hit(const IntersectionState &precomps) const;
-  Color color_at(const Ray &theray) const;
+  Color shade_hit(const IntersectionState &precomps, int depth = 4) const;
+  Color reflection_hit(const IntersectionState &precomps, int depth = 4) const;
+  Color color_at(const Ray &theray, int depth = 4) const;
   bool isShadowed(const Point &p) const;
 };
 
