@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
   w.WorldShapes().push_back(&floor);
 
   Sphere middle;
-  middle.Transform(ray_lib::Translation(-0.75, 1, 0.5) * ray_lib::Rotation_y(1.0)*ray_lib::Rotation_z(1.0));
+  middle.Transform(ray_lib::Scale(.75, 1, 0.75) * ray_lib::Translation(-0.75, 1, 0.5) * ray_lib::Rotation_y(1.0) * ray_lib::Rotation_z(1.0));
   Material middle_mat;
   ray_lib::SolidPattern p_mat{Color(0.1, 1, 0.5)};
   middle_mat.SetPattern(p_mat.asPattern());
@@ -59,9 +59,9 @@ int main(int argc, char *argv[])
   right.Mat(right_mat);
 
   Sphere left;
-  left.Transform(ray_lib::Scale(0.33, 0.33, 0.33).Translate(-1.5, 0.33, -0.75));
+  left.Transform(ray_lib::Scale(1.33, 1.33, 1.33).Translate(-3.8, 1.33, 1));
   Material left_mat;
-  ray_lib::SolidPattern p_leftmat{Color(1, 0.8, 0.1)};
+  ray_lib::CheckPattern3d p_leftmat{Color{1, 1, 1}, Color{0, 1, 0}};
   left_mat.SetPattern(p_leftmat.asPattern());
   left_mat.Specular(0.3);
   left_mat.Diffuse(0.7);

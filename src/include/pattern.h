@@ -17,15 +17,13 @@ protected:
   Matrix _transform;
   Matrix _inverse;
 };
-
-class StripePattern : public Pattern
+class MultiColorPattern
 {
-public:
-  Color getColor(const Point &p) const;
-  Color getColor_a() const { return _a; }
-  Color getColor_b() const { return _b; }
-  StripePattern(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity) : Pattern(transform), _a(a), _b(b) {}
-  Color setColor_a(const Color &newcol)
+  public:
+  MultiColorPattern(const Color &a, const Color &b): _a{a}, _b{b}{}
+    Color getColor_a() const { return _a; }
+    Color getColor_b() const { return _b; }
+    Color setColor_a(const Color &newcol)
   {
     _a = newcol;
     return _a;
@@ -36,10 +34,18 @@ public:
     return _b;
   }
 
-private:
-  Color _a;
-  Color _b;
+protected:
+  Color _a = Color::White;
+  Color _b = Color::White;
 };
+
+class StripePattern : public Pattern, MultiColorPattern
+{
+public:
+  Color getColor(const Point &p) const;
+  StripePattern(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity) : Pattern(transform), MultiColorPattern{ a, b} {}
+};
+
 
 class SolidPattern : public Pattern
 {
@@ -68,72 +74,24 @@ public:
 };
 
 
-class GradientPattern : public Pattern{
+class GradientPattern : public Pattern, MultiColorPattern{
 public:
   Color getColor(const Point &p) const;
-  Color getColor_a() const { return _a; }
-  Color getColor_b() const { return _b; }
-  GradientPattern(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity) : Pattern(transform), _a(a), _b(b) {}
-  Color setColor_a(const Color &newcol)
-  {
-    _a = newcol;
-    return _a;
-  }
-  Color setColor_b(const Color &newcol)
-  {
-    _b = newcol;
-    return _b;
-  }
-
-private:
-  Color _a;
-  Color _b;
+  GradientPattern(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity) : Pattern{transform}, MultiColorPattern(a, b) {}
 };
 
 
-class RingPattern : public Pattern{
+class RingPattern : public Pattern, MultiColorPattern{
 public:
   Color getColor(const Point &p) const;
-  Color getColor_a() const { return _a; }
-  Color getColor_b() const { return _b; }
-  RingPattern(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity) : Pattern(transform), _a(a), _b(b) {}
-  Color setColor_a(const Color &newcol)
-  {
-    _a = newcol;
-    return _a;
-  }
-  Color setColor_b(const Color &newcol)
-  {
-    _b = newcol;
-    return _b;
-  }
-
-private:
-  Color _a;
-  Color _b;
+  RingPattern(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity) : Pattern{transform}, MultiColorPattern(a, b) {}
 };
 
 
-class CheckPattern3d : public Pattern{
+class CheckPattern3d : public Pattern, MultiColorPattern{
 public:
   Color getColor(const Point &p) const;
-  Color getColor_a() const { return _a; }
-  Color getColor_b() const { return _b; }
-  CheckPattern3d(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity) : Pattern(transform), _a(a), _b(b) {}
-  Color setColor_a(const Color &newcol)
-  {
-    _a = newcol;
-    return _a;
-  }
-  Color setColor_b(const Color &newcol)
-  {
-    _b = newcol;
-    return _b;
-  }
-
-private:
-  Color _a;
-  Color _b;
+  CheckPattern3d(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity) : Pattern{transform}, MultiColorPattern(a, b) {}
 };
 
 
