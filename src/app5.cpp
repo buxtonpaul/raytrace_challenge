@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
   middle_mat.SetPattern(p_mat.asPattern());
   middle_mat.Specular(0.3);
   middle_mat.Diffuse(0.7);
-  ray_lib::StripePattern candy{Color(0.9, 0, 0), Color(.9, .9, .0), ray_lib::Scale(0.25, 0.25, 0.25)};
+  ray_lib::StripePattern candy{Color(0.9, 0.01, 0.01), Color(.99, .99, .99), ray_lib::Scale(0.25, 0.25, 0.25)};
   middle_mat.SetPattern(candy.asPattern());
   middle.Mat(middle_mat);
 
