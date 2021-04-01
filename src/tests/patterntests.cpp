@@ -9,6 +9,7 @@
 using ray_lib::Point;
 using ray_lib::StripePattern;
 using ray_lib::TestPattern;
+using ray_lib::GradientPattern;
 
 TEST(Pattern, Stripe_ConstantY)
 {
@@ -130,6 +131,12 @@ TEST(Pattern, GenericPattern5)
   EXPECT_EQ(c, Color(0.75, 0.5, 0.25));
 }
 
-// Generic tests for a pattern
 
-// Assign a transform
+TEST(Pattern, Gradientpattern1)
+{
+  GradientPattern p{Color::White, Color::Black};
+  EXPECT_EQ(p.getColor({0, 0, 0}), Color::White);
+  EXPECT_EQ(p.getColor({0.25, 0, 0}), Color(0.75, 0.75, 0.75));
+  EXPECT_EQ(p.getColor({0.5, 0, 0}), Color(0.5, 0.5, 0.5));
+  EXPECT_EQ(p.getColor({0.75, 0, 0}), Color(0.25, 0.25, 0.25));
+}

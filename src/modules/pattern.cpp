@@ -15,6 +15,15 @@ namespace ray_lib
     return (_a);
   }
 
+  Color GradientPattern::getColor(const ray_lib::Point &p) const
+  {
+    Point patPoint{_inverse * p};
+   
+    Color outcl{_a+ (_b-_a)*(patPoint.x()-floor(patPoint.x()))};
+   
+    return outcl;
+  }
+
   SolidPattern SolidWhite(Color::White);
 
 

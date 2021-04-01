@@ -66,7 +66,36 @@ public:
   explicit TestPattern(const Matrix &m) : Pattern(m) {}
   TestPattern() : Pattern(Matrix::Identity) {}
 };
-  extern SolidPattern SolidWhite;
+
+
+class GradientPattern : public Pattern{
+public:
+  Color getColor(const Point &p) const;
+  Color getColor_a() const { return _a; }
+  Color getColor_b() const { return _b; }
+  GradientPattern(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity) : Pattern(transform), _a(a), _b(b) {}
+  Color setColor_a(const Color &newcol)
+  {
+    _a = newcol;
+    return _a;
+  }
+  Color setColor_b(const Color &newcol)
+  {
+    _b = newcol;
+    return _b;
+  }
+
+private:
+  Color _a;
+  Color _b;
+
+};
+
+
+
+
+
+extern SolidPattern SolidWhite;
 
 } // namespace ray_lib
 #endif // _pattern_h_

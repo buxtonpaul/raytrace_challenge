@@ -19,6 +19,7 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 - [ ] Rework using slices....
 - [ ] Canvas as a template
 - [ ] Other file output (PNG/TIFF)?
+- [ ] Improve gradient to transition smoothly after x=1
 - [ ] Refactor tuples/vectors/points. 
 - [x] Refactor shapes to move initialisation to base class
 - [x] Refactor Materials to accept patterns

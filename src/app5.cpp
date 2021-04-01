@@ -45,14 +45,14 @@ int main(int argc, char *argv[])
   middle_mat.SetPattern(p_mat.asPattern());
   middle_mat.Specular(0.3);
   middle_mat.Diffuse(0.7);
-  ray_lib::StripePattern candy{Color(0.7, .5, .7), Color(1, 1, 0), ray_lib::Scale(0.25, 0.25, 0.25)};
+  ray_lib::StripePattern candy{Color(0.9, 0, 0), Color(.9, .9, .0), ray_lib::Scale(0.25, 0.25, 0.25)};
   middle_mat.SetPattern(candy.asPattern());
   middle.Mat(middle_mat);
 
   Sphere right;
   right.Transform(ray_lib::Scale(0.5, 0.5, 0.5).Translate(1.5, 0.5, -0.5));
   Material right_mat;
-  ray_lib::SolidPattern p_rightmat{Color(0.5, 1, 0.1)};
+  ray_lib::GradientPattern p_rightmat{Color(0.5, 1, 0.1), Color(0.2, 0, 0.8)};
   right_mat.SetPattern(p_rightmat.asPattern());
   right_mat.Specular(0.3);
   right_mat.Diffuse(0.7);
