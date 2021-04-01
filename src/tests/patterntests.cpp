@@ -8,6 +8,7 @@
 
 using ray_lib::Point;
 using ray_lib::StripePattern;
+using ray_lib::TestPattern;
 
 TEST(Pattern, Stripe_ConstantY)
 {
@@ -73,7 +74,6 @@ TEST(Pattern, Stripe_PatternTransform)
 
 TEST(Pattern, Stripe_ObjectPatternTransform)
 {
-
   ray_lib::Sphere s1;
   s1.Transform(ray_lib::Scale(2, 2, 2));
 
@@ -82,5 +82,54 @@ TEST(Pattern, Stripe_ObjectPatternTransform)
   Color c{ray_lib::PatternAtObject(p, s1, Point(2.5, 0, 0))};
 
   EXPECT_EQ(c, Color::White);
-
 }
+
+TEST(Pattern, GenericPattern1)
+{
+  TestPattern p{ray_lib::Matrix::Identity};
+
+  EXPECT_EQ(p.getTransform(), ray_lib::Matrix::Identity);
+}
+
+TEST(Pattern, GenericPattern2)
+{
+  TestPattern p{ray_lib::Translation(1, 2, 3)};
+
+  EXPECT_EQ(p.getTransform(), ray_lib::Translation(1, 2, 3));
+}
+
+TEST(Pattern, GenericPattern3)
+{
+  TestPattern p;
+  ray_lib::Sphere s1;
+  s1.Transform(ray_lib::Scale(2, 2, 2));
+
+  Color c{ray_lib::PatternAtObject(p, s1, Point(2, 3, 4))};
+
+  EXPECT_EQ(c, Color(1, 1.5, 2));
+}
+
+TEST(Pattern, GenericPattern4)
+{
+  TestPattern p{ray_lib::Scale(2, 2, 2)};
+  ray_lib::Sphere s1;
+
+  // pattern at object is not applying the object transofm
+  Color c{ray_lib::PatternAtObject(p, s1, Point(2, 3, 4))};
+
+  EXPECT_EQ(c, Color(1, 1.5, 2));
+}
+
+TEST(Pattern, GenericPattern5)
+{
+  TestPattern p{ray_lib::Translation(0.5, 1, 1.5)};
+  ray_lib::Sphere s1{ray_lib::Scale(2, 2, 2)};
+
+  Color c{ray_lib::PatternAtObject(p, s1, Point(2.5, 3, 3.5))};
+
+  EXPECT_EQ(c, Color(0.75, 0.5, 0.25));
+}
+
+// Generic tests for a pattern
+
+// Assign a transform
