@@ -88,10 +88,53 @@ public:
 private:
   Color _a;
   Color _b;
-
 };
 
 
+class RingPattern : public Pattern{
+public:
+  Color getColor(const Point &p) const;
+  Color getColor_a() const { return _a; }
+  Color getColor_b() const { return _b; }
+  RingPattern(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity) : Pattern(transform), _a(a), _b(b) {}
+  Color setColor_a(const Color &newcol)
+  {
+    _a = newcol;
+    return _a;
+  }
+  Color setColor_b(const Color &newcol)
+  {
+    _b = newcol;
+    return _b;
+  }
+
+private:
+  Color _a;
+  Color _b;
+};
+
+
+class CheckPattern3d : public Pattern{
+public:
+  Color getColor(const Point &p) const;
+  Color getColor_a() const { return _a; }
+  Color getColor_b() const { return _b; }
+  CheckPattern3d(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity) : Pattern(transform), _a(a), _b(b) {}
+  Color setColor_a(const Color &newcol)
+  {
+    _a = newcol;
+    return _a;
+  }
+  Color setColor_b(const Color &newcol)
+  {
+    _b = newcol;
+    return _b;
+  }
+
+private:
+  Color _a;
+  Color _b;
+};
 
 
 

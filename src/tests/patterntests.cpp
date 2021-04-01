@@ -10,6 +10,8 @@ using ray_lib::Point;
 using ray_lib::StripePattern;
 using ray_lib::TestPattern;
 using ray_lib::GradientPattern;
+using ray_lib::RingPattern;
+using ray_lib::CheckPattern3d;
 
 TEST(Pattern, Stripe_ConstantY)
 {
@@ -139,4 +141,39 @@ TEST(Pattern, Gradientpattern1)
   EXPECT_EQ(p.getColor({0.25, 0, 0}), Color(0.75, 0.75, 0.75));
   EXPECT_EQ(p.getColor({0.5, 0, 0}), Color(0.5, 0.5, 0.5));
   EXPECT_EQ(p.getColor({0.75, 0, 0}), Color(0.25, 0.25, 0.25));
+}
+
+TEST(Pattern, Ringpattern1)
+{
+  RingPattern p{Color::White, Color::Black};
+  EXPECT_EQ(p.getColor({0, 0, 0}), Color::White);
+  EXPECT_EQ(p.getColor({1, 0, 0}), Color::Black);
+  EXPECT_EQ(p.getColor({0, 0, 1}), Color::Black);
+  EXPECT_EQ(p.getColor({0.708, 0, 0.708}), Color::Black);
+}
+
+
+
+TEST(Pattern, CheckPatternRepeatX)
+{
+  CheckPattern3d p{Color::White, Color::Black};
+  EXPECT_EQ(p.getColor({0, 0, 0}), Color::White);
+  EXPECT_EQ(p.getColor({0.99, 0, 0}), Color::White);
+  EXPECT_EQ(p.getColor({1.01, 0, 0}), Color::Black);
+}
+
+TEST(Pattern, CheckPatternRepeatY)
+{
+  CheckPattern3d p{Color::White, Color::Black};
+  EXPECT_EQ(p.getColor({0, 0, 0}), Color::White);
+  EXPECT_EQ(p.getColor({0, 0.99, 0}), Color::White);
+  EXPECT_EQ(p.getColor({0, 1.01, 0}), Color::Black);
+}
+
+TEST(Pattern, CheckPatternRepeatZ)
+{
+  CheckPattern3d p{Color::White, Color::Black};
+  EXPECT_EQ(p.getColor({0, 0, 0}), Color::White);
+  EXPECT_EQ(p.getColor({0, 0, 0.99}), Color::White);
+  EXPECT_EQ(p.getColor({0, 0, 1.01}), Color::Black);
 }
