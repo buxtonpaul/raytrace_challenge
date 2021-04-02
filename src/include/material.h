@@ -99,6 +99,7 @@ public:
   }
 };
 
+extern Material glass;
 } // namespace ray_lib
 
 #endif

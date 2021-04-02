@@ -23,4 +23,12 @@ namespace ray_lib
                                         .transparency = 0,
                                         .index = 1};
 
+ray_lib::Material glass{default_matparams.ambient,
+                                         default_matparams.diffuse,
+                                         default_matparams.specular,
+                                         default_matparams.shiny,
+                                         default_matparams.reflect,
+                                         1,
+                                         1.5, ray_lib::SolidWhite.asPattern()};
+
 } // namespace ray_lib

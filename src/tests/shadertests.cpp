@@ -156,6 +156,16 @@ TEST(Material, DefaultReflectivity)
 TEST(Material, DefaultRefreactive)
 {
   Material m;
-  EXPECT_EQ(m.RefractiveIndex(),1.0);
-  EXPECT_EQ(m.Transparency(),0);
+  EXPECT_EQ(m.RefractiveIndex(), 1.0);
+  EXPECT_EQ(m.Transparency(), 0);
+}
+
+TEST(Material, BasicGlassTest)
+{
+  Sphere sp;
+  Material m = ray_lib::glass;
+  sp.Mat(m);
+  EXPECT_EQ(m.RefractiveIndex(), 1.5);
+  EXPECT_EQ(m.Transparency(), 1);
+  EXPECT_EQ(sp.Transform(), ray_lib::Matrix::Identity);
 }
