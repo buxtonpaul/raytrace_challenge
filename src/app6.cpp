@@ -20,7 +20,7 @@ using ray_lib::Point;
 using ray_lib::Sphere;
 using ray_lib::Vector;
 using ray_lib::World;
-
+using ray_lib::default_matparams;
 int main(int argc, char *argv[])
 {
   Camera c(640, 480, M_PI / 2);
@@ -29,28 +29,64 @@ int main(int argc, char *argv[])
 
   World w;
 
-  Plane floor;
-  Material m_floor;
-  ray_lib::CheckPattern3d p_floor{Color(0.9, 0.9, 0.9), Color(0.1, 0.1, 0.1)};
 
-  m_floor.Specular(0);
-  m_floor.Reflectivity(0.5);
-  m_floor.Ambient(0.1);
-  m_floor.Diffuse(0.25);
-  m_floor.SetPattern(p_floor.asPattern());
-  floor.Mat(m_floor);
+  ray_lib::CheckPattern3d pat_floor{Color(0.9, 0.9, 0.9), Color(0.1, 0.1, 0.1), ray_lib::Scale(0.25, 0.25, 0.25)};
+  Material mat_floor{default_matparams.ambient,
+                     default_matparams.diffuse,
+                     0,
+                     default_matparams.shiny,
+                     0.3,
+                     default_matparams.transparency,
+                     default_matparams.index,
+
+                     pat_floor.asPattern()};
+
+  mat_floor.Specular(0);
+
+  ray_lib::SolidPattern wall_pattern{Color{0.9, 0.9, 0.9}};
+  Material m_walls{default_matparams.ambient,
+                   default_matparams.diffuse,
+                   default_matparams.specular,
+                   default_matparams.shiny,
+                   default_matparams.reflect,
+                   default_matparams.transparency,
+                   default_matparams.index,
+                   wall_pattern.asPattern()};
+
+  Sphere floor{ray_lib::Scale(10, 0.01, 10)};
+  floor.Mat(mat_floor);
+
   w.WorldShapes().push_back(&floor);
 
-  Sphere middle;
-  middle.Transform(ray_lib::Scale(.75, 1, 0.75) * ray_lib::Translation(-0.75, 1, 0.5) * ray_lib::Rotation_y(1.0) * ray_lib::Rotation_z(1.0));
+  Sphere left_wall{ray_lib::Scale(10, 0.01, 10)
+                       .Rotate_x(M_PI / 2.0)
+                       .Rotate_y(-M_PI / 4.0)
+                       .Translate(0, 0, 5)};
+  left_wall.Mat(m_walls);
+  w.WorldShapes().push_back(&left_wall);
+
+  Sphere right_wall{ray_lib::Scale(10, 0.01, 10)
+                        .Rotate_x(M_PI / 2.0)
+                        .Rotate_y(M_PI / 4.0)
+                        .Translate(0, 0, 5)};
+  right_wall.Mat(m_walls);
+  w.WorldShapes().push_back(&right_wall);
+
+  ray_lib::StripePattern candy{Color(0.9, 0.01, 0.01), Color(.99, .99, .99), ray_lib::Scale(0.25, 0.25, 0.25)};
+
   Material middle_mat;
   ray_lib::SolidPattern p_mat{Color(0.1, 1, 0.5)};
   middle_mat.SetPattern(p_mat.asPattern());
   middle_mat.Specular(0.3);
   middle_mat.Diffuse(0.7);
   middle_mat.Reflectivity(0.25);
-  ray_lib::StripePattern candy{Color(0.9, 0.01, 0.01), Color(.99, .99, .99), ray_lib::Scale(0.25, 0.25, 0.25)};
+
   middle_mat.SetPattern(candy.asPattern());
+
+  Sphere middle{ray_lib::Scale(.75, 1, 0.75) *
+                ray_lib::Translation(-0.75, 1, 0.5) *
+                ray_lib::Rotation_y(1.0) *
+                ray_lib::Rotation_z(1.0)};
   middle.Mat(middle_mat);
 
   Sphere right;
