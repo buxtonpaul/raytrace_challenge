@@ -54,12 +54,29 @@ namespace ray_lib
     _overPoint = _position + _normal * (1.0 * __FLT_EPSILON__);
     _underPoint = _position - _normal * (1.0 * __FLT_EPSILON__);
 
-
   }
   void IntersectionState::computeRefractionparams(const Intersection &i) {
     std::vector<Intersection> tmp{i};
     computeRefractionparams(i, tmp);
   }
+
+  double IntersectionState::schlick() const{
+    double cos { _eye.dotproduct(_normal)};
+
+    if (_n1 > _n2)
+    {
+      double n  {_n1/_n2};
+      double sin2_t {n*n * (1 - cos * cos)};
+      if (sin2_t > 1.0)
+        return 1.0;
+      double cos_t {sqrt(1-sin2_t)};
+      cos = cos_t;
+    }
+    double rx { (_n1-_n2) / (_n1+_n2)};
+    double r0 {rx*rx };
+    return r0 + (1.0 - r0) * pow(1.0-cos, 5);
+  }
+
   void IntersectionState::computeRefractionparams(const Intersection &i, const std::vector<Intersection> &intersections)
   {
     std::vector<const Shape *> containers;

@@ -78,6 +78,7 @@ class IntersectionState {
   const double n1()const {return _n1;}
   const double n2()const {return _n2;}
   const Point &Under()const {return _underPoint;}
+  double schlick()const;
   // Constructor with all params
   IntersectionState(const Point &p, const Vector &eyev, const Vector &Normal,
                     double t, Shape *object)

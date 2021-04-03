@@ -44,6 +44,12 @@ namespace ray_lib
 
     Color Reflected_color{reflection_hit(precomps, depth)};
     Color Refracted_color{refracted_color(precomps, depth)};
+    if (precomps.Object()->Mat().Reflectivity()> 0 && precomps.Object()->Mat().Transparency()>0)
+    {
+      double reflectance = precomps.schlick();
+      return Surface_color + Reflected_color *reflectance + Refracted_color * (1-reflectance);
+    }
+
     return Surface_color + Reflected_color + Refracted_color;
   }
 
@@ -92,6 +98,7 @@ namespace ray_lib
     return shade_hit(i, depth);
   }
 
+ 
   bool World::isShadowed(const Point &p) const
   {
     Vector v{_lights[0]->Position() - p};
