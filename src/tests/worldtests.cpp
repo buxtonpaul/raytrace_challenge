@@ -21,9 +21,6 @@ using ray_lib::Ray;
 using ray_lib::Vector;
 using ray_lib::World;
 
-
-
-
 class EmptyWorldTest : public ::testing::Test
 {
 protected:
@@ -234,21 +231,19 @@ TEST(World, Shadow_RayAtHitOffset)
   EXPECT_EQ(true, i.Position().z() > i.OverPoint().z());
 }
 
-
-
 TEST_F(DefaultWorldTest, PrecomputeReflectionVector)
 {
-  Ray r{Point(0, 1, -1), Vector(0, -sqrt(2.0)/2.0 , sqrt(2.0)/2.0)};
+  Ray r{Point(0, 1, -1), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0)};
   ray_lib::Plane p;
   ray_lib::Intersection xs(&p, sqrt(2.0));
 
   ray_lib::IntersectionState i{xs, r};
-  EXPECT_EQ(i.ReflectV(), Vector(0.0, sqrt(2.0)/2.0, sqrt(2.0)/2.0));
+  EXPECT_EQ(i.ReflectV(), Vector(0.0, sqrt(2.0) / 2.0, sqrt(2.0) / 2.0));
 }
 
 TEST_F(DefaultWorldTest, NonReflective)
 {
-  Ray r{Point(0, 0, 0), Vector(0, 0 , -1)};
+  Ray r{Point(0, 0, 0), Vector(0, 0, -1)};
   ray_lib::Shape *inner{w.WorldShapes()[0]};
   ray_lib::Shape *outer{w.WorldShapes()[1]};
 
@@ -268,7 +263,7 @@ TEST_F(DefaultWorldTest, ReflectiveTest)
   p.Mat(plane_pat);
   w.WorldShapes().push_back(&p);
 
-  Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0)/2.0, sqrt(2.0)/2.0)};
+  Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0)};
 
   ray_lib::Intersection xs{&p, sqrt(2)};
   ray_lib::IntersectionState i{xs, r};
@@ -283,7 +278,7 @@ TEST_F(DefaultWorldTest, ReflectiveTest2)
   p.Mat(plane_pat);
   w.WorldShapes().push_back(&p);
 
-  Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0)/2.0, sqrt(2.0)/2.0)};
+  Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0)};
 
   ray_lib::Intersection xs{&p, sqrt(2)};
   ray_lib::IntersectionState i{xs, r};
@@ -298,9 +293,152 @@ TEST_F(DefaultWorldTest, ReflectiveRecursion)
   p.Mat(plane_pat);
   w.WorldShapes().push_back(&p);
 
-  Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0)/2.0, sqrt(2.0)/2.0)};
+  Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0)};
 
   ray_lib::Intersection xs{&p, sqrt(2)};
   ray_lib::IntersectionState i{xs, r};
   EXPECT_EQ(w.reflection_hit(i, 0), Color(0.0, 0.0, 0.0));
+}
+
+TEST(Refractions, RefractionIntersections)
+{
+  ray_lib::Sphere A{ray_lib::Scale(2, 2, 2)};
+  ray_lib::Material mA{ray_lib::glass};
+  mA.RefractiveIndex(1.5);
+  A.Mat(mA);
+
+  ray_lib::Sphere B{ray_lib::Scale(0, 0, -0.25)};
+  ray_lib::Material mB{ray_lib::glass};
+  mB.RefractiveIndex(2.0);
+  B.Mat(mB);
+
+  ray_lib::Sphere C{ray_lib::Scale(0, 0, 0.25)};
+  ray_lib::Material mC{ray_lib::glass};
+  mC.RefractiveIndex(2.5);
+  C.Mat(mC);
+
+  ray_lib::Ray r{Point(0, 0, -4), Vector(0, 0, 1)};
+  std::vector<ray_lib::Intersection> intersections{{&A, 2.0}, {&B, 2.75}, {&C, 3.25}, {&B, 4.75}, {&C, 5.25}, {&A, 6}};
+
+  std::vector<ray_lib::IntersectionState> precomps;
+  for (auto a : intersections)
+  {
+    precomps.push_back(ray_lib::IntersectionState{a, r, intersections});
+  }
+
+  double n1s[] = {1.0, 1.5, 2.0, 2.5, 2.5, 1.5};
+  double n2s[] = {1.5, 2.0, 2.5, 2.5, 1.5, 1.0};
+
+  for (int i = 0; i < 6; ++i)
+  {
+    EXPECT_EQ(precomps[i].n1(), n1s[i]);
+    EXPECT_EQ(precomps[i].n2(), n2s[i]);
+  }
+}
+
+
+TEST(Refractions, UnderPoint)
+{
+  ray_lib::Sphere A{ray_lib::Translation(0, 0, 1)};
+  ray_lib::Material mA{ray_lib::glass};
+  A.Mat(mA);
+
+  ray_lib::Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
+  ray_lib::Intersection intersection{&A, 5.0};
+  ray_lib::IntersectionState xs {intersection, r};
+
+  EXPECT_GT(xs.Under().z(), DBL_EPSILON/2);
+  EXPECT_LT(xs.Position().z(), xs.Under().z());
+}
+
+TEST_F(DefaultWorldTest, RefractedColorOpaque)
+{
+  ray_lib::Shape *shape{w.WorldShapes()[0]};
+  ray_lib::Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
+
+
+  ray_lib::Intersection intersection{shape, 5.0};
+  ray_lib::IntersectionState xs {intersection, r};
+
+  w.refracted_color(xs, 5);
+
+  EXPECT_EQ(w.refracted_color(xs, 5), Color::Black);
+}
+
+TEST_F(DefaultWorldTest, RefractedColorAtDepth)
+{
+  ray_lib::Shape *shape{w.WorldShapes()[0]};
+  ray_lib::Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
+  ray_lib::Material mA{ray_lib::glass};
+  mA.Transparency(1.0);
+  mA.RefractiveIndex(1.5);
+  shape->Mat(mA);
+
+  std::vector<ray_lib::Intersection> intersections{{shape, 4}, {shape, 6}};
+  ray_lib::IntersectionState xs{intersections[0], r, intersections};
+  EXPECT_EQ(w.refracted_color(xs, 0), Color::Black);
+}
+
+
+TEST_F(DefaultWorldTest, TotalInternalRefraction)
+{
+  ray_lib::Shape *shape{w.WorldShapes()[0]};
+  ray_lib::Ray r{Point(0, 0, sqrt(2.0)/2.0), Vector(0, 1, 0)};
+  ray_lib::Material mA{ray_lib::glass};
+  mA.Transparency(1.0);
+  mA.RefractiveIndex(1.5);
+  shape->Mat(mA);
+
+  std::vector<ray_lib::Intersection> intersections{{shape, -(sqrt(2.0)/2.0)}, {shape, sqrt(2.0)/2.0}};
+  ray_lib::IntersectionState xs{intersections[1], r, intersections};
+  EXPECT_EQ(w.refracted_color(xs, 5), Color::Black);
+}
+
+TEST_F(DefaultWorldTest, RefractedColor)
+{
+  ray_lib::Shape *a{w.WorldShapes()[0]};
+  ray_lib::Material mA;
+  mA.Ambient(1);
+  ray_lib::TestPattern pA{ray_lib::Matrix::Identity};
+  mA.SetPattern(&pA);
+  a->Mat(mA);
+
+  ray_lib::Shape *b{w.WorldShapes()[1]};
+  ray_lib::Material mB;
+  mB.Transparency(1.0);
+  mB.RefractiveIndex(1.5);
+  mB.Ambient(1);
+  b->Mat(mB);
+
+  ray_lib::Ray r{Point(0, 0, 0.1), Vector(0, 1, 0)};
+  std::vector<ray_lib::Intersection> intersections{{a, -0.9899}, {b, -0.4899}, {b, 0.4899}, {a, 0.9899}};
+  ray_lib::IntersectionState xs{intersections[2], r, intersections};
+  EXPECT_EQ(w.refracted_color(xs, 5), Color(0, 0.99888, 0.04725));
+}
+
+
+TEST_F(DefaultWorldTest, ShadeHitTransparent)
+{
+  ray_lib::Material mFloor;
+  mFloor.Transparency(0.5);
+  mFloor.RefractiveIndex(1.5);
+  ray_lib::Plane floor{ray_lib::Translation(0, -1, 0)};
+  floor.Mat(mFloor);
+
+  w.WorldShapes().push_back(&floor);
+
+  ray_lib::Sphere ball{ray_lib::Translation(0, -3.5, -0.5)};
+  ray_lib::Material mBall;
+  ray_lib::SolidPattern pBall{Color(1, 0 , 0)};
+  mBall.Ambient(0.5);
+  mBall.SetPattern(&pBall);
+  w.WorldShapes().push_back(&ball);
+  ball.Mat(mBall);
+
+  ray_lib::Ray r{Point(0, 0, -3), Vector(0, -(sqrt(2.0)/2.0), sqrt(2.0)/2.0)};
+
+  ray_lib::Intersection intersection{&floor, sqrt(2.0)};
+  ray_lib::IntersectionState xs{intersection, r};
+
+  EXPECT_EQ(w.shade_hit(xs, 5), Color(0.93642, 0.68642, 0.68642));
 }

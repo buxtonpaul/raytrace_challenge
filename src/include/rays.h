@@ -58,10 +58,13 @@ class IntersectionState {
   const Shape *_object;
   Point _position;
   Vector _eye;
-  Vector _normal {Vector(0, 0, 0)};
+  Vector _normal {0, 0, 0};
   bool _inside;
-  Point _overPoint {Point(0, 0, 0)};
-  Vector _reflect{Vector(0, 0, 0)};
+  Point _overPoint {0, 0, 0};
+  Vector _reflect{0, 0, 0};
+  double _n1 {0.0};
+  double _n2 {0.0};
+  Point _underPoint{0, 0, 0};
 
  public:
   const Shape *Object() const { return _object; }
@@ -72,11 +75,14 @@ class IntersectionState {
   const bool Inside() const { return _inside; }
   const Vector &ReflectV() const { return _reflect; }
   const Point &OverPoint() const { return _overPoint; }
+  const double n1()const {return _n1;}
+  const double n2()const {return _n2;}
+  const Point &Under()const {return _underPoint;}
   // Constructor with all params
   IntersectionState(const Point &p, const Vector &eyev, const Vector &Normal,
                     double t, Shape *object)
       : _position(p), _eye(eyev), _normal(Normal), _t(t), _object(object) {
-    initComputed();
+     computeSurfaceParams();
   }
   // constructor that will derive the normal from the shape, less
   // efficient if the normal has already been calculated elsewhere.
@@ -88,20 +94,30 @@ class IntersectionState {
         _position(r.Position(_t)),
         _normal(_object->Normal(_position)),
         _reflect(r.Direction().reflect(_normal)) {
-    initComputed();
+    computeSurfaceParams();
+    computeRefractionparams(i);
   }
 
- private:
-  void initComputed() {
-    if (_normal.dotproduct(_eye) < 0.0) {
-      _inside = true;
-      _normal = -_normal;
-    } else {
-      _inside = false;
-    }
-    _overPoint = _position + _normal * (1.0 * __FLT_EPSILON__);
+
+  IntersectionState(const Intersection &i, const Ray &r, const std::vector<Intersection> &intersections )
+      : _t(i.t()),
+        _object(i.GetShape()),
+        _eye(-r.Direction()),
+        _position(r.Position(_t)),
+        _normal(_object->Normal(_position)),
+        _reflect(r.Direction().reflect(_normal)) {
+    computeSurfaceParams();
+    computeRefractionparams(i, intersections);
   }
+
+
+ private:
+  void computeSurfaceParams();
+  void computeRefractionparams(const Intersection &i);
+  void computeRefractionparams(const Intersection &i, const std::vector<Intersection> &intersections);
   // To get the normal we would call the shape with the position
+
+  // now has to compute n1,n2
 };
 
 }  // namespace ray_lib

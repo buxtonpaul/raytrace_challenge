@@ -43,16 +43,38 @@ namespace ray_lib
                              precomps.Normal(), *precomps.Object(), isShadowed(precomps.OverPoint()))};
 
     Color Reflected_color{reflection_hit(precomps, depth)};
-    return Surface_color + Reflected_color;
+    Color Refracted_color{refracted_color(precomps, depth)};
+    return Surface_color + Reflected_color + Refracted_color;
   }
 
+  Color World::refracted_color(const IntersectionState &precomps, int depth) const
+  {
+    if (precomps.Object()->Mat().Transparency() == 0.0)
+      return Color::Black;
+    if (depth <= 0)
+      return Color::Black;
+
+    // compute if we are in total internal reflection
+    double n_ratio = precomps.n1() / precomps.n2();
+    double cos_i = precomps.Eye().dotproduct(precomps.Normal());
+    double sin_2t = (n_ratio *n_ratio) * (1- (cos_i*cos_i));
+    if (sin_2t > 1)
+      return Color::Black;
+
+    double cos_t = sqrt(1.0 - sin_2t);
+    Vector sv{ precomps.Normal() * (n_ratio*cos_i-cos_t) - precomps.Eye() *n_ratio };
+
+    Ray refracted{precomps.Under(), sv};
+
+    return color_at(refracted, depth-1) * precomps.Object()->Mat().Transparency();
+  }
 
   Color World::reflection_hit(const IntersectionState &precomps, int depth) const
   {
     if (precomps.Object()->Mat().Reflectivity() == 0.0)
-      return Color(0, 0, 0);
+      return Color::Black;
     if (depth <= 0)
-      return Color(0, 0, 0);
+      return Color::Black;
     ray_lib::Ray reflected{precomps.OverPoint(), precomps.ReflectV()};
     return color_at(reflected, depth-1) * precomps.Object()->Mat().Reflectivity();
   }

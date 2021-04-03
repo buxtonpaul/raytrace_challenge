@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
   World w;
 
 
-  ray_lib::CheckPattern3d pat_floor{Color(0.9, 0.9, 0.9), Color(0.1, 0.1, 0.1), ray_lib::Scale(0.25, 0.25, 0.25)};
+  ray_lib::CheckPattern3d pat_floor{Color(0.9, 0.9, 0.9), Color(0.1, 0.1, 0.1), ray_lib::Scale(2.5, 2.5, 2.5)};
   Material mat_floor{default_matparams.ambient,
                      default_matparams.diffuse,
                      0,
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
                    default_matparams.index,
                    wall_pattern.asPattern()};
 
-  Sphere floor{ray_lib::Scale(10, 0.01, 10)};
+  Plane floor{};
   floor.Mat(mat_floor);
 
   w.WorldShapes().push_back(&floor);
@@ -63,23 +63,25 @@ int main(int argc, char *argv[])
                        .Rotate_y(-M_PI / 4.0)
                        .Translate(0, 0, 5)};
   left_wall.Mat(m_walls);
-  w.WorldShapes().push_back(&left_wall);
+ // w.WorldShapes().push_back(&left_wall);
 
   Sphere right_wall{ray_lib::Scale(10, 0.01, 10)
                         .Rotate_x(M_PI / 2.0)
                         .Rotate_y(M_PI / 4.0)
                         .Translate(0, 0, 5)};
   right_wall.Mat(m_walls);
-  w.WorldShapes().push_back(&right_wall);
+  //w.WorldShapes().push_back(&right_wall);
 
-  ray_lib::StripePattern candy{Color(0.9, 0.01, 0.01), Color(.99, .99, .99), ray_lib::Scale(0.25, 0.25, 0.25)};
+  ray_lib::StripePattern candy{Color(0.1, 0.01, 0.01), Color(.3, .3, .3), ray_lib::Scale(0.25, 0.25, 0.25)};
 
   Material middle_mat;
-  ray_lib::SolidPattern p_mat{Color(0.1, 1, 0.5)};
-  middle_mat.SetPattern(p_mat.asPattern());
+  // ray_lib::SolidPattern p_mat{Color(0.1, 0, 0)};
+  // middle_mat.SetPattern(p_mat.asPattern());
   middle_mat.Specular(0.3);
   middle_mat.Diffuse(0.7);
   middle_mat.Reflectivity(0.25);
+  middle_mat.Transparency(0.9);
+  middle_mat.RefractiveIndex(1.5);
 
   middle_mat.SetPattern(candy.asPattern());
 
