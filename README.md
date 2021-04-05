@@ -9,7 +9,6 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 # Todo 
 - [ ] Provide additional constructros for shape to take material
 - [ ] Improve float_equals to handle zero
-- [ ] Implement pre_inverse of objects transformations
 - [ ] Rewrite gethit using lower_bound
 - [ ] Refactor color to be simple struct
 - [ ] Add doxygen comments
@@ -22,6 +21,7 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 - [ ] Improve gradient to transition smoothly after x=1
 - [ ] Refactor tuples/vectors/points. 
 - [ ] Nested patterns?
+- [x] Implement pre_inverse of objects transformations
 - [x] Refactor shapes to move initialisation to base class
 - [x] Refactor Materials to accept patterns
 - [x] Parallel For
@@ -55,9 +55,6 @@ make
 ```
 # Implementation notes.
 
-Build instructions
-mkdir build
-cd buil
 
 Currently the lighting calculation is a stand alone function in the light module.
 Perhaps will need to be turned into class or similar?
@@ -70,16 +67,12 @@ Perhaps will need to be turned into class or similar?
 
 ----
 ## Performance (rendering latest image)
-### Single threaded
-```
-real    1m5.921s
-user    1m5.688s
-sys     0m0.000s
-```
 
+Implementing caching of inverse provided ~*6 performance improvement
 ### Multi Threaded (using OpenMP parallel for)
 ```
-real    0m19.478s
-user    2m28.016s
-sys     0m0.000s
+
+real    0m3.900s
+user    0m30.559s
+sys     0m0.020s
 ```

@@ -7,8 +7,7 @@
 #include "sphere.h"
 #include "tuples.h"
 
-using ray_lib::Point;
-using ray_lib::Vector;
+using namespace ray_lib;
 
 int main(int argc, char *argv[])
 {
@@ -20,13 +19,13 @@ int main(int argc, char *argv[])
   double xpos{-3.5};
   double ypos{-3.5};
   double step_size{7.0 / c.height()};
-  ray_lib::Sphere s;
+  Sphere s;
   for (unsigned int i = 0; i < c.height(); ++i)
   {
     for (unsigned int j = 0; j < c.height(); ++j)
     {
-      ray_lib::Ray r(Point(0, 0, -5), ray_lib::Vector(xpos, ypos, 10));
-      std::vector<ray_lib::Intersection> xs{s.intersects(r)};
+      Ray r(Point(0, 0, -5), Vector(xpos, ypos, 10));
+      std::vector<Intersection> xs{s.intersects(r)};
       if (xs.size() > 0)
       { // we have hit the sphere
         c.Pixel(j, c.height() - i, Color(1, 0, 0));

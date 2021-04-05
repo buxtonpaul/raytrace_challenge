@@ -10,12 +10,11 @@ class Pattern
 public:
   virtual Color getColor(const Point &p) const = 0;
   Pattern *asPattern() { return reinterpret_cast<Pattern *>(this); }
-  explicit Pattern(const Matrix &transform = Matrix::Identity) : _transform(transform), _inverse(transform.inverse()) {}
+  explicit Pattern(const Matrix &transform = Matrix::Identity) : _transform(transform) {}
   Matrix getTransform() const { return _transform; }
 
 protected:
   Matrix _transform;
-  Matrix _inverse;
 };
 class MultiColorPattern
 {
@@ -66,7 +65,7 @@ class TestPattern : public Pattern
 public:
   Color getColor(const Point &p) const
   {
-    Point patPoint{_inverse * p};
+    Point patPoint{_transform.inverse() * p};
     return Color(patPoint.x(), patPoint.y(), patPoint.z());
   }
   explicit TestPattern(const Matrix &m) : Pattern(m) {}

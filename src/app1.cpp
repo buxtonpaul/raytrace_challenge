@@ -4,46 +4,47 @@
 #include "color.h"
 #include "tuples.h"
 
+using namespace ray_lib;
 class Environment
 {
-  ray_lib::Vector _gravity;
-  ray_lib::Vector _wind;
+  Vector _gravity;
+  Vector _wind;
 
 public:
-  Environment(const ray_lib::Vector &gravity, const ray_lib::Vector &wind)
+  Environment(const Vector &gravity, const Vector &wind)
       : _gravity(gravity), _wind(wind) {}
-  ray_lib::Vector wind() { return _wind; }
-  ray_lib::Vector gravity() { return _gravity; }
+  Vector wind() { return _wind; }
+  Vector gravity() { return _gravity; }
 };
 
 class Projectile
 {
 private:
-  ray_lib::Point _position;
-  ray_lib::Vector _velocity;
+  Point _position;
+  Vector _velocity;
 
 public:
   // Projectile(const Projectile & lhs): _position(lhs._position),
   // _velocity(lhs._velocity){}
-  Projectile(const ray_lib::Point &pos, const ray_lib::Vector &vel)
+  Projectile(const Point &pos, const Vector &vel)
       : _position(pos), _velocity(vel) {}
-  ray_lib::Point Position() const { return _position; }
-  ray_lib::Vector Velocity() const { return _velocity; }
+  Point Position() const { return _position; }
+  Vector Velocity() const { return _velocity; }
 };
 
 Projectile tick(Environment envinroment, Projectile proj)
 {
-  ray_lib::Point pos = proj.Position() + proj.Velocity();
-  ray_lib::Vector velocity{
+  Point pos = proj.Position() + proj.Velocity();
+  Vector velocity{
       proj.Velocity() + envinroment.gravity() + envinroment.wind()};
   return Projectile(pos, velocity);
 }
 
 int main(int argc, char *argv[])
 {
-  Projectile p{ray_lib::Point(0, 1, 0),
-               ray_lib::Vector(1, 1.8, 0).normalise() * 11.25};
-  Environment e{ray_lib::Vector(0, -0.1, 0), ray_lib::Vector(-0.01, 0, 0)};
+  Projectile p{Point(0, 1, 0),
+               Vector(1, 1.8, 0).normalise() * 11.25};
+  Environment e{Vector(0, -0.1, 0), Vector(-0.01, 0, 0)};
 
   Canvas c{900, 550};
   do

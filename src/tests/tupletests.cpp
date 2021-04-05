@@ -2,9 +2,7 @@
 #include "gtest/gtest.h"
 #include "tuples.h"
 
-using ray_lib::Point;
-using ray_lib::Tuple;
-using ray_lib::Vector;
+using namespace ray_lib;
 
 TEST(Tuples, accessor)
 {

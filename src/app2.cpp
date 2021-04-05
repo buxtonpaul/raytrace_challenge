@@ -5,17 +5,18 @@
 #include "matrix.h"
 #include "tuples.h"
 
+using namespace ray_lib;
 int main(int argc, char *argv[])
 {
   Canvas c{100, 100};
   // we will have the location transformations and the display ones
 
-  ray_lib::Point Twelve{
-      ray_lib::Matrix::Identity.Translate(0, 1, 0) * ray_lib::Point(0, 0, 0)};
+  Point Twelve{
+      Matrix::Identity.Translate(0, 1, 0) * Point(0, 0, 0)};
 
   for (unsigned int hour = 0; hour < 12; ++hour)
   {
-    ray_lib::Point location{ray_lib::Matrix::Identity.Rotate_z(hour * M_PI / 6.0)
+    Point location{Matrix::Identity.Rotate_z(hour * M_PI / 6.0)
                                 .Scale(40, 40, 40)
                                 .Translate(50, 50, 0) *
                             Twelve};

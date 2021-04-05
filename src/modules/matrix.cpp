@@ -90,18 +90,26 @@ namespace ray_lib
 
   Matrix Matrix::inverse() const
   {
-    // for each elment row,colum
-    // == cofactor (column,row)/determinant
-    vector<vector<double>> res{_columns, vector<double>(_rows)};
-    double d{determinant()};
-    for (unsigned int i = 0; i < _rows; ++i)
+
+    if (_calcInverse)
     {
-      for (unsigned int j = 0; j < _columns; ++j)
+      // for each elment row,colum
+      // == cofactor (column,row)/determinant
+      if (!_inverse)
+        _inverse = new Matrix{Identity};
+
+      double d{determinant()};
+      for (unsigned int i = 0; i < _rows; ++i)
       {
-        res[i][j] = cofactor(j, i) / d;
+        for (unsigned int j = 0; j < _columns; ++j)
+        {
+          _inverse->_data[i][j] = cofactor(j, i) / d;
+        }
       }
+      
+      _calcInverse = false;
     }
-    return Matrix(res);
+    return *_inverse;
   }
 
   // translations , perhaps move into another function
@@ -152,13 +160,13 @@ namespace ray_lib
   }
 
   // translations , perhaps move into another function
-  Matrix Translation(const double x,const double y,const double z)
+  Matrix Translation(const double x, const double y, const double z)
   {
     return Matrix({{1, 0, 0, x}, {0, 1, 0, y}, {0, 0, 1, z}, {0, 0, 0, 1}});
   }
 
   // translations , perhaps move into another function
-  Matrix Scale(const double x,const  double y,const  double z)
+  Matrix Scale(const double x, const double y, const double z)
   {
     return Matrix({{x, 0, 0, 0}, {0, y, 0, 0}, {0, 0, z, 0}, {0, 0, 0, 1}});
   }
@@ -185,7 +193,7 @@ namespace ray_lib
                    {0, 0, 0, 1}});
   }
 
-  Matrix Shear(const double xy,const double xz,const double yx,const double yz,const double zx,const double zy)
+  Matrix Shear(const double xy, const double xz, const double yx, const double yz, const double zx, const double zy)
   {
     return Matrix({{1, xy, xz, 0}, {yx, 1, yz, 0}, {zx, zy, 1, 0}, {0, 0, 0, 1}});
   }

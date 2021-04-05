@@ -9,12 +9,8 @@
 #include "world.h"
 #include "pattern.h"
 
-using ray_lib::Camera;
-using ray_lib::Matrix;
-using ray_lib::Point;
-using ray_lib::Ray;
-using ray_lib::Sphere;
-using ray_lib::Vector;
+
+using namespace ray_lib;
 
 TEST(Camera, Camera_Initialise_test) { EXPECT_EQ(1, 1); }
 
@@ -23,8 +19,8 @@ TEST(Camera, Camera_Initialise_Zpos)
   Point from{0, 0, 0};
   Point to{0, 0, 1};
   Vector up{0, 1, 0};
-  Matrix t{ray_lib::view_transform(from, to, up)};
-  EXPECT_EQ(t, ray_lib::Scale(-1, 1, -1));
+  Matrix t{view_transform(from, to, up)};
+  EXPECT_EQ(t, Scale(-1, 1, -1));
 }
 
 TEST(Camera, Camera_Initialise_Zneg)
@@ -32,9 +28,9 @@ TEST(Camera, Camera_Initialise_Zneg)
   Point from{0, 0, 8};
   Point to{0, 0, 0};
   Vector up{0, 1, 0};
-  Matrix t{ray_lib::view_transform(from, to, up)};
+  Matrix t{view_transform(from, to, up)};
 
-  EXPECT_EQ(t, ray_lib::Translation(0, 0, -8));
+  EXPECT_EQ(t, Translation(0, 0, -8));
 }
 
 TEST(Camera, Camera_Initialise_arbitrary)
@@ -42,7 +38,7 @@ TEST(Camera, Camera_Initialise_arbitrary)
   Point from{1, 3, 2};
   Point to{4, -2, 8};
   Vector up{1, 1, 0};
-  Matrix t{ray_lib::view_transform(from, to, up)};
+  Matrix t{view_transform(from, to, up)};
   Matrix m{{{-0.50709, 0.50709, 0.67612, -2.36643},
             {0.76772, 0.60609, 0.12122, -2.82843},
             {-0.35857, 0.59761, -0.71714, 0.000},
@@ -57,7 +53,7 @@ TEST(Camera, Camera_initparams)
   EXPECT_FLOAT_EQ(c.FOV(), M_PI / 2);
   EXPECT_EQ(c.HSize(), 160);
   EXPECT_EQ(c.VSize(), 120);
-  EXPECT_EQ(c.viewTransform(), ray_lib::Matrix::Identity);
+  EXPECT_EQ(c.viewTransform(), Matrix::Identity);
 }
 
 TEST(Camera, Camera_pelsize1)
@@ -115,7 +111,7 @@ protected:
 
     m.Diffuse(0.7);
     m.Specular(0.2);
-    l.Position(ray_lib::Point(-10, 10, -10));
+    l.Position(Point(-10, 10, -10));
     l.Intensity(Color(1, 1, 1));
     s2.Transform(Matrix::Identity.Scale(0.5, 0.5, 0.5));
     w.WorldLights().push_back(&l);
@@ -129,12 +125,12 @@ protected:
 
   // Variables go here...
 
-  ray_lib::Light l;
-  ray_lib::Material m;
-  ray_lib::Sphere s1;
-  ray_lib::Sphere s2;
-  ray_lib::World w;
-  ray_lib::SolidPattern p;
+  Light l;
+  Material m;
+  Sphere s1;
+  Sphere s2;
+  World w;
+  SolidPattern p;
 };
 
 TEST_F(DefaultWorldCameraTest, RenderTest)
@@ -144,7 +140,7 @@ TEST_F(DefaultWorldCameraTest, RenderTest)
   Point from{0, 0, -5};
   Point to{0, 0, 0};
   Vector up{0, 1, 0};
-  c.viewTransform(ray_lib::view_transform(from, to, up));
+  c.viewTransform(view_transform(from, to, up));
   Canvas image{c.Render(w)};
   EXPECT_EQ(image.Pixel(5, 5), Color(0.38066, 0.47583, 0.2855));
 }

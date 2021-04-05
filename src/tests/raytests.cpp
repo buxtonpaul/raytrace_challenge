@@ -6,11 +6,7 @@
 #include "tuples.h"
 #include "pattern.h"
 
-using ray_lib::Intersection;
-using ray_lib::Matrix;
-using ray_lib::Point;
-using ray_lib::Ray;
-using ray_lib::Vector;
+using namespace ray_lib;
 
 TEST(Ray, Createray)
 {
@@ -34,7 +30,7 @@ TEST(Ray, Position)
 TEST(Ray, SphereNormal)
 {
   Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
-  ray_lib::Sphere s;
+  Sphere s;
   std::vector<Intersection> intersections{s.intersects(r)};
   EXPECT_EQ(intersections.size(), 2);
   EXPECT_FLOAT_EQ(intersections[0].t(), 4.0);
@@ -44,7 +40,7 @@ TEST(Ray, SphereNormal)
 TEST(Ray, SphereTangent)
 {
   Ray r{Point(0, 1, -5), Vector(0, 0, 1)};
-  ray_lib::Sphere s;
+  Sphere s;
   std::vector<Intersection> intersections{s.intersects(r)};
   EXPECT_EQ(intersections.size(), 2);
   EXPECT_FLOAT_EQ(intersections[0].t(), 5.0);
@@ -54,7 +50,7 @@ TEST(Ray, SphereTangent)
 TEST(Ray, SphereMiss)
 {
   Ray r{Point(0, 2, -5), Vector(0, 0, 1)};
-  ray_lib::Sphere s;
+  Sphere s;
   std::vector<Intersection> intersections{s.intersects(r)};
   EXPECT_EQ(intersections.size(), 0);
 }
@@ -62,7 +58,7 @@ TEST(Ray, SphereMiss)
 TEST(Ray, Sphere_Ray_origin)
 {
   Ray r{Point(0, 0, 0), Vector(0, 0, 1)};
-  ray_lib::Sphere s;
+  Sphere s;
   std::vector<Intersection> intersections{s.intersects(r)};
   EXPECT_EQ(intersections.size(), 2);
   EXPECT_FLOAT_EQ(intersections[0].t(), -1);
@@ -72,7 +68,7 @@ TEST(Ray, Sphere_Ray_origin)
 TEST(Ray, Sphere_Ray_behind)
 {
   Ray r{Point(0, 0, 5), Vector(0, 0, 1)};
-  ray_lib::Sphere s;
+  Sphere s;
   std::vector<Intersection> intersections{s.intersects(r)};
   EXPECT_EQ(intersections.size(), 2);
   EXPECT_FLOAT_EQ(intersections[0].t(), -6);
@@ -82,7 +78,7 @@ TEST(Ray, Sphere_Ray_behind)
 TEST(Ray, IntersctionHandle)
 {
   Ray r{Point(0, 0, 5), Vector(0, 0, 1)};
-  ray_lib::Sphere s;
+  Sphere s;
   Intersection i{&s, 3.5};
   EXPECT_FLOAT_EQ(i.t(), 3.5);
   EXPECT_EQ(i.GetShape(), &s);
@@ -91,8 +87,8 @@ TEST(Ray, IntersctionHandle)
 TEST(Ray, AggregateIntersections)
 {
   Ray r{Point(0, 0, 5), Vector(0, 0, 1)};
-  ray_lib::Sphere s;
-  ray_lib::Shape &l{s};
+  Sphere s;
+  Shape &l{s};
   std::vector<Intersection> intersections{s.intersects(r)};
   EXPECT_EQ(intersections.size(), 2);
   EXPECT_EQ(intersections[0].GetShape(), &s);
@@ -102,7 +98,7 @@ TEST(Ray, AggregateIntersections)
 TEST(Ray, Intersection_Hits1)
 {
   Ray r{Point(0, 0, 5), Vector(0, 0, 1)};
-  ray_lib::Sphere s;
+  Sphere s;
 
   std::vector<Intersection> i;
   Intersection i1{&s, 1};
@@ -110,40 +106,40 @@ TEST(Ray, Intersection_Hits1)
   i.push_back(i1);
   i.push_back(i2);
   EXPECT_EQ(i1 < i2, true);
-  const Intersection *xs{ray_lib::Intersection::GetHit(i)};
+  const Intersection *xs{Intersection::GetHit(i)};
   EXPECT_EQ(*xs, i1);
 }
 
 TEST(Ray, Intersection_Hits2)
 {
   Ray r{Point(0, 0, 5), Vector(0, 0, 1)};
-  ray_lib::Sphere s;
+  Sphere s;
 
   std::vector<Intersection> i;
   Intersection i1{&s, -1};
   Intersection i2{&s, 1};
   i.push_back(i1);
   i.push_back(i2);
-  const Intersection *xs{ray_lib::Intersection::GetHit(i)};
+  const Intersection *xs{Intersection::GetHit(i)};
   EXPECT_EQ(*xs, i2);
 }
 TEST(Ray, Intersection_Hits3)
 {
   Ray r{Point(0, 0, 5), Vector(0, 0, 1)};
-  ray_lib::Sphere s;
+  Sphere s;
 
   std::vector<Intersection> i;
   Intersection i1{&s, -2};
   Intersection i2{&s, -1};
   i.push_back(i1);
   i.push_back(i2);
-  const Intersection *xs{ray_lib::Intersection::GetHit(i)};
+  const Intersection *xs{Intersection::GetHit(i)};
   EXPECT_EQ(xs, nullptr);
 }
 TEST(Ray, Intersection_Hits4)
 {
   Ray r{Point(0, 0, 5), Vector(0, 0, 1)};
-  ray_lib::Sphere s;
+  Sphere s;
 
   std::vector<Intersection> i;
   Intersection i1{&s, 5};
@@ -154,7 +150,7 @@ TEST(Ray, Intersection_Hits4)
   i.push_back(i2);
   i.push_back(i3);
   i.push_back(i4);
-  const Intersection *xs{ray_lib::Intersection::GetHit(i)};
+  const Intersection *xs{Intersection::GetHit(i)};
   EXPECT_EQ(*xs, i4);
 }
 
@@ -178,14 +174,14 @@ TEST(Ray, RayScaling)
 
 TEST(Sphere, DefaultTransform)
 {
-  ray_lib::Sphere s;
+  Sphere s;
   Matrix m{s.Transform()};
   EXPECT_EQ(m, Matrix::Identity);
 }
 
 TEST(Sphere, SetTransform)
 {
-  ray_lib::Sphere s;
+  Sphere s;
   Matrix transform{Matrix::Identity.Translate(2, 3, 4)};
   s.Transform(transform);
   EXPECT_EQ(s.Transform(), transform);
@@ -193,8 +189,8 @@ TEST(Sphere, SetTransform)
 
 TEST(Ray, ScaledSphereIntersection)
 {
-  ray_lib::Sphere s;
-  ray_lib::Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
+  Sphere s;
+  Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
   s.Transform(Matrix::Identity.Scale(2, 2, 2));
   std::vector<Intersection> i{s.intersects(r)};
   EXPECT_EQ(i.size(), 2);
@@ -204,8 +200,8 @@ TEST(Ray, ScaledSphereIntersection)
 
 TEST(Ray, TranslatedSphereIntersection)
 {
-  ray_lib::Sphere s;
-  ray_lib::Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
+  Sphere s;
+  Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
   s.Transform(Matrix::Identity.Translate(5, 0, 0));
   std::vector<Intersection> i{s.intersects(r)};
   EXPECT_EQ(i.size(), 0);
@@ -213,42 +209,42 @@ TEST(Ray, TranslatedSphereIntersection)
 
 TEST(Ray, SphereNormal_xAxis)
 {
-  ray_lib::Sphere s;
+  Sphere s;
   Vector n{s.Normal(Point(1, 0, 0))};
   EXPECT_EQ(n, Vector(1, 0, 0));
 }
 
 TEST(Ray, SphereNormal_yAxis)
 {
-  ray_lib::Sphere s;
+  Sphere s;
   Vector n{s.Normal(Point(0, 1, 0))};
   EXPECT_EQ(n, Vector(0, 1, 0));
 }
 
 TEST(Ray, SphereNormal_zAxis)
 {
-  ray_lib::Sphere s;
+  Sphere s;
   Vector n{s.Normal(Point(0, 0, 1))};
   EXPECT_EQ(n, Vector(0, 0, 1));
 }
 
 TEST(Ray, SphereNormal_nonAxial)
 {
-  ray_lib::Sphere s;
+  Sphere s;
   Vector n{s.Normal(Point(sqrt(3.0) / 3.0, sqrt(3.0) / 3.0, sqrt(3.0) / 3.0))};
   EXPECT_EQ(n, Vector(sqrt(3.0) / 3.0, sqrt(3.0) / 3.0, sqrt(3.0) / 3.0));
 }
 
 TEST(Ray, SphereNormal_isnormalised)
 {
-  ray_lib::Sphere s;
+  Sphere s;
   Vector n{s.Normal(Point(sqrt(3.0) / 3.0, sqrt(3.0) / 3.0, sqrt(3.0) / 3.0))};
   EXPECT_EQ(n, n.normalise());
 }
 
 TEST(Ray, SphereNormal_translated)
 {
-  ray_lib::Sphere s;
+  Sphere s;
   s.Transform(Matrix::Identity.Translate(0, 1, 0));
   Vector n{s.Normal(Point(0, 1.70711, -0.70711))};
   EXPECT_EQ(n, Vector(0, 0.70711, -0.70711));
@@ -256,8 +252,8 @@ TEST(Ray, SphereNormal_translated)
 
 TEST(Ray, SphereNormal_transformed)
 {
-  ray_lib::Sphere s;
-  ray_lib::Matrix m{
+  Sphere s;
+  Matrix m{
       Matrix::Identity.Scale(1, 0.5, 1) * Matrix::Identity.Rotate_z(M_PI / 5.0)};
   s.Transform(m);
 
@@ -269,16 +265,16 @@ TEST(Ray, SphereNormal_transformed)
 
 TEST(Shape, Reference)
 {
-  ray_lib::Sphere sp;
-  ray_lib::Shape &p{sp}; // why is this here?
-  ray_lib::SolidPattern pattern{Color(.5, .5, .5)};
-  sp.Mat(ray_lib::Material(1.23, 1.7, 112.1, 20.1, 0.0, 0, 1, pattern.asPattern()));
+  Sphere sp;
+  Shape &p{sp}; // why is this here?
+  SolidPattern pattern{Color(.5, .5, .5)};
+  sp.Mat(Material(1.23, 1.7, 112.1, 20.1, 0.0, 0, 1, pattern.asPattern()));
   EXPECT_FLOAT_EQ(sp.Mat().Diffuse(), sp.Mat().Diffuse());
 }
 
 TEST(Plane, Constant_Normal)
 {
-  ray_lib::Plane p;
+  Plane p;
   EXPECT_EQ(p.Normal(Point(0, 0, 0)), Vector(0, 1, 0));
   EXPECT_EQ(p.Normal(Point(10, 0, -10)), Vector(0, 1, 0));
   EXPECT_EQ(p.Normal(Point(-5, 0, 150)), Vector(0, 1, 0));
@@ -286,24 +282,24 @@ TEST(Plane, Constant_Normal)
 
 TEST(Plane, Intersects_parallel)
 {
-  ray_lib::Plane p;
-  ray_lib::Ray r{Point(0, 10, 0), Vector(0, 0, 1)};
+  Plane p;
+  Ray r{Point(0, 10, 0), Vector(0, 0, 1)};
   std::vector<Intersection> intersections{p.intersects(r)};
   EXPECT_EQ(intersections.empty(), true);
 }
 
 TEST(Plane, Intersects_Coplanar)
 {
-  ray_lib::Plane p;
-  ray_lib::Ray r{Point(0, 0, 0), Vector(0, 0, 1)};
+  Plane p;
+  Ray r{Point(0, 0, 0), Vector(0, 0, 1)};
   std::vector<Intersection> intersections{p.intersects(r)};
   EXPECT_EQ(intersections.empty(), true);
 }
 
 TEST(Plane, Intersects_FromAbove)
 {
-  ray_lib::Plane p;
-  ray_lib::Ray r{Point(0, 1, 0), Vector(0, -1, 0)};
+  Plane p;
+  Ray r{Point(0, 1, 0), Vector(0, -1, 0)};
   std::vector<Intersection> intersections{p.intersects(r)};
   EXPECT_EQ(intersections.size(), 1);
   EXPECT_EQ(intersections[0].t(), 1);
@@ -312,8 +308,8 @@ TEST(Plane, Intersects_FromAbove)
 
 TEST(Plane, Intersects_FromBelow)
 {
-  ray_lib::Plane p;
-  ray_lib::Ray r{Point(0, -1, 0), Vector(0, 1, 0)};
+  Plane p;
+  Ray r{Point(0, -1, 0), Vector(0, 1, 0)};
   std::vector<Intersection> intersections{p.intersects(r)};
   EXPECT_EQ(intersections.size(), 1);
   EXPECT_EQ(intersections[0].t(), 1);
