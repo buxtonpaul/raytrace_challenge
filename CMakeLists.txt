@@ -69,6 +69,7 @@ set(MODULE_SOURCES src/modules/tuples.cpp
             src/modules/camera.cpp
             src/modules/plane.cpp
             src/modules/pattern.cpp
+            src/modules/cube.cpp
             )
 
 
@@ -83,6 +84,7 @@ set (TESTS src/tests/tupletests.cpp
             src/tests/worldtests.cpp
             src/tests/cameratests.cpp
             src/tests/patterntests.cpp
+            src/tests/cubetests.cpp
             )
 
 add_library(rays ${MODULE_SOURCES})
@@ -96,7 +98,7 @@ target_link_libraries(gtesttest  ${GTLIBS})
 
 # Build the unit tests and add them
 add_executable(unittests ${TESTS})
-target_include_directories(unittests PUBLIC  src/include)
+target_include_directories(unittests PUBLIC  "${gtest_SOURCE_DIR}/include" src/include)
 target_link_libraries(unittests  ${GTLIBS}  rays)
 gtest_discover_tests(unittests)
 

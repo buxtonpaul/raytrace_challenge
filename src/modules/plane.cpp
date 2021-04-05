@@ -19,13 +19,8 @@ std::vector<Intersection> Plane::intersects(const Ray &r) const {
 }
 
 const Vector Plane::Normal(const Point &position) const {
-  //  Point object_point = Transform().inverse() * position;
-  // Vector object_normal = object_point - Point(0, 0, 0);
   Vector world_normal { Transform() * Vector(0, 1, 0)};
-  // world_normal.w(0);
   return world_normal.normalise();
-
-  // return ((Transform().inverse()) * Vector(0, 1, 0)).normalise();
 }
 
 }  // namespace ray_lib
