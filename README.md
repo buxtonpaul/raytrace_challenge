@@ -7,33 +7,19 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 ----
 
 # Todo 
-- [ ] Provide additional constructros for shape to take material
-- [ ] Improve float_equals to handle zero
-- [ ] Rewrite gethit using lower_bound
-- [ ] Refactor color to be simple struct
+- [ ] Improve gradient to transition smoothly after x=1
+- [ ] Nested patterns - Patterns should be provided other patterns. Only solid color pattern takes a color.
+- [ ] Improve float_equals to handle zero ?
+- [ ] Rewrite gethit using lower_bound ?
+- [ ] Refactor color to be simple struct ?
 - [ ] Add doxygen comments
-- [ ] Refactor cmake and folders to be cleaner
-- [ ] Implment other point/vector functions/tests. Try and tidy up operators again (VECTOR-VECTOR)
+- [ ] Refactor cmake and folders to be cleaner ?
+- [ ] Implment other point/vector functions/tests. Try and tidy up operators again (VECTOR-VECTOR) ?
 - [ ] Refactor shape and intersection files
 - [ ] Rework using slices....
 - [ ] Canvas as a template
 - [ ] Other file output (PNG/TIFF)?
-- [ ] Improve gradient to transition smoothly after x=1
 - [ ] Refactor tuples/vectors/points. 
-- [ ] Nested patterns?
-- [x] Implement pre_inverse of objects transformations
-- [x] Refactor shapes to move initialisation to base class
-- [x] Refactor Materials to accept patterns
-- [x] Parallel For
-- [x] Implement vector negate
-- [x] Look at gtest shared setup.
-- [x] Rework color to use RGB inputs
-- [x] Enable use of pre-build gtest.
-- [x] Move Vector and Point to inherted classes with raytuple as the base class
-- [x] Implement transforms and identits as class members to allow chaining!
-- [x] Implement time based filename generator
-- [x] Tidy up test names
-- [x] Update to use namespace for matrix as well
 
 ----
 # Build info

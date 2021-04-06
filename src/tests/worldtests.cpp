@@ -42,7 +42,7 @@ protected:
   void SetUp() override
   {
     p.setColor(Color(0.8, 1, 0.6));
-    m.pattern(reinterpret_cast<Pattern *>(&p));
+    m.pattern(p);
     m.diffuse(0.7);
     m.specular(0.2);
     l.position(Point(-10, 10, -10));
@@ -393,7 +393,7 @@ TEST_F(DefaultWorldTest, RefractedColor)
   Material mA;
   mA.ambient(1);
   TestPattern pA{Matrix::Identity};
-  mA.pattern(&pA);
+  mA.pattern(pA);
   a->material(mA);
 
   Shape *b{w.WorldShapes()[1]};
@@ -423,7 +423,7 @@ TEST_F(DefaultWorldTest, ShadeHitTransparent)
   Material mBall;
   SolidPattern pBall{Color(1, 0, 0)};
   mBall.ambient(0.5);
-  mBall.pattern(&pBall);
+  mBall.pattern(pBall);
   w.WorldShapes().push_back(&ball);
   ball.material(mBall);
 
@@ -490,7 +490,7 @@ TEST_F(DefaultWorldTest, ShadeHitTransparentReflectance)
   Material mBall;
   SolidPattern pBall{Color(1, 0, 0)};
   mBall.ambient(0.5);
-  mBall.pattern(&pBall);
+  mBall.pattern(pBall);
   w.WorldShapes().push_back(&ball);
   ball.material(mBall);
 

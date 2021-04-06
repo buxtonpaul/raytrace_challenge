@@ -38,7 +38,7 @@ TEST(Shader, lighting1)
 {
   Material m;
   SolidPattern s;
-  m.pattern(s.asPattern());
+  m.pattern(s);
   Point p{0, 0, 0};
   Sphere sp;
 
@@ -53,7 +53,7 @@ TEST(Shader, lighting2)
 {
   Material m;
   SolidPattern s;
-  m.pattern(s.asPattern());
+  m.pattern(s);
 
   Point p{0, 0, 0};
   Sphere sp;
@@ -68,7 +68,7 @@ TEST(Shader, lighting3)
 {
   Material m;
   SolidPattern s;
-  m.pattern(s.asPattern());
+  m.pattern(s);
 
   Point p{0, 0, 0};
   Sphere sp;
@@ -83,7 +83,7 @@ TEST(Shader, lighting4)
 {
   Material m;
   SolidPattern s;
-  m.pattern(s.asPattern());
+  m.pattern(s);
 
   Point p{0, 0, 0};
   Sphere sp;
@@ -98,7 +98,7 @@ TEST(Shader, lighting5)
 {
   Material m;
   SolidPattern s;
-  m.pattern(s.asPattern());
+  m.pattern(s);
 
   Point p{0, 0, 0};
   Sphere sp;
@@ -113,7 +113,7 @@ TEST(Shader, inshadow1)
 {
   Material m;
   SolidPattern s;
-  m.pattern(s.asPattern());
+  m.pattern(s);
 
   Point p{0, 0, 0};
   Sphere sp;
@@ -128,7 +128,7 @@ TEST(Shader, inshadow1)
 TEST(Shader, Pattern1)
 {
   StripePattern s(Color(1, 1, 1), Color(0, 0, 0));
-  Material m(1.0, 0.0, 0.0, 0.0, 0.0, 0, 1, (Pattern *)&s);
+  Material m(1.0, 0.0, 0.0, 0.0, 0.0, 0, 1, s);
 
   Vector eyev{0, 0, -1};
   Vector normalv{0, 0, -1};

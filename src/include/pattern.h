@@ -78,6 +78,7 @@ class SolidPattern : public Pattern
 public:
   Color getColor(const Point &p) const;
   explicit SolidPattern(const Color &a = Color::White) : _a(a) {}
+  SolidPattern(const SolidPattern &other) : _a(other._a) {}
   Color setColor(const Color &newcol)
   {
     _a = newcol;

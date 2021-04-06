@@ -20,7 +20,7 @@ protected:
   double _refractive_index = 1;
   std::unique_ptr<Pattern> _pat = ray_lib::SolidPattern(Color::White).clone();
 public:
-  Material(double a, double d, double spec, double shin, double reflectiveness, double transparency, double ri, Pattern *inpat)
+  Material(const double a, const double d, const double spec,const double shin,const double reflectiveness,const double transparency,const double ri,const Pattern &inpat)
       : _ambient{a},
         _diffuse{d},
         _specular{spec},
@@ -30,7 +30,12 @@ public:
         _refractive_index{ri}
 
   {
-    _pat = inpat->clone();
+    _pat = inpat.clone();
+  }
+
+  explicit Material(const Pattern &inpat)
+  {
+    _pat = inpat.clone();
   }
 
   Material(const Material &other)
@@ -116,9 +121,9 @@ public:
     return *this;
   }
 
-  Material &pattern(const Pattern * pattern)
+  Material &pattern(const Pattern &pattern)
   {
-    _pat = std::move(pattern->clone());
+    _pat = std::move(pattern.clone());
     return *this;
   }
 

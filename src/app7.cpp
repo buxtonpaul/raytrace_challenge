@@ -26,12 +26,9 @@ int main(int argc, char *argv[])
   World w;
 
   CheckPattern3d pat_floor{Color(0.9, 0.9, 0.9), Color(0.1, 0.1, 0.1), scale(.1, 1, .1)};
-   Material mat_floor=Material().specular(0).reflectivity(0.3).pattern(pat_floor.asPattern());
+   Material mat_floor = Material(pat_floor).specular(0).reflectivity(0.3);
 
-  mat_floor.specular(0);
-
-  SolidPattern wall_pattern{Color{0.9, 0.9, 0.9}};
-    Material m_walls = Material().pattern(wall_pattern.asPattern());
+  Material m_walls {Material(SolidPattern(Color(0.0, 0.9, 0.9)))};
 
   Cube floor{scale(10, 1, 10).translate(0, -.5, 0) };
   floor.material(mat_floor);
@@ -48,7 +45,7 @@ int main(int argc, char *argv[])
   middle_mat.transparency(0);
   middle_mat.refractive_index(1.5);
 
-  middle_mat.pattern(candy.asPattern());
+  middle_mat.pattern(candy);
 
   // note use . operator can specify translations in order instead of reverse order required when multiplying
   Cube middle{rotation_x(0).rotate_y(0).translate(-1, 0.5, 0)};
@@ -59,7 +56,7 @@ int main(int argc, char *argv[])
   Material left_mat;
   CheckPattern3d p_leftmat{Color{1, 1, 1}, Color{0, .9, 0}, scale(0.2, 0.2, 0.2)};
 
-  left_mat.pattern(p_leftmat.asPattern());
+  left_mat.pattern(p_leftmat);
   left_mat.specular(0.3);
   left_mat.diffuse(0.7);
   left.material(left_mat);

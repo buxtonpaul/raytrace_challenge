@@ -107,7 +107,7 @@ protected:
   void SetUp() override
   {
     p.setColor(Color(0.8, 1, 0.6));
-    m.pattern(p.asPattern());
+    m.pattern(p);
 
     m.diffuse(0.7);
     m.specular(0.2);

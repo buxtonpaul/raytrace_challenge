@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
   Sphere floor;
   Material m_floor;
   SolidPattern mfloor_pat{Color(1.0, 0.9, 0.9)};
-  m_floor.pattern(mfloor_pat.asPattern());
+  m_floor.pattern(mfloor_pat);
   floor.Transform(scale(10, 0.01, 10));
   m_floor.specular(0);
   floor.material(m_floor);
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
   middle.Transform(translation(-0.5, 1, 0.5));
   Material middle_mat;
   SolidPattern middle_pat(Color(0.1, 1, 0.5));
-  middle_mat.pattern(middle_pat.asPattern());
+  middle_mat.pattern(middle_pat);
 
   middle_mat.specular(0.3);
   middle_mat.diffuse(0.7);
@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
   Material right_mat;
 
   SolidPattern right_pat(Color(0.5, 1, 0.1));
-  right_mat.pattern(right_pat.asPattern());
+  right_mat.pattern(right_pat);
 
   right_mat.specular(0.3);
   right_mat.diffuse(0.7);
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
   left.Transform(scale(0.33, 0.33, 0.33).translate(-1.5, 0.33, -0.75));
   Material left_mat;
   SolidPattern left_pat(Color(1, 0.8, 0.1));
-  left_mat.pattern(left_pat.asPattern());
+  left_mat.pattern(left_pat);
 
   left_mat.specular(0.3);
   left_mat.diffuse(0.7);

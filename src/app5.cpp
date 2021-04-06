@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
   m_floor.reflectivity(0.5);
   m_floor.ambient(0.1);
   m_floor.diffuse(0.25);
-  m_floor.pattern(p_floor.asPattern());
+  m_floor.pattern(p_floor);
   floor.material(m_floor);
   w.WorldShapes().push_back(&floor);
 
@@ -38,19 +38,19 @@ int main(int argc, char *argv[])
   middle.Transform(scale(.75, 1, 0.75) * translation(-0.75, 1, 0.5) * rotation_y(1.0) * rotation_z(1.0));
   Material middle_mat;
   SolidPattern p_mat{Color(0.1, 1, 0.5)};
-  middle_mat.pattern(p_mat.asPattern());
+  middle_mat.pattern(p_mat);
   middle_mat.specular(0.3);
   middle_mat.diffuse(0.7);
   middle_mat.reflectivity(0.25);
   StripePattern candy{Color(0.9, 0.01, 0.01), Color(.99, .99, .99), scale(0.25, 0.25, 0.25)};
-  middle_mat.pattern(candy.asPattern());
+  middle_mat.pattern(candy);
   middle.material(middle_mat);
 
   Sphere right;
   right.Transform(scale(0.5, 0.5, 0.5).translate(1.5, 0.5, -0.5));
   Material right_mat;
   GradientPattern p_rightmat{Color(0.5, 1, 0.1), Color(0.2, 0, 0.8)};
-  right_mat.pattern(p_rightmat.asPattern());
+  right_mat.pattern(p_rightmat);
   right_mat.specular(0.3);
   right_mat.diffuse(0.7);
   right.material(right_mat);
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
   Material left_mat;
   CheckPattern3d p_leftmat{Color{1, 1, 1}, Color{0, .9, 0}, scale(0.2, 0.2, 0.2)};
 
-  left_mat.pattern(p_leftmat.asPattern());
+  left_mat.pattern(p_leftmat);
   left_mat.specular(0.3);
   left_mat.diffuse(0.7);
   left.material(left_mat);

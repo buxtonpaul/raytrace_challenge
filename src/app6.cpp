@@ -23,10 +23,10 @@ int main(int argc, char *argv[])
 
 
   CheckPattern3d pat_floor{Color(0.9, 0.9, 0.9), Color(0.1, 0.1, 0.1), scale(2.5, 2.5, 2.5)};
-  Material mat_floor=Material().specular(0).reflectivity(0.3).pattern(pat_floor.asPattern());
+  Material mat_floor=Material().specular(0).reflectivity(0.3).pattern(pat_floor);
 
   SolidPattern wall_pattern{Color{0.9, 0.9, 0.9}};
-  Material m_walls = Material().pattern(wall_pattern.asPattern());
+  Material m_walls = Material().pattern(wall_pattern);
 
   Plane floor{};
   floor.material(mat_floor);
@@ -51,14 +51,14 @@ int main(int argc, char *argv[])
 
   Material middle_mat;
   // SolidPattern p_mat{Color(0.1, 0, 0)};
-  // middle_mat.SetPattern(p_mat.asPattern());
+  // middle_mat.SetPattern(p_mat.);
   middle_mat.specular(0.3);
   middle_mat.diffuse(0.7);
   middle_mat.reflectivity(0.25);
   middle_mat.transparency(0.9);
   middle_mat.refractive_index(1.5);
 
-  middle_mat.pattern(candy.asPattern());
+  middle_mat.pattern(candy);
 
   Sphere middle{scale(.75, 1, 0.75) *
                 translation(-0.75, 1, 0.5) *
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
   right.Transform(scale(0.5, 0.5, 0.5).translate(1.5, 0.5, -0.5));
   Material right_mat;
   GradientPattern p_rightmat{Color(0.5, 1, 0.1), Color(0.2, 0, 0.8)};
-  right_mat.pattern(p_rightmat.asPattern());
+  right_mat.pattern(p_rightmat);
   right_mat.specular(0.3);
   right_mat.diffuse(0.7);
   right.material(right_mat);
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
   Material left_mat;
   CheckPattern3d p_leftmat{Color{1, 1, 1}, Color{0, .9, 0}, scale(0.2, 0.2, 0.2)};
 
-  left_mat.pattern(p_leftmat.asPattern());
+  left_mat.pattern(p_leftmat);
   left_mat.specular(0.3);
   left_mat.diffuse(0.7);
   left.material(left_mat);
