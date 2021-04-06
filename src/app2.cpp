@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
                                 .scale(40, 40, 40)
                                 .translate(50, 50, 0) *
                             Twelve};
-    c.Pixel(location.x(), c.height() - location.y(), Color(1, 0, 0));
+    c.pixel(location.x(), c.height() - location.y(), Color(1, 0, 0));
     std::cout << location << std::endl;
   }
 

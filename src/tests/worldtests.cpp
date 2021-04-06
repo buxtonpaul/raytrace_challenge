@@ -42,11 +42,11 @@ protected:
   void SetUp() override
   {
     p.setColor(Color(0.8, 1, 0.6));
-    m.pattern((Pattern *)&p);
+    m.pattern(reinterpret_cast<Pattern *>(&p));
     m.diffuse(0.7);
     m.specular(0.2);
-    l.Position(Point(-10, 10, -10));
-    l.Intensity(Color(1, 1, 1));
+    l.position(Point(-10, 10, -10));
+    l.intensity(Color(1, 1, 1));
     s2.Transform(Matrix::Identity.scale(0.5, 0.5, 0.5));
     w.WorldLights().push_back(&l);
     w.WorldShapes().push_back(&s1);
@@ -69,8 +69,8 @@ protected:
 
 TEST_F(DefaultWorldTest, TestDefault)
 {
-  EXPECT_EQ(true, Contains(w.WorldShapes(), (Shape *)(&s1)));
-  EXPECT_EQ(true, Contains(w.WorldShapes(), (Shape *)(&s2)));
+  EXPECT_EQ(true, contains(w.WorldShapes(), reinterpret_cast<Shape *>(&s1)));
+  EXPECT_EQ(true, contains(w.WorldShapes(), reinterpret_cast<Shape *>(&s2)));
 }
 
 TEST_F(DefaultWorldTest, TestSimpleIntersections)
@@ -130,8 +130,8 @@ TEST_F(DefaultWorldTest, ShadeHit)
 
 TEST_F(DefaultWorldTest, ShadeHit_inside)
 {
-  l.Position(Point(0, 0.25, 0));
-  l.Intensity(Color(1, 1, 1));
+  l.position(Point(0, 0.25, 0));
+  l.intensity(Color(1, 1, 1));
 
   Ray r{Point(0, 0, 0), Vector(0, 0, 1)};
 
@@ -173,28 +173,28 @@ TEST_F(DefaultWorldTest, Shadow_NoShadow)
 {
   Point p{0, 10, 0};
 
-  EXPECT_EQ(w.isShadowed(p), false);
+  EXPECT_EQ(w.is_shadowed(p), false);
 }
 
 TEST_F(DefaultWorldTest, Shadow_ObjectBetweenLight)
 {
   Point p{10, -10, 10};
 
-  EXPECT_EQ(w.isShadowed(p), true);
+  EXPECT_EQ(w.is_shadowed(p), true);
 }
 
 TEST_F(DefaultWorldTest, Shadow_ObjectBehindLight)
 {
   Point p{-20, 20, -20};
 
-  EXPECT_EQ(w.isShadowed(p), false);
+  EXPECT_EQ(w.is_shadowed(p), false);
 }
 
 TEST_F(DefaultWorldTest, Shadow_ObjectBehindPoint)
 {
   Point p{-2, 2, -2};
 
-  EXPECT_EQ(w.isShadowed(p), false);
+  EXPECT_EQ(w.is_shadowed(p), false);
 }
 
 TEST(World, Shadow_IntersectionInShadow)

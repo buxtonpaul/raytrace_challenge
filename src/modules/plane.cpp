@@ -18,7 +18,7 @@ std::vector<Intersection> Plane::intersects(const Ray &r) const {
   return results;
 }
 
-const Vector Plane::Normal(const Point &position) const {
+const Vector Plane::normal(const Point &position) const {
   Vector world_normal { Transform() * Vector(0, 1, 0)};
   return world_normal.normalise();
 }

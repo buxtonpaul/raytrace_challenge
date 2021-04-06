@@ -14,13 +14,13 @@ class Light {
  public:
   Light(Color c, Point p) : _intensity(c), _position(p) {}
   Light() : _intensity(Color(1, 1, 1)), _position(Point(0, 0, 0)) {}
-  Color Intensity() const { return _intensity; }
-  Color Intensity(Color n) {
+  Color intensity() const { return _intensity; }
+  Color intensity(Color n) {
     _intensity = n;
     return n;
   }
-  Point Position() const { return _position; }
-  Point Position(Point n) {
+  Point position() const { return _position; }
+  Point position(Point n) {
     _position = n;
     return n;
   }

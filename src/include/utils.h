@@ -12,7 +12,7 @@ double vector_product(const std::vector<double> &a,
 std::string genfilestring();
 
 template <typename t>
-bool Contains(std::vector<t> container, t data) {
+bool contains(std::vector<t> container, t data) {
   if (std::find(container.begin(), container.end(), data) == container.end())
     return false;
   return true;

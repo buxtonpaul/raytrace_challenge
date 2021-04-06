@@ -11,7 +11,7 @@ TEST(Canvas, Canvas_Initialise)
   {
     for (unsigned int j = 0; j < c.height(); ++j)
     {
-      EXPECT_EQ(c.Pixel(i, j), Color(0, 0, 0));
+      EXPECT_EQ(c.pixel(i, j), Color(0, 0, 0));
     }
   }
 }
@@ -20,8 +20,8 @@ TEST(Canvas, Set_Pixel)
 {
   Canvas c{10, 20};
   Color red{1, 0, 0};
-  c.Pixel(2, 3, red);
-  EXPECT_EQ(c.Pixel(2, 3), red);
+  c.pixel(2, 3, red);
+  EXPECT_EQ(c.pixel(2, 3), red);
 }
 
 TEST(Canvas, Canvas_to_ppm_header)
@@ -41,9 +41,9 @@ TEST(Canvas, Canvas_to_ppm_data)
   Color c2{0, 0.5, 0};
   Color c3{-0.5, 0, 1};
 
-  c.Pixel(0, 0, c1);
-  c.Pixel(2, 1, c2);
-  c.Pixel(4, 2, c3);
+  c.pixel(0, 0, c1);
+  c.pixel(2, 1, c2);
+  c.pixel(4, 2, c3);
 
   std::vector<std::string> ppm{splitlines(c.ppm())};
   std::string l1{"255 0 0 0 0 0 0 0 0 0 0 0 0 0 0"};
@@ -63,7 +63,7 @@ TEST(Canvas, ppm_long_lines)
   {
     for (unsigned int j = 0; j < c.height(); ++j)
     {
-      c.Pixel(i, j, c1);
+      c.pixel(i, j, c1);
     }
   }
   std::vector<std::string> ppm{splitlines(c.ppm())};

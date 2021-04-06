@@ -49,7 +49,7 @@ namespace ray_lib
     return results;
   }
 
-  const Vector Cube::Normal(const Point &position) const
+  const Vector Cube::normal(const Point &position) const
   {
     Point object_point{Transform().inverse() * position};
     double maxc[]{fabs(object_point.x()), fabs(object_point.y()), fabs(object_point.z())};

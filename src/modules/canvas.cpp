@@ -5,7 +5,7 @@
 #include "color.h"
 #include "utils.h"
 
-Color Canvas::Pixel(const unsigned int x, const unsigned int y) const
+Color Canvas::pixel(const unsigned int x, const unsigned int y) const
 {
   assert(x < _width);
   assert(y < _height);
@@ -15,7 +15,7 @@ Color Canvas::Pixel(const unsigned int x, const unsigned int y) const
       _canvasdata[index], _canvasdata[index + 1], _canvasdata[index + 2]);
 }
 
-void Canvas::Pixel(const unsigned int x, const unsigned int y,
+void Canvas::pixel(const unsigned int x, const unsigned int y,
                    const Color &toset)
 {
   if ((x >= _width) || (y >= _height))

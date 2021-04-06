@@ -36,7 +36,7 @@ namespace ray_lib
     return results;
   }
 
-  const Vector Sphere::Normal(const Point &position) const
+  const Vector Sphere::normal(const Point &position) const
   {
     Point object_point{Transform().inverse() * position};
     Vector object_normal{object_point - Point(0, 0, 0)};

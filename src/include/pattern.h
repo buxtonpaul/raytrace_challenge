@@ -66,7 +66,7 @@ public:
   }
   bool isEqual(const Pattern &other) const
   {
-    const StripePattern b{dynamic_cast<const StripePattern &>(other)};
+    const StripePattern b{static_cast<const StripePattern &>(other)};
     return (_a == b._a && _b == b._b);
   }
 };
@@ -89,7 +89,7 @@ public:
   }
   bool isEqual(const Pattern &other) const
   {
-    const SolidPattern b{dynamic_cast<const SolidPattern &>(other)};
+    const SolidPattern b{static_cast<const SolidPattern &>(other)};
     return (_a == b._a);
   }
 
@@ -128,7 +128,7 @@ public:
   }
   bool isEqual(const Pattern &other) const
   {
-    const GradientPattern b{dynamic_cast<const GradientPattern &>(other)};
+    const GradientPattern b{static_cast<const GradientPattern &>(other)};
     return (_a == b._a && _b == b._b);
   }
 };
@@ -144,7 +144,7 @@ public:
   }
   bool isEqual(const Pattern &other) const
   {
-    const RingPattern b{dynamic_cast<const RingPattern &>(other)};
+    const RingPattern b{static_cast<const RingPattern &>(other)};
     return (_a == b._a && _b == b._b);
   }
 };
@@ -160,7 +160,7 @@ public:
   }
   bool isEqual(const Pattern &other) const
   {
-    const CheckPattern3d b{dynamic_cast<const CheckPattern3d &>(other)};
+    const CheckPattern3d b{static_cast<const CheckPattern3d &>(other)};
     return (_a == b._a && _b == b._b);
   }
 };

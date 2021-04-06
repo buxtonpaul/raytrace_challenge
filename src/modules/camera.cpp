@@ -34,7 +34,7 @@ namespace ray_lib
 
     return Ray(origin, direction);
   }
-  Canvas Camera::Render(const World &w) const
+  Canvas Camera::render(const World &w) const
   {
     Canvas c{_hsize, _vsize};
 
@@ -45,7 +45,7 @@ namespace ray_lib
       {
         Ray r{ray_for_pixel(x, y)};
         Color p{w.color_at(r)};
-        c.Pixel(x, y, p);
+        c.pixel(x, y, p);
       }
     }
     return c;

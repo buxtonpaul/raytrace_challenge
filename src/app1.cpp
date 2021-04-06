@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
   Canvas c{900, 550};
   do
   {
-    c.Pixel(p.Position().x(), c.height() - p.Position().y(), Color(1, 0, 0));
+    c.pixel(p.Position().x(), c.height() - p.Position().y(), Color(1, 0, 0));
     p = tick(e, p);
     std::cout << "x,y = " << p.Position().x() << ", "
               << c.height() - p.Position().y() << std::endl;

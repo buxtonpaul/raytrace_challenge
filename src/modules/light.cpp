@@ -10,8 +10,8 @@ namespace ray_lib
                  const Vector &eye, const Vector &Normal, const Shape &s, const bool inShadow)
   {
     const Pattern &pat{m.pattern()};
-    Color effective_color{PatternAtObject(pat, s, p) * l.Intensity()};
-    Vector lightv{(l.Position() - p).normalise()};
+    Color effective_color{PatternAtObject(pat, s, p) * l.intensity()};
+    Vector lightv{(l.position() - p).normalise()};
     Color ambient{effective_color * m.ambient()};
     Color diffuse{Color(0, 0, 0)};
     Color specular{Color(0, 0, 0)};
@@ -29,7 +29,7 @@ namespace ray_lib
       if (reflect_dot_eye >= 0)
       {
         double factor{pow(reflect_dot_eye, m.shininess())};
-        specular = l.Intensity() * m.specular() * factor;
+        specular = l.intensity() * m.specular() * factor;
       }
     }
 

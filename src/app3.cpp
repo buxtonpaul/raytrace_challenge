@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
       std::vector<Intersection> xs{s.intersects(r)};
       if (xs.size() > 0)
       { // we have hit the sphere
-        c.Pixel(j, c.height() - i, Color(1, 0, 0));
+        c.pixel(j, c.height() - i, Color(1, 0, 0));
       }
       xpos += step_size;
     }

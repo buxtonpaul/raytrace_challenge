@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
   // c.viewTransform(view_transform(Point(0, 20, 0), Point(0, 0, 0),
   //                                Vector(0, 0, 1)));
 
-  c.viewTransform(view_transform(Point(0, 8, -20), Point(0, 1, 0),
+  c.view_transform(view_transform(Point(0, 8, -20), Point(0, 1, 0),
                                           Vector(0, 1, 0)));
 
   World w;
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
   // w.WorldShapes().push_back(&right);
   w.WorldLights().push_back(&l);
 
-  Canvas outimage{c.Render(w)};
+  Canvas outimage{c.render(w)};
 
   std::ofstream outfile(genfilestring() + ".ppm");
   outfile << outimage.ppm();

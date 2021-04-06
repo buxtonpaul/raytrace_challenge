@@ -13,7 +13,7 @@ class Sphere : public Shape {
   Sphere() : Shape(Matrix::Identity) {}
   explicit Sphere(const Matrix &m) : Shape(m) {}
   std::vector<Intersection> intersects(const Ray &r) const;
-    const Vector Normal(const Point &position) const;
+    const Vector normal(const Point &position) const;
 
 };
 }  // namespace ray_lib

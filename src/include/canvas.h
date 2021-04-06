@@ -12,8 +12,8 @@ class Canvas {
  public:
   Canvas(unsigned int width, unsigned int height)
       : _width(width), _height(height), _canvasdata(width * height * 3, 0) {}
-  Color Pixel(const unsigned int x, const unsigned int y) const;
-  void Pixel(const unsigned int x, const unsigned int y, const Color &toset);
+  Color pixel(const unsigned int x, const unsigned int y) const;
+  void pixel(const unsigned int x, const unsigned int y, const Color &toset);
   std::string ppm() const;
   unsigned int width() const { return _width; }
   unsigned int height() const { return _height; }

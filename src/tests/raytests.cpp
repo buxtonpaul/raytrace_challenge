@@ -210,35 +210,35 @@ TEST(Ray, TranslatedSphereIntersection)
 TEST(Ray, SphereNormal_xAxis)
 {
   Sphere s;
-  Vector n{s.Normal(Point(1, 0, 0))};
+  Vector n{s.normal(Point(1, 0, 0))};
   EXPECT_EQ(n, Vector(1, 0, 0));
 }
 
 TEST(Ray, SphereNormal_yAxis)
 {
   Sphere s;
-  Vector n{s.Normal(Point(0, 1, 0))};
+  Vector n{s.normal(Point(0, 1, 0))};
   EXPECT_EQ(n, Vector(0, 1, 0));
 }
 
 TEST(Ray, SphereNormal_zAxis)
 {
   Sphere s;
-  Vector n{s.Normal(Point(0, 0, 1))};
+  Vector n{s.normal(Point(0, 0, 1))};
   EXPECT_EQ(n, Vector(0, 0, 1));
 }
 
 TEST(Ray, SphereNormal_nonAxial)
 {
   Sphere s;
-  Vector n{s.Normal(Point(sqrt(3.0) / 3.0, sqrt(3.0) / 3.0, sqrt(3.0) / 3.0))};
+  Vector n{s.normal(Point(sqrt(3.0) / 3.0, sqrt(3.0) / 3.0, sqrt(3.0) / 3.0))};
   EXPECT_EQ(n, Vector(sqrt(3.0) / 3.0, sqrt(3.0) / 3.0, sqrt(3.0) / 3.0));
 }
 
 TEST(Ray, SphereNormal_isnormalised)
 {
   Sphere s;
-  Vector n{s.Normal(Point(sqrt(3.0) / 3.0, sqrt(3.0) / 3.0, sqrt(3.0) / 3.0))};
+  Vector n{s.normal(Point(sqrt(3.0) / 3.0, sqrt(3.0) / 3.0, sqrt(3.0) / 3.0))};
   EXPECT_EQ(n, n.normalise());
 }
 
@@ -246,7 +246,7 @@ TEST(Ray, SphereNormal_translated)
 {
   Sphere s;
   s.Transform(Matrix::Identity.translate(0, 1, 0));
-  Vector n{s.Normal(Point(0, 1.70711, -0.70711))};
+  Vector n{s.normal(Point(0, 1.70711, -0.70711))};
   EXPECT_EQ(n, Vector(0, 0.70711, -0.70711));
 }
 
@@ -259,7 +259,7 @@ TEST(Ray, SphereNormal_transformed)
 
   // in the canonical form this is the Rotate first, followed by the scale!
   // s.Transform(Matrix::Identity.Rotate_z(M_PI / 5.0).Scale(1, 0.5, 1));
-  Vector n{s.Normal(Point(0, sqrt(2.0) / 2.0, -sqrt(2.0) / 2.0))};
+  Vector n{s.normal(Point(0, sqrt(2.0) / 2.0, -sqrt(2.0) / 2.0))};
   EXPECT_EQ(n, Vector(0, 0.97014, -0.24254));
 }
 
@@ -276,9 +276,9 @@ TEST(Shape, Reference)
 TEST(Plane, Constant_Normal)
 {
   Plane p;
-  EXPECT_EQ(p.Normal(Point(0, 0, 0)), Vector(0, 1, 0));
-  EXPECT_EQ(p.Normal(Point(10, 0, -10)), Vector(0, 1, 0));
-  EXPECT_EQ(p.Normal(Point(-5, 0, 150)), Vector(0, 1, 0));
+  EXPECT_EQ(p.normal(Point(0, 0, 0)), Vector(0, 1, 0));
+  EXPECT_EQ(p.normal(Point(10, 0, -10)), Vector(0, 1, 0));
+  EXPECT_EQ(p.normal(Point(-5, 0, 150)), Vector(0, 1, 0));
 }
 
 TEST(Plane, Intersects_parallel)

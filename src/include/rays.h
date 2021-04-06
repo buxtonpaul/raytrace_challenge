@@ -93,7 +93,7 @@ class IntersectionState {
         _object(i.GetShape()),
         _eye(-r.Direction()),
         _position(r.Position(_t)),
-        _normal(_object->Normal(_position)),
+        _normal(_object->normal(_position)),
         _reflect(r.Direction().reflect(_normal)) {
     computeSurfaceParams();
     computeRefractionparams(i);
@@ -105,7 +105,7 @@ class IntersectionState {
         _object(i.GetShape()),
         _eye(-r.Direction()),
         _position(r.Position(_t)),
-        _normal(_object->Normal(_position)),
+        _normal(_object->normal(_position)),
         _reflect(r.Direction().reflect(_normal)) {
     computeSurfaceParams();
     computeRefractionparams(i, intersections);

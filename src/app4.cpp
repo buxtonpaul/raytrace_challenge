@@ -17,7 +17,7 @@ using namespace ray_lib;
 int main(int argc, char *argv[])
 {
   Camera c{640, 480, M_PI / 2};
-  c.viewTransform(view_transform(Point(0, 1.5, -5), Point(0, 1, 0),
+  c.view_transform(view_transform(Point(0, 1.5, -5), Point(0, 1, 0),
                                           Vector(0, 1, 0)));
 
   World w;
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
   w.WorldShapes().push_back(&right);
   w.WorldLights().push_back(&l);
 
-  Canvas outimage{c.Render(w)};
+  Canvas outimage{c.render(w)};
 
   std::ofstream outfile(genfilestring() + ".ppm");
   outfile << outimage.ppm();

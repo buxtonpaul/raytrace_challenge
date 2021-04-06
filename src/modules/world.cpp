@@ -40,7 +40,7 @@ namespace ray_lib
     // TODO(me): iterate over all the lights and sum the results
     Color Surface_color{ ray_lib::lighting(precomps.Object()->material(), *_lights[0],
                              precomps.OverPoint(), precomps.Eye(),
-                             precomps.Normal(), *precomps.Object(), isShadowed(precomps.OverPoint()))};
+                             precomps.Normal(), *precomps.Object(), is_shadowed(precomps.OverPoint()))};
 
     Color Reflected_color{reflection_hit(precomps, depth)};
     Color Refracted_color{refracted_color(precomps, depth)};
@@ -99,9 +99,9 @@ namespace ray_lib
   }
 
  
-  bool World::isShadowed(const Point &p) const
+  bool World::is_shadowed(const Point &p) const
   {
-    Vector v{_lights[0]->Position() - p};
+    Vector v{_lights[0]->position() - p};
     double distance{v.magnitude()};
     Vector direction{v.normalise()};
     Ray r{p, direction};

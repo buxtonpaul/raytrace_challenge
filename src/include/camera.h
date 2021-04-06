@@ -33,30 +33,30 @@ class Camera {
     }
     _pixelSize = (_halfWidth * 2) / _hsize;
   }
-  unsigned int HSize() const { return _hsize; }
-  unsigned int VSize() const { return _vsize; }
-  unsigned int HSize(const unsigned int size) {
+  unsigned int h_size() const { return _hsize; }
+  unsigned int v_size() const { return _vsize; }
+  unsigned int h_size(const unsigned int size) {
     _hsize = size;
     return size;
   }
-  unsigned int VSize(const unsigned int size) {
+  unsigned int v_size(const unsigned int size) {
     _vsize = size;
     return size;
   }
 
-  double FOV() const { return _fov; }
-  double FOV(const double fov) {
+  double fov() const { return _fov; }
+  double fov(const double fov) {
     _fov = fov;
     return _fov;
   }
-  Matrix viewTransform() const { return _viewtransform; }
-  Matrix viewTransform(Matrix intransform) {
+  Matrix view_transform() const { return _viewtransform; }
+  Matrix view_transform(Matrix intransform) {
     _viewtransform = intransform;
     return _viewtransform;
   }
-  double pixelSize() { return _pixelSize; }
+  double pixel_size() { return _pixelSize; }
   Ray ray_for_pixel(const unsigned int px, const unsigned int py) const;
-  Canvas Render(const World &w) const;
+  Canvas render(const World &w) const;
 };
 }  // namespace ray_lib
 #endif  //_camera_h_

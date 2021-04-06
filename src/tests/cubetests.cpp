@@ -72,7 +72,7 @@ TEST(Cube, Normals)
 
   for (auto testcase : testcases)
   {
-    EXPECT_EQ(c.Normal(testcase.first), testcase.second);
+    EXPECT_EQ(c.normal(testcase.first), testcase.second);
   }
 }
 

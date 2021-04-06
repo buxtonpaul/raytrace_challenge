@@ -23,7 +23,7 @@ class World {
   Color reflection_hit(const IntersectionState &precomps, int depth = 5) const;
   Color refracted_color(const IntersectionState &precomps, int depth = 5) const;
   Color color_at(const Ray &theray, int depth = 4) const;
-  bool isShadowed(const Point &p) const;
+  bool is_shadowed(const Point &p) const;
 };
 
 }  // namespace ray_lib

@@ -50,24 +50,24 @@ TEST(Camera, Camera_initparams)
 {
   Camera c{160, 120, M_PI / 2};
 
-  EXPECT_FLOAT_EQ(c.FOV(), M_PI / 2);
-  EXPECT_EQ(c.HSize(), 160);
-  EXPECT_EQ(c.VSize(), 120);
-  EXPECT_EQ(c.viewTransform(), Matrix::Identity);
+  EXPECT_FLOAT_EQ(c.fov(), M_PI / 2);
+  EXPECT_EQ(c.h_size(), 160);
+  EXPECT_EQ(c.v_size(), 120);
+  EXPECT_EQ(c.view_transform(), Matrix::Identity);
 }
 
 TEST(Camera, Camera_pelsize1)
 {
   Camera c{200, 125, M_PI / 2};
 
-  EXPECT_FLOAT_EQ(c.pixelSize(), 0.01);
+  EXPECT_FLOAT_EQ(c.pixel_size(), 0.01);
 }
 
 TEST(Camera, Camera_pelsize2)
 {
   Camera c{125, 200, M_PI / 2};
 
-  EXPECT_FLOAT_EQ(c.pixelSize(), 0.01);
+  EXPECT_FLOAT_EQ(c.pixel_size(), 0.01);
 }
 
 TEST(Camera, Camera_raycenter)
@@ -94,7 +94,7 @@ TEST(Camera, Camera_rayTransformed)
 {
   Camera c{201, 101, M_PI / 2};
 
-  c.viewTransform(Matrix::Identity.translate(0, -2, 5).rotate_y(M_PI / 4));
+  c.view_transform(Matrix::Identity.translate(0, -2, 5).rotate_y(M_PI / 4));
   Ray r{c.ray_for_pixel(100, 50)};
 
   EXPECT_EQ(r.Origin(), Point(0, 2, -5));
@@ -111,8 +111,8 @@ protected:
 
     m.diffuse(0.7);
     m.specular(0.2);
-    l.Position(Point(-10, 10, -10));
-    l.Intensity(Color(1, 1, 1));
+    l.position(Point(-10, 10, -10));
+    l.intensity(Color(1, 1, 1));
     s2.Transform(Matrix::Identity.scale(0.5, 0.5, 0.5));
     w.WorldLights().push_back(&l);
     w.WorldShapes().push_back(&s1);
@@ -140,7 +140,7 @@ TEST_F(DefaultWorldCameraTest, RenderTest)
   Point from{0, 0, -5};
   Point to{0, 0, 0};
   Vector up{0, 1, 0};
-  c.viewTransform(view_transform(from, to, up));
-  Canvas image{c.Render(w)};
-  EXPECT_EQ(image.Pixel(5, 5), Color(0.38066, 0.47583, 0.2855));
+  c.view_transform(view_transform(from, to, up));
+  Canvas image{c.render(w)};
+  EXPECT_EQ(image.pixel(5, 5), Color(0.38066, 0.47583, 0.2855));
 }

@@ -14,7 +14,7 @@ class Shape
 {
 public:
   virtual std::vector<Intersection> intersects(const Ray &r) const = 0;
-  virtual const Vector Normal(const Point &position) const = 0;
+  virtual const Vector normal(const Point &position) const = 0;
 
   const Matrix &Transform(const Matrix &m)
   {
