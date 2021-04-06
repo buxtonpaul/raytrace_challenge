@@ -132,3 +132,8 @@ target_link_libraries(app5 rays)
 add_executable(app6 src/app6.cpp)
 target_include_directories(app6 PUBLIC src/include)
 target_link_libraries(app6 rays) 
+
+# Build a simple test applicaiton
+add_executable(app7 src/app7.cpp)
+target_include_directories(app7 PUBLIC src/include)
+target_link_libraries(app7 rays) 

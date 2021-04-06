@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
   m_floor.Ambient(0.1);
   m_floor.Diffuse(0.25);
   m_floor.SetPattern(p_floor.asPattern());
-  floor.Mat(m_floor);
+  floor.material(m_floor);
   w.WorldShapes().push_back(&floor);
 
   Sphere middle;
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
   middle_mat.Reflectivity(0.25);
   StripePattern candy{Color(0.9, 0.01, 0.01), Color(.99, .99, .99), Scale(0.25, 0.25, 0.25)};
   middle_mat.SetPattern(candy.asPattern());
-  middle.Mat(middle_mat);
+  middle.material(middle_mat);
 
   Sphere right;
   right.Transform(Scale(0.5, 0.5, 0.5).Translate(1.5, 0.5, -0.5));
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
   right_mat.SetPattern(p_rightmat.asPattern());
   right_mat.Specular(0.3);
   right_mat.Diffuse(0.7);
-  right.Mat(right_mat);
+  right.material(right_mat);
 
   Sphere left;
   left.Transform(Scale(1.33, 1.33, 1.33).Translate(-3.8, 1.33, 1));
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
   left_mat.SetPattern(p_leftmat.asPattern());
   left_mat.Specular(0.3);
   left_mat.Diffuse(0.7);
-  left.Mat(left_mat);
+  left.material(left_mat);
 
   Light l{Color(1.0, 1.0, 1.0), Point(-10, 10, -10)};
 

@@ -51,7 +51,7 @@ protected:
     w.WorldLights().push_back(&l);
     w.WorldShapes().push_back(&s1);
     w.WorldShapes().push_back(&s2);
-    s1.Mat(m);
+    s1.material(m);
   }
 
   // put destructor here if required
@@ -164,9 +164,9 @@ TEST_F(DefaultWorldTest, Color_at_inside)
 
   Material m2;
   m2.Ambient(1.0);
-  outer->Mat(m2);
-  inner->Mat(m2);
-  EXPECT_EQ(w.color_at(r), inner->Mat().GetPat()->getColor(Point(0, 0, 0)));
+  outer->material(m2);
+  inner->material(m2);
+  EXPECT_EQ(w.color_at(r), inner->material().GetPat().getColor(Point(0, 0, 0)));
 }
 
 TEST_F(DefaultWorldTest, Shadow_NoShadow)
@@ -245,7 +245,7 @@ TEST_F(DefaultWorldTest, NonReflective)
 
   Material m2;
   m2.Ambient(1.0);
-  outer->Mat(m2);
+  outer->material(m2);
   Intersection xs{outer, 1};
   IntersectionState i{xs, r};
   EXPECT_EQ(w.reflection_hit(i), Color(0, 0, 0));
@@ -256,7 +256,7 @@ TEST_F(DefaultWorldTest, ReflectiveTest)
   Material plane_pat;
   plane_pat.Reflectivity(0.5);
   Plane p(Translation(0, -1, 0));
-  p.Mat(plane_pat);
+  p.material(plane_pat);
   w.WorldShapes().push_back(&p);
 
   Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0)};
@@ -271,7 +271,7 @@ TEST_F(DefaultWorldTest, ReflectiveTest2)
   Material plane_pat;
   plane_pat.Reflectivity(0.5);
   Plane p(Translation(0, -1, 0));
-  p.Mat(plane_pat);
+  p.material(plane_pat);
   w.WorldShapes().push_back(&p);
 
   Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0)};
@@ -286,7 +286,7 @@ TEST_F(DefaultWorldTest, ReflectiveRecursion)
   Material plane_pat;
   plane_pat.Reflectivity(0.5);
   Plane p(Translation(0, -1, 0));
-  p.Mat(plane_pat);
+  p.material(plane_pat);
   w.WorldShapes().push_back(&p);
 
   Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0)};
@@ -301,17 +301,17 @@ TEST(Refractions, RefractionIntersections)
   Sphere A{Scale(2, 2, 2)};
   Material mA{glass};
   mA.RefractiveIndex(1.5);
-  A.Mat(mA);
+  A.material(mA);
 
   Sphere B{Scale(0, 0, -0.25)};
   Material mB{glass};
   mB.RefractiveIndex(2.0);
-  B.Mat(mB);
+  B.material(mB);
 
   Sphere C{Scale(0, 0, 0.25)};
   Material mC{glass};
   mC.RefractiveIndex(2.5);
-  C.Mat(mC);
+  C.material(mC);
 
   Ray r{Point(0, 0, -4), Vector(0, 0, 1)};
   std::vector<Intersection> intersections{{&A, 2.0}, {&B, 2.75}, {&C, 3.25}, {&B, 4.75}, {&C, 5.25}, {&A, 6}};
@@ -332,18 +332,17 @@ TEST(Refractions, RefractionIntersections)
   }
 }
 
-
 TEST(Refractions, UnderPoint)
 {
   Sphere A{Translation(0, 0, 1)};
   Material mA{glass};
-  A.Mat(mA);
+  A.material(mA);
 
   Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
   Intersection intersection{&A, 5.0};
-  IntersectionState xs {intersection, r};
+  IntersectionState xs{intersection, r};
 
-  EXPECT_GT(xs.Under().z(), DBL_EPSILON/2);
+  EXPECT_GT(xs.Under().z(), DBL_EPSILON / 2);
   EXPECT_LT(xs.Position().z(), xs.Under().z());
 }
 
@@ -352,9 +351,8 @@ TEST_F(DefaultWorldTest, RefractedColorOpaque)
   Shape *shape{w.WorldShapes()[0]};
   Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
 
-
   Intersection intersection{shape, 5.0};
-  IntersectionState xs {intersection, r};
+  IntersectionState xs{intersection, r};
 
   w.refracted_color(xs, 5);
 
@@ -368,24 +366,23 @@ TEST_F(DefaultWorldTest, RefractedColorAtDepth)
   Material mA{glass};
   mA.Transparency(1.0);
   mA.RefractiveIndex(1.5);
-  shape->Mat(mA);
+  shape->material(mA);
 
   std::vector<Intersection> intersections{{shape, 4}, {shape, 6}};
   IntersectionState xs{intersections[0], r, intersections};
   EXPECT_EQ(w.refracted_color(xs, 0), Color::Black);
 }
 
-
 TEST_F(DefaultWorldTest, TotalInternalRefraction)
 {
   Shape *shape{w.WorldShapes()[0]};
-  Ray r{Point(0, 0, sqrt(2.0)/2.0), Vector(0, 1, 0)};
+  Ray r{Point(0, 0, sqrt(2.0) / 2.0), Vector(0, 1, 0)};
   Material mA{glass};
   mA.Transparency(1.0);
   mA.RefractiveIndex(1.5);
-  shape->Mat(mA);
+  shape->material(mA);
 
-  std::vector<Intersection> intersections{{shape, -(sqrt(2.0)/2.0)}, {shape, sqrt(2.0)/2.0}};
+  std::vector<Intersection> intersections{{shape, -(sqrt(2.0) / 2.0)}, {shape, sqrt(2.0) / 2.0}};
   IntersectionState xs{intersections[1], r, intersections};
   EXPECT_EQ(w.refracted_color(xs, 5), Color::Black);
 }
@@ -397,14 +394,14 @@ TEST_F(DefaultWorldTest, RefractedColor)
   mA.Ambient(1);
   TestPattern pA{Matrix::Identity};
   mA.SetPattern(&pA);
-  a->Mat(mA);
+  a->material(mA);
 
   Shape *b{w.WorldShapes()[1]};
   Material mB;
   mB.Transparency(1.0);
   mB.RefractiveIndex(1.5);
   mB.Ambient(1);
-  b->Mat(mB);
+  b->material(mB);
 
   Ray r{Point(0, 0, 0.1), Vector(0, 1, 0)};
   std::vector<Intersection> intersections{{a, -0.9899}, {b, -0.4899}, {b, 0.4899}, {a, 0.9899}};
@@ -412,26 +409,25 @@ TEST_F(DefaultWorldTest, RefractedColor)
   EXPECT_EQ(w.refracted_color(xs, 5), Color(0, 0.99888, 0.04725));
 }
 
-
 TEST_F(DefaultWorldTest, ShadeHitTransparent)
 {
   Material mFloor;
   mFloor.Transparency(0.5);
   mFloor.RefractiveIndex(1.5);
   Plane floor{Translation(0, -1, 0)};
-  floor.Mat(mFloor);
+  floor.material(mFloor);
 
   w.WorldShapes().push_back(&floor);
 
   Sphere ball{Translation(0, -3.5, -0.5)};
   Material mBall;
-  SolidPattern pBall{Color(1, 0 , 0)};
+  SolidPattern pBall{Color(1, 0, 0)};
   mBall.Ambient(0.5);
   mBall.SetPattern(&pBall);
   w.WorldShapes().push_back(&ball);
-  ball.Mat(mBall);
+  ball.material(mBall);
 
-  Ray r{Point(0, 0, -3), Vector(0, -(sqrt(2.0)/2.0), sqrt(2.0)/2.0)};
+  Ray r{Point(0, 0, -3), Vector(0, -(sqrt(2.0) / 2.0), sqrt(2.0) / 2.0)};
 
   Intersection intersection{&floor, sqrt(2.0)};
   IntersectionState xs{intersection, r};
@@ -439,32 +435,28 @@ TEST_F(DefaultWorldTest, ShadeHitTransparent)
   EXPECT_EQ(w.shade_hit(xs, 5), Color(0.93642, 0.68642, 0.68642));
 }
 
-
-
 TEST(Refractions, Reflectance_InternalReflection)
 {
   Sphere A{};
   Material mA{glass};
-  A.Mat(mA);
+  A.material(mA);
 
-  Ray r{Point(0, 0, sqrt(2.0)/2.0), Vector(0, 1, 0)};
-  std::vector<Intersection> intersections{{&A, -sqrt(2.0)/2.0}, {&A, sqrt(2.0)/2.0}};
-  IntersectionState xs {intersections[1], r, intersections};
+  Ray r{Point(0, 0, sqrt(2.0) / 2.0), Vector(0, 1, 0)};
+  std::vector<Intersection> intersections{{&A, -sqrt(2.0) / 2.0}, {&A, sqrt(2.0) / 2.0}};
+  IntersectionState xs{intersections[1], r, intersections};
 
   EXPECT_EQ(xs.schlick(), 1.0);
-
 }
-
 
 TEST(Refractions, Reflectance_Perpendicular)
 {
   Sphere A{};
   Material mA{glass};
-  A.Mat(mA);
+  A.material(mA);
 
   Ray r{Point(0, 0, 0), Vector(0, 1, 0)};
   std::vector<Intersection> intersections{{&A, -1}, {&A, 1}};
-  IntersectionState xs {intersections[1], r, intersections};
+  IntersectionState xs{intersections[1], r, intersections};
 
   EXPECT_FLOAT_EQ(xs.schlick(), 0.04);
 }
@@ -473,40 +465,34 @@ TEST(Refractions, ReflectanceN2gtN1)
 {
   Sphere A{};
   Material mA{glass};
-  A.Mat(mA);
+  A.material(mA);
 
   Ray r{Point(0, 0.99, -2), Vector(0, 0, 1)};
   std::vector<Intersection> intersections{{&A, 1.8589}};
-  IntersectionState xs {intersections[0], r, intersections};
+  IntersectionState xs{intersections[0], r, intersections};
 
   // modify this value somewhat as the precision of compparison causes issues
   EXPECT_FLOAT_EQ(xs.schlick(), 0.48873082);
-
 }
-
-
 
 TEST_F(DefaultWorldTest, ShadeHitTransparentReflectance)
 {
-  Ray r{Point(0, 0, -3), Vector(0, -(sqrt(2.0)/2.0), sqrt(2.0)/2.0)};
+  Ray r{Point(0, 0, -3), Vector(0, -(sqrt(2.0) / 2.0), sqrt(2.0) / 2.0)};
   Material mFloor;
   mFloor.Transparency(0.5);
   mFloor.Reflectivity(0.5);
   mFloor.RefractiveIndex(1.5);
   Plane floor{Translation(0, -1, 0)};
-  floor.Mat(mFloor);
+  floor.material(mFloor);
   w.WorldShapes().push_back(&floor);
-
-
 
   Sphere ball{Translation(0, -3.5, -0.5)};
   Material mBall;
-  SolidPattern pBall{Color(1, 0 , 0)};
+  SolidPattern pBall{Color(1, 0, 0)};
   mBall.Ambient(0.5);
   mBall.SetPattern(&pBall);
   w.WorldShapes().push_back(&ball);
-  ball.Mat(mBall);
-
+  ball.material(mBall);
 
   Intersection intersection{&floor, sqrt(2.0)};
   IntersectionState xs{intersection, r};

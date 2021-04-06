@@ -24,15 +24,15 @@ public:
   const Matrix &Transform() const { return _m; }
   Shape() : _m(Matrix::Identity) {}
   explicit Shape(const Matrix &m) : _m(m) {}
-  const Material &Mat(const Material &m) {
-    _mat = m;
-    return _mat;
+  const Material &material(const Material &m) {
+    _material = m;
+    return _material;
   }
-  const Material &Mat() const { return _mat; }
+  const Material &material() const { return _material; }
 
 protected:
   Matrix _m;
-  Material _mat;
+  Material _material;
 
 };
 } // namespace ray_lib

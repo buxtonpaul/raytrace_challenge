@@ -117,7 +117,7 @@ protected:
     w.WorldLights().push_back(&l);
     w.WorldShapes().push_back(&s1);
     w.WorldShapes().push_back(&s2);
-    s1.Mat(m);
+    s1.material(m);
   }
 
   // put destructor here if required

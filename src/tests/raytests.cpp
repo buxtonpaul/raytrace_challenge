@@ -268,8 +268,9 @@ TEST(Shape, Reference)
   Sphere sp;
   Shape &p{sp}; // why is this here?
   SolidPattern pattern{Color(.5, .5, .5)};
-  sp.Mat(Material(1.23, 1.7, 112.1, 20.1, 0.0, 0, 1, pattern.asPattern()));
-  EXPECT_FLOAT_EQ(sp.Mat().Diffuse(), sp.Mat().Diffuse());
+  auto a = Material(1.23, 1.7, 112.1, 20.1, 0.0, 0, 1, pattern.asPattern());
+  sp.material(a);
+  EXPECT_FLOAT_EQ(sp.material().Diffuse(), sp.material().Diffuse());
 }
 
 TEST(Plane, Constant_Normal)

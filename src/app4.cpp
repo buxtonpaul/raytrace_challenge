@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
   m_floor.SetPattern(mfloor_pat.asPattern());
   floor.Transform(Scale(10, 0.01, 10));
   m_floor.Specular(0);
-  floor.Mat(m_floor);
+  floor.material(m_floor);
   w.WorldShapes().push_back(&floor);
 
   Sphere left_wall;
@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
                           .Rotate_x(M_PI / 2.0)
                           .Rotate_y(-M_PI / 4.0)
                           .Translate(0, 0, 5));
-  left_wall.Mat(m_floor);
+  left_wall.material(m_floor);
   w.WorldShapes().push_back(&left_wall);
 
   Sphere right_wall;
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
                            .Rotate_x(M_PI / 2.0)
                            .Rotate_y(M_PI / 4.0)
                            .Translate(0, 0, 5));
-  right_wall.Mat(m_floor);
+  right_wall.material(m_floor);
 
   Sphere middle;
   middle.Transform(Translation(-0.5, 1, 0.5));
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 
   middle_mat.Specular(0.3);
   middle_mat.Diffuse(0.7);
-  middle.Mat(middle_mat);
+  middle.material(middle_mat);
 
   Sphere right;
   right.Transform(Scale(0.5, 0.5, 0.5).Translate(1.5, 0.5, -0.5));
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 
   right_mat.Specular(0.3);
   right_mat.Diffuse(0.7);
-  right.Mat(right_mat);
+  right.material(right_mat);
 
   Sphere left;
   left.Transform(Scale(0.33, 0.33, 0.33).Translate(-1.5, 0.33, -0.75));
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 
   left_mat.Specular(0.3);
   left_mat.Diffuse(0.7);
-  left.Mat(left_mat);
+  left.material(left_mat);
 
   Light l{Color(1.0, 1.0, 1.0), Point(-10, 10, -10)};
 

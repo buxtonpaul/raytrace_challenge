@@ -9,9 +9,8 @@ namespace ray_lib
   Color lighting(const Material &m, const Light &l, const Point &p,
                  const Vector &eye, const Vector &Normal, const Shape &s, const bool inShadow)
   {
-
-    const Pattern *pat{m.GetPat()};
-    Color effective_color{PatternAtObject(*pat, s, p) * l.Intensity()};
+    const Pattern &pat{m.GetPat()};
+    Color effective_color{PatternAtObject(pat, s, p) * l.Intensity()};
     Vector lightv{(l.Position() - p).normalise()};
     Color ambient{effective_color * m.Ambient()};
     Color diffuse{Color(0, 0, 0)};

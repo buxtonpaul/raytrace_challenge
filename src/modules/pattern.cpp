@@ -36,6 +36,4 @@ namespace ray_lib
     return ((c % 2) == 0 ? _a : _b);
   }
 
-  SolidPattern SolidWhite(Color::White);
-
 } // namespace ray_lib

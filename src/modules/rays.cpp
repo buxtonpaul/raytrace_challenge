@@ -90,7 +90,7 @@ namespace ray_lib
         }
         else
         {
-          _n1 = containers.back()->Mat().RefractiveIndex();
+          _n1 = containers.back()->material().RefractiveIndex();
         }
       }
 
@@ -111,7 +111,7 @@ namespace ray_lib
         }
         else
         {
-          _n2 = containers.back()->Mat().RefractiveIndex();
+          _n2 = containers.back()->material().RefractiveIndex();
         }
       }
     }

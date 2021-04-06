@@ -22,7 +22,7 @@ TEST(Shader, Sphere_mat)
 {
   Material m;
   Sphere s;
-  EXPECT_EQ(m, s.Mat());
+  EXPECT_EQ(m, s.material());
 }
 
 TEST(Shader, Sphere_mat_assign)
@@ -30,8 +30,8 @@ TEST(Shader, Sphere_mat_assign)
   Sphere s;
   Material m;
   m.Ambient(1);
-  s.Mat(m);
-  EXPECT_EQ(s.Mat(), m);
+  s.material(m);
+  EXPECT_EQ(s.material(), m);
 }
 
 TEST(Shader, lighting1)
@@ -159,7 +159,7 @@ TEST(Material, BasicGlassTest)
 {
   Sphere sp;
   Material m = glass;
-  sp.Mat(m);
+  sp.material(m);
   EXPECT_EQ(m.RefractiveIndex(), 1.5);
   EXPECT_EQ(m.Transparency(), 1);
   EXPECT_EQ(sp.Transform(), Matrix::Identity);

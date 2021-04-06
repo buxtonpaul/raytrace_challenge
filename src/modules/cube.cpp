@@ -30,10 +30,11 @@ namespace ray_lib
   std::vector<Intersection> Cube::intersects(const Ray &r) const
   {
     std::vector<Intersection> results;
+    Ray input_ray { r.Transform(Transform().inverse())};
 
-    std::pair<double, double> xAxis{check_axis(r.Origin().x(), r.Direction().x())};
-    std::pair<double, double> yAxis{check_axis(r.Origin().y(), r.Direction().y())};
-    std::pair<double, double> zAxis{check_axis(r.Origin().z(), r.Direction().z())};
+    std::pair<double, double> xAxis{check_axis(input_ray.Origin().x(), input_ray.Direction().x())};
+    std::pair<double, double> yAxis{check_axis(input_ray.Origin().y(), input_ray.Direction().y())};
+    std::pair<double, double> zAxis{check_axis(input_ray.Origin().z(), input_ray.Direction().z())};
 
     double mins[] = {xAxis.first, yAxis.first, zAxis.first};
     double maxs[] = {xAxis.second, yAxis.second, zAxis.second};
@@ -60,7 +61,6 @@ namespace ray_lib
     if (maxval == fabs(object_point.y()))
       return Vector(0, object_point.y(), 0).normalise();
     return Vector(0, 0, object_point.z()).normalise();
-
   }
 
 } // namespace ray_lib

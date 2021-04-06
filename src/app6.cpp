@@ -23,30 +23,13 @@ int main(int argc, char *argv[])
 
 
   CheckPattern3d pat_floor{Color(0.9, 0.9, 0.9), Color(0.1, 0.1, 0.1), Scale(2.5, 2.5, 2.5)};
-  Material mat_floor{default_matparams.ambient,
-                     default_matparams.diffuse,
-                     0,
-                     default_matparams.shiny,
-                     0.3,
-                     default_matparams.transparency,
-                     default_matparams.index,
-
-                     pat_floor.asPattern()};
-
-  mat_floor.Specular(0);
+  Material mat_floor=Material().Specular(0).Reflectivity(0.3).SetPattern(pat_floor.asPattern());
 
   SolidPattern wall_pattern{Color{0.9, 0.9, 0.9}};
-  Material m_walls{default_matparams.ambient,
-                   default_matparams.diffuse,
-                   default_matparams.specular,
-                   default_matparams.shiny,
-                   default_matparams.reflect,
-                   default_matparams.transparency,
-                   default_matparams.index,
-                   wall_pattern.asPattern()};
+  Material m_walls = Material().SetPattern(wall_pattern.asPattern());
 
   Plane floor{};
-  floor.Mat(mat_floor);
+  floor.material(mat_floor);
 
   w.WorldShapes().push_back(&floor);
 
@@ -54,14 +37,14 @@ int main(int argc, char *argv[])
                        .Rotate_x(M_PI / 2.0)
                        .Rotate_y(-M_PI / 4.0)
                        .Translate(0, 0, 5)};
-  left_wall.Mat(m_walls);
+  left_wall.material(m_walls);
  // w.WorldShapes().push_back(&left_wall);
 
   Sphere right_wall{Scale(10, 0.01, 10)
                         .Rotate_x(M_PI / 2.0)
                         .Rotate_y(M_PI / 4.0)
                         .Translate(0, 0, 5)};
-  right_wall.Mat(m_walls);
+  right_wall.material(m_walls);
   //w.WorldShapes().push_back(&right_wall);
 
   StripePattern candy{Color(0.1, 0.01, 0.01), Color(.3, .3, .3), Scale(0.25, 0.25, 0.25)};
@@ -81,7 +64,7 @@ int main(int argc, char *argv[])
                 Translation(-0.75, 1, 0.5) *
                 Rotation_y(1.0) *
                 Rotation_z(1.0)};
-  middle.Mat(middle_mat);
+  middle.material(middle_mat);
 
   Sphere right;
   right.Transform(Scale(0.5, 0.5, 0.5).Translate(1.5, 0.5, -0.5));
@@ -90,7 +73,7 @@ int main(int argc, char *argv[])
   right_mat.SetPattern(p_rightmat.asPattern());
   right_mat.Specular(0.3);
   right_mat.Diffuse(0.7);
-  right.Mat(right_mat);
+  right.material(right_mat);
 
   Sphere left;
   left.Transform(Scale(1.33, 1.33, 1.33).Translate(-3.8, 1.33, 1));
@@ -100,7 +83,7 @@ int main(int argc, char *argv[])
   left_mat.SetPattern(p_leftmat.asPattern());
   left_mat.Specular(0.3);
   left_mat.Diffuse(0.7);
-  left.Mat(left_mat);
+  left.material(left_mat);
 
   Light l{Color(1.0, 1.0, 1.0), Point(-10, 10, -10)};
 

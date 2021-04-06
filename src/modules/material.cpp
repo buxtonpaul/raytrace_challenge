@@ -3,6 +3,7 @@
 
 namespace ray_lib
 {
+  SolidPattern SolidWhite(Color::White);
   std::ostream &operator<<(std::ostream &out, const Material &m)
   {
     out << "( ";
@@ -15,20 +16,8 @@ namespace ray_lib
     return out;
   }
 
-  ray_lib::mat_params default_matparams{.ambient = 0.1,
-                                        .diffuse = 0.9,
-                                        .specular = 0.9,
-                                        .shiny = 200,
-                                        .reflect = 0,
-                                        .transparency = 0,
-                                        .index = 1};
 
-ray_lib::Material glass{default_matparams.ambient,
-                                         default_matparams.diffuse,
-                                         default_matparams.specular,
-                                         default_matparams.shiny,
-                                         default_matparams.reflect,
-                                         1,
-                                         1.5, ray_lib::SolidWhite.asPattern()};
+ray_lib::Material glass = Material().Transparency(1).RefractiveIndex(1.5);
+
 
 } // namespace ray_lib
