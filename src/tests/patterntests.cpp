@@ -50,7 +50,7 @@ TEST(Pattern, Stripe_AlternateX)
 TEST(Pattern, Stripe_ObjectTransform)
 {
   Sphere s1;
-  Matrix s = Scale(2, 2, 2);
+  Matrix s = scale(2, 2, 2);
   s1.Transform(s);
 
   StripePattern p{Color::White, Color::Black};
@@ -64,7 +64,7 @@ TEST(Pattern, Stripe_PatternTransform)
 {
   Sphere s1;
 
-  StripePattern p{Color::White, Color::Black, Scale(2, 2, 2)};
+  StripePattern p{Color::White, Color::Black, scale(2, 2, 2)};
 
   Color c{PatternAtObject(p, s1, Point(1.5, 0, 0))};
 
@@ -74,9 +74,9 @@ TEST(Pattern, Stripe_PatternTransform)
 TEST(Pattern, Stripe_ObjectPatternTransform)
 {
   Sphere s1;
-  s1.Transform(Scale(2, 2, 2));
+  s1.Transform(scale(2, 2, 2));
 
-  StripePattern p{Color::White, Color::Black, Translation(0.5, 0, 0)};
+  StripePattern p{Color::White, Color::Black, translation(0.5, 0, 0)};
 
   Color c{PatternAtObject(p, s1, Point(2.5, 0, 0))};
 
@@ -92,16 +92,16 @@ TEST(Pattern, GenericPattern1)
 
 TEST(Pattern, GenericPattern2)
 {
-  TestPattern p{Translation(1, 2, 3)};
+  TestPattern p{translation(1, 2, 3)};
 
-  EXPECT_EQ(p.getTransform(), Translation(1, 2, 3));
+  EXPECT_EQ(p.getTransform(), translation(1, 2, 3));
 }
 
 TEST(Pattern, GenericPattern3)
 {
   TestPattern p;
   Sphere s1;
-  s1.Transform(Scale(2, 2, 2));
+  s1.Transform(scale(2, 2, 2));
 
   Color c{PatternAtObject(p, s1, Point(2, 3, 4))};
 
@@ -110,7 +110,7 @@ TEST(Pattern, GenericPattern3)
 
 TEST(Pattern, GenericPattern4)
 {
-  TestPattern p{Scale(2, 2, 2)};
+  TestPattern p{scale(2, 2, 2)};
   Sphere s1;
 
   // pattern at object is not applying the object transofm
@@ -121,8 +121,8 @@ TEST(Pattern, GenericPattern4)
 
 TEST(Pattern, GenericPattern5)
 {
-  TestPattern p{Translation(0.5, 1, 1.5)};
-  Sphere s1{Scale(2, 2, 2)};
+  TestPattern p{translation(0.5, 1, 1.5)};
+  Sphere s1{scale(2, 2, 2)};
 
   Color c{PatternAtObject(p, s1, Point(2.5, 3, 3.5))};
 

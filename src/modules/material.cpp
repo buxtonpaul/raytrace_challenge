@@ -17,7 +17,7 @@ namespace ray_lib
   }
 
 
-ray_lib::Material glass = Material().Transparency(1).RefractiveIndex(1.5);
+ray_lib::Material glass = Material().transparency(1).refractive_index(1.5);
 
 
 } // namespace ray_lib

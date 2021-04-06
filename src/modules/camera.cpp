@@ -18,7 +18,7 @@ namespace ray_lib
                         {-forward[0], -forward[1], -forward[2], 0},
                         {0, 0, 0, 1}}};
 
-    return orientation * Translation(-from[0], -from[1], -from[2]);
+    return orientation * translation(-from[0], -from[1], -from[2]);
   }
   Ray Camera::ray_for_pixel(const unsigned int px, const unsigned int py) const
   {

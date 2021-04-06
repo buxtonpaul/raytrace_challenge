@@ -157,7 +157,7 @@ TEST(Ray, Intersection_Hits4)
 TEST(Ray, RayTranslation)
 {
   Ray r{Point(1, 2, 3), Vector(0, 1, 0)};
-  Matrix m{Matrix::Identity.Translate(3, 4, 5)};
+  Matrix m{Matrix::Identity.translate(3, 4, 5)};
   Ray r2{r.Transform(m)};
   EXPECT_EQ(r2.Origin(), Point(4, 6, 8));
   EXPECT_EQ(r2.Direction(), Vector(0, 1, 0));
@@ -166,7 +166,7 @@ TEST(Ray, RayTranslation)
 TEST(Ray, RayScaling)
 {
   Ray r{Point(1, 2, 3), Vector(0, 1, 0)};
-  Matrix m{Matrix::Identity.Scale(2, 3, 4)};
+  Matrix m{Matrix::Identity.scale(2, 3, 4)};
   Ray r2{r.Transform(m)};
   EXPECT_EQ(r2.Origin(), Point(2, 6, 12));
   EXPECT_EQ(r2.Direction(), Vector(0, 3, 0));
@@ -182,7 +182,7 @@ TEST(Sphere, DefaultTransform)
 TEST(Sphere, SetTransform)
 {
   Sphere s;
-  Matrix transform{Matrix::Identity.Translate(2, 3, 4)};
+  Matrix transform{Matrix::Identity.translate(2, 3, 4)};
   s.Transform(transform);
   EXPECT_EQ(s.Transform(), transform);
 }
@@ -191,7 +191,7 @@ TEST(Ray, ScaledSphereIntersection)
 {
   Sphere s;
   Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
-  s.Transform(Matrix::Identity.Scale(2, 2, 2));
+  s.Transform(Matrix::Identity.scale(2, 2, 2));
   std::vector<Intersection> i{s.intersects(r)};
   EXPECT_EQ(i.size(), 2);
   EXPECT_EQ(i[0].t(), 3);
@@ -202,7 +202,7 @@ TEST(Ray, TranslatedSphereIntersection)
 {
   Sphere s;
   Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
-  s.Transform(Matrix::Identity.Translate(5, 0, 0));
+  s.Transform(Matrix::Identity.translate(5, 0, 0));
   std::vector<Intersection> i{s.intersects(r)};
   EXPECT_EQ(i.size(), 0);
 }
@@ -245,7 +245,7 @@ TEST(Ray, SphereNormal_isnormalised)
 TEST(Ray, SphereNormal_translated)
 {
   Sphere s;
-  s.Transform(Matrix::Identity.Translate(0, 1, 0));
+  s.Transform(Matrix::Identity.translate(0, 1, 0));
   Vector n{s.Normal(Point(0, 1.70711, -0.70711))};
   EXPECT_EQ(n, Vector(0, 0.70711, -0.70711));
 }
@@ -254,7 +254,7 @@ TEST(Ray, SphereNormal_transformed)
 {
   Sphere s;
   Matrix m{
-      Matrix::Identity.Scale(1, 0.5, 1) * Matrix::Identity.Rotate_z(M_PI / 5.0)};
+      Matrix::Identity.scale(1, 0.5, 1) * Matrix::Identity.rotate_z(M_PI / 5.0)};
   s.Transform(m);
 
   // in the canonical form this is the Rotate first, followed by the scale!
@@ -270,7 +270,7 @@ TEST(Shape, Reference)
   SolidPattern pattern{Color(.5, .5, .5)};
   auto a = Material(1.23, 1.7, 112.1, 20.1, 0.0, 0, 1, pattern.asPattern());
   sp.material(a);
-  EXPECT_FLOAT_EQ(sp.material().Diffuse(), sp.material().Diffuse());
+  EXPECT_FLOAT_EQ(sp.material().diffuse(), sp.material().diffuse());
 }
 
 TEST(Plane, Constant_Normal)

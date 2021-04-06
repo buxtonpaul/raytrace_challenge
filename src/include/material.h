@@ -71,52 +71,52 @@ public:
   }
 
   Material() {}
-  Material &Ambient(double n)
+  Material &ambient(double n)
   {
     _ambient = n;
     return *this;
   }
-  Material &Diffuse(double n)
+  Material &diffuse(double n)
   {
     _diffuse = n;
     return *this;
   }
-  Material &Specular(double n)
+  Material &specular(double n)
   {
     _specular = n;
     return *this;
   }
-  Material &Shininess(double n)
+  Material &shininess(double n)
   {
     _shininess = n;
     return *this;
   }
 
-  Material &Reflectivity(double n)
+  Material &reflectivity(double n)
   {
     _reflectiveness = n;
     return *this;
   }
 
-  Material &Transparency(double n)
+  Material &transparency(double n)
   {
     _transparency = n;
     return *this;
   }
-  Material &RefractiveIndex(double n)
+  Material &refractive_index(double n)
   {
     _refractive_index = n;
     return *this;
   }
 
   // pass by unique ptr
-  Material &SetPattern(std::unique_ptr<Pattern> pattern)
+  Material &pattern(std::unique_ptr<Pattern> pattern)
   {
     _pat = std::move(pattern);
     return *this;
   }
 
-  Material &SetPattern(const Pattern * pattern)
+  Material &pattern(const Pattern * pattern)
   {
     _pat = std::move(pattern->clone());
     return *this;
@@ -124,14 +124,14 @@ public:
 
 
   ~Material() {_pat.reset();}
-  const Pattern &GetPat() const { return *_pat; }
-  double Ambient() const { return _ambient; }
-  double Diffuse() const { return _diffuse; }
-  double Specular() const { return _specular; }
-  double Shininess() const { return _shininess; }
-  double Reflectivity() const { return _reflectiveness; }
-  double RefractiveIndex() const { return _refractive_index; }
-  double Transparency() const { return _transparency; }
+  const Pattern &pattern() const { return *_pat; }
+  double ambient() const { return _ambient; }
+  double diffuse() const { return _diffuse; }
+  double specular() const { return _specular; }
+  double shininess() const { return _shininess; }
+  double reflectivity() const { return _reflectiveness; }
+  double refractive_index() const { return _refractive_index; }
+  double transparency() const { return _transparency; }
   friend std::ostream &operator<<(std::ostream &out, const Material &m);
   bool operator==(const Material &rhs) const
   {

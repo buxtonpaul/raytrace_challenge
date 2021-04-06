@@ -20,7 +20,7 @@ TEST(Camera, Camera_Initialise_Zpos)
   Point to{0, 0, 1};
   Vector up{0, 1, 0};
   Matrix t{view_transform(from, to, up)};
-  EXPECT_EQ(t, Scale(-1, 1, -1));
+  EXPECT_EQ(t, scale(-1, 1, -1));
 }
 
 TEST(Camera, Camera_Initialise_Zneg)
@@ -30,7 +30,7 @@ TEST(Camera, Camera_Initialise_Zneg)
   Vector up{0, 1, 0};
   Matrix t{view_transform(from, to, up)};
 
-  EXPECT_EQ(t, Translation(0, 0, -8));
+  EXPECT_EQ(t, translation(0, 0, -8));
 }
 
 TEST(Camera, Camera_Initialise_arbitrary)
@@ -94,7 +94,7 @@ TEST(Camera, Camera_rayTransformed)
 {
   Camera c{201, 101, M_PI / 2};
 
-  c.viewTransform(Matrix::Identity.Translate(0, -2, 5).Rotate_y(M_PI / 4));
+  c.viewTransform(Matrix::Identity.translate(0, -2, 5).rotate_y(M_PI / 4));
   Ray r{c.ray_for_pixel(100, 50)};
 
   EXPECT_EQ(r.Origin(), Point(0, 2, -5));
@@ -107,13 +107,13 @@ protected:
   void SetUp() override
   {
     p.setColor(Color(0.8, 1, 0.6));
-    m.SetPattern(p.asPattern());
+    m.pattern(p.asPattern());
 
-    m.Diffuse(0.7);
-    m.Specular(0.2);
+    m.diffuse(0.7);
+    m.specular(0.2);
     l.Position(Point(-10, 10, -10));
     l.Intensity(Color(1, 1, 1));
-    s2.Transform(Matrix::Identity.Scale(0.5, 0.5, 0.5));
+    s2.Transform(Matrix::Identity.scale(0.5, 0.5, 0.5));
     w.WorldLights().push_back(&l);
     w.WorldShapes().push_back(&s1);
     w.WorldShapes().push_back(&s2);

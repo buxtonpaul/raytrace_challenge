@@ -42,12 +42,12 @@ protected:
   void SetUp() override
   {
     p.setColor(Color(0.8, 1, 0.6));
-    m.SetPattern((Pattern *)&p);
-    m.Diffuse(0.7);
-    m.Specular(0.2);
+    m.pattern((Pattern *)&p);
+    m.diffuse(0.7);
+    m.specular(0.2);
     l.Position(Point(-10, 10, -10));
     l.Intensity(Color(1, 1, 1));
-    s2.Transform(Matrix::Identity.Scale(0.5, 0.5, 0.5));
+    s2.Transform(Matrix::Identity.scale(0.5, 0.5, 0.5));
     w.WorldLights().push_back(&l);
     w.WorldShapes().push_back(&s1);
     w.WorldShapes().push_back(&s2);
@@ -163,10 +163,10 @@ TEST_F(DefaultWorldTest, Color_at_inside)
   Shape *outer{w.WorldShapes()[1]};
 
   Material m2;
-  m2.Ambient(1.0);
+  m2.ambient(1.0);
   outer->material(m2);
   inner->material(m2);
-  EXPECT_EQ(w.color_at(r), inner->material().GetPat().getColor(Point(0, 0, 0)));
+  EXPECT_EQ(w.color_at(r), inner->material().pattern().getColor(Point(0, 0, 0)));
 }
 
 TEST_F(DefaultWorldTest, Shadow_NoShadow)
@@ -204,7 +204,7 @@ TEST(World, Shadow_IntersectionInShadow)
   w.WorldLights().push_back(&l);
   Sphere s1;
   Sphere s2;
-  s2.Transform(Translation(0, 0, 10));
+  s2.Transform(translation(0, 0, 10));
   w.WorldShapes().push_back(&s1);
   w.WorldShapes().push_back(&s2);
   Ray r{Point(0, 0, 5), Vector(0, 0, 1)};
@@ -219,7 +219,7 @@ TEST(World, Shadow_RayAtHitOffset)
 {
   Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
   Sphere s1;
-  s1.Transform(Translation(0, 0, 1));
+  s1.Transform(translation(0, 0, 1));
 
   Intersection xs{&s1, 5};
   IntersectionState i{xs, r};
@@ -244,7 +244,7 @@ TEST_F(DefaultWorldTest, NonReflective)
   Shape *outer{w.WorldShapes()[1]};
 
   Material m2;
-  m2.Ambient(1.0);
+  m2.ambient(1.0);
   outer->material(m2);
   Intersection xs{outer, 1};
   IntersectionState i{xs, r};
@@ -254,8 +254,8 @@ TEST_F(DefaultWorldTest, NonReflective)
 TEST_F(DefaultWorldTest, ReflectiveTest)
 {
   Material plane_pat;
-  plane_pat.Reflectivity(0.5);
-  Plane p(Translation(0, -1, 0));
+  plane_pat.reflectivity(0.5);
+  Plane p(translation(0, -1, 0));
   p.material(plane_pat);
   w.WorldShapes().push_back(&p);
 
@@ -269,8 +269,8 @@ TEST_F(DefaultWorldTest, ReflectiveTest)
 TEST_F(DefaultWorldTest, ReflectiveTest2)
 {
   Material plane_pat;
-  plane_pat.Reflectivity(0.5);
-  Plane p(Translation(0, -1, 0));
+  plane_pat.reflectivity(0.5);
+  Plane p(translation(0, -1, 0));
   p.material(plane_pat);
   w.WorldShapes().push_back(&p);
 
@@ -284,8 +284,8 @@ TEST_F(DefaultWorldTest, ReflectiveTest2)
 TEST_F(DefaultWorldTest, ReflectiveRecursion)
 {
   Material plane_pat;
-  plane_pat.Reflectivity(0.5);
-  Plane p(Translation(0, -1, 0));
+  plane_pat.reflectivity(0.5);
+  Plane p(translation(0, -1, 0));
   p.material(plane_pat);
   w.WorldShapes().push_back(&p);
 
@@ -298,19 +298,19 @@ TEST_F(DefaultWorldTest, ReflectiveRecursion)
 
 TEST(Refractions, RefractionIntersections)
 {
-  Sphere A{Scale(2, 2, 2)};
+  Sphere A{scale(2, 2, 2)};
   Material mA{glass};
-  mA.RefractiveIndex(1.5);
+  mA.refractive_index(1.5);
   A.material(mA);
 
-  Sphere B{Scale(0, 0, -0.25)};
+  Sphere B{scale(0, 0, -0.25)};
   Material mB{glass};
-  mB.RefractiveIndex(2.0);
+  mB.refractive_index(2.0);
   B.material(mB);
 
-  Sphere C{Scale(0, 0, 0.25)};
+  Sphere C{scale(0, 0, 0.25)};
   Material mC{glass};
-  mC.RefractiveIndex(2.5);
+  mC.refractive_index(2.5);
   C.material(mC);
 
   Ray r{Point(0, 0, -4), Vector(0, 0, 1)};
@@ -334,7 +334,7 @@ TEST(Refractions, RefractionIntersections)
 
 TEST(Refractions, UnderPoint)
 {
-  Sphere A{Translation(0, 0, 1)};
+  Sphere A{translation(0, 0, 1)};
   Material mA{glass};
   A.material(mA);
 
@@ -364,8 +364,8 @@ TEST_F(DefaultWorldTest, RefractedColorAtDepth)
   Shape *shape{w.WorldShapes()[0]};
   Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
   Material mA{glass};
-  mA.Transparency(1.0);
-  mA.RefractiveIndex(1.5);
+  mA.transparency(1.0);
+  mA.refractive_index(1.5);
   shape->material(mA);
 
   std::vector<Intersection> intersections{{shape, 4}, {shape, 6}};
@@ -378,8 +378,8 @@ TEST_F(DefaultWorldTest, TotalInternalRefraction)
   Shape *shape{w.WorldShapes()[0]};
   Ray r{Point(0, 0, sqrt(2.0) / 2.0), Vector(0, 1, 0)};
   Material mA{glass};
-  mA.Transparency(1.0);
-  mA.RefractiveIndex(1.5);
+  mA.transparency(1.0);
+  mA.refractive_index(1.5);
   shape->material(mA);
 
   std::vector<Intersection> intersections{{shape, -(sqrt(2.0) / 2.0)}, {shape, sqrt(2.0) / 2.0}};
@@ -391,16 +391,16 @@ TEST_F(DefaultWorldTest, RefractedColor)
 {
   Shape *a{w.WorldShapes()[0]};
   Material mA;
-  mA.Ambient(1);
+  mA.ambient(1);
   TestPattern pA{Matrix::Identity};
-  mA.SetPattern(&pA);
+  mA.pattern(&pA);
   a->material(mA);
 
   Shape *b{w.WorldShapes()[1]};
   Material mB;
-  mB.Transparency(1.0);
-  mB.RefractiveIndex(1.5);
-  mB.Ambient(1);
+  mB.transparency(1.0);
+  mB.refractive_index(1.5);
+  mB.ambient(1);
   b->material(mB);
 
   Ray r{Point(0, 0, 0.1), Vector(0, 1, 0)};
@@ -412,18 +412,18 @@ TEST_F(DefaultWorldTest, RefractedColor)
 TEST_F(DefaultWorldTest, ShadeHitTransparent)
 {
   Material mFloor;
-  mFloor.Transparency(0.5);
-  mFloor.RefractiveIndex(1.5);
-  Plane floor{Translation(0, -1, 0)};
+  mFloor.transparency(0.5);
+  mFloor.refractive_index(1.5);
+  Plane floor{translation(0, -1, 0)};
   floor.material(mFloor);
 
   w.WorldShapes().push_back(&floor);
 
-  Sphere ball{Translation(0, -3.5, -0.5)};
+  Sphere ball{translation(0, -3.5, -0.5)};
   Material mBall;
   SolidPattern pBall{Color(1, 0, 0)};
-  mBall.Ambient(0.5);
-  mBall.SetPattern(&pBall);
+  mBall.ambient(0.5);
+  mBall.pattern(&pBall);
   w.WorldShapes().push_back(&ball);
   ball.material(mBall);
 
@@ -479,18 +479,18 @@ TEST_F(DefaultWorldTest, ShadeHitTransparentReflectance)
 {
   Ray r{Point(0, 0, -3), Vector(0, -(sqrt(2.0) / 2.0), sqrt(2.0) / 2.0)};
   Material mFloor;
-  mFloor.Transparency(0.5);
-  mFloor.Reflectivity(0.5);
-  mFloor.RefractiveIndex(1.5);
-  Plane floor{Translation(0, -1, 0)};
+  mFloor.transparency(0.5);
+  mFloor.reflectivity(0.5);
+  mFloor.refractive_index(1.5);
+  Plane floor{translation(0, -1, 0)};
   floor.material(mFloor);
   w.WorldShapes().push_back(&floor);
 
-  Sphere ball{Translation(0, -3.5, -0.5)};
+  Sphere ball{translation(0, -3.5, -0.5)};
   Material mBall;
   SolidPattern pBall{Color(1, 0, 0)};
-  mBall.Ambient(0.5);
-  mBall.SetPattern(&pBall);
+  mBall.ambient(0.5);
+  mBall.pattern(&pBall);
   w.WorldShapes().push_back(&ball);
   ball.material(mBall);
 

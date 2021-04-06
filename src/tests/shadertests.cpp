@@ -13,10 +13,10 @@ using namespace ray_lib;
 TEST(Shader, Material)
 {
   Material m;
-  EXPECT_FLOAT_EQ(m.Ambient(), 0.1);
-  EXPECT_FLOAT_EQ(m.Diffuse(), 0.9);
-  EXPECT_FLOAT_EQ(m.Specular(), 0.9);
-  EXPECT_FLOAT_EQ(m.Shininess(), 200);
+  EXPECT_FLOAT_EQ(m.ambient(), 0.1);
+  EXPECT_FLOAT_EQ(m.diffuse(), 0.9);
+  EXPECT_FLOAT_EQ(m.specular(), 0.9);
+  EXPECT_FLOAT_EQ(m.shininess(), 200);
 }
 TEST(Shader, Sphere_mat)
 {
@@ -29,7 +29,7 @@ TEST(Shader, Sphere_mat_assign)
 {
   Sphere s;
   Material m;
-  m.Ambient(1);
+  m.ambient(1);
   s.material(m);
   EXPECT_EQ(s.material(), m);
 }
@@ -38,7 +38,7 @@ TEST(Shader, lighting1)
 {
   Material m;
   SolidPattern s;
-  m.SetPattern(s.asPattern());
+  m.pattern(s.asPattern());
   Point p{0, 0, 0};
   Sphere sp;
 
@@ -53,7 +53,7 @@ TEST(Shader, lighting2)
 {
   Material m;
   SolidPattern s;
-  m.SetPattern(s.asPattern());
+  m.pattern(s.asPattern());
 
   Point p{0, 0, 0};
   Sphere sp;
@@ -68,7 +68,7 @@ TEST(Shader, lighting3)
 {
   Material m;
   SolidPattern s;
-  m.SetPattern(s.asPattern());
+  m.pattern(s.asPattern());
 
   Point p{0, 0, 0};
   Sphere sp;
@@ -83,7 +83,7 @@ TEST(Shader, lighting4)
 {
   Material m;
   SolidPattern s;
-  m.SetPattern(s.asPattern());
+  m.pattern(s.asPattern());
 
   Point p{0, 0, 0};
   Sphere sp;
@@ -98,7 +98,7 @@ TEST(Shader, lighting5)
 {
   Material m;
   SolidPattern s;
-  m.SetPattern(s.asPattern());
+  m.pattern(s.asPattern());
 
   Point p{0, 0, 0};
   Sphere sp;
@@ -113,7 +113,7 @@ TEST(Shader, inshadow1)
 {
   Material m;
   SolidPattern s;
-  m.SetPattern(s.asPattern());
+  m.pattern(s.asPattern());
 
   Point p{0, 0, 0};
   Sphere sp;
@@ -146,13 +146,13 @@ TEST(Shader, Pattern1)
 TEST(Material, DefaultReflectivity)
 {
   Material m;
-  EXPECT_EQ(m.Reflectivity(), 0.0);
+  EXPECT_EQ(m.reflectivity(), 0.0);
 }
 TEST(Material, DefaultRefreactive)
 {
   Material m;
-  EXPECT_EQ(m.RefractiveIndex(), 1.0);
-  EXPECT_EQ(m.Transparency(), 0);
+  EXPECT_EQ(m.refractive_index(), 1.0);
+  EXPECT_EQ(m.transparency(), 0);
 }
 
 TEST(Material, BasicGlassTest)
@@ -160,7 +160,7 @@ TEST(Material, BasicGlassTest)
   Sphere sp;
   Material m = glass;
   sp.material(m);
-  EXPECT_EQ(m.RefractiveIndex(), 1.5);
-  EXPECT_EQ(m.Transparency(), 1);
+  EXPECT_EQ(m.refractive_index(), 1.5);
+  EXPECT_EQ(m.transparency(), 1);
   EXPECT_EQ(sp.Transform(), Matrix::Identity);
 }

@@ -44,7 +44,7 @@ namespace ray_lib
 
     Color Reflected_color{reflection_hit(precomps, depth)};
     Color Refracted_color{refracted_color(precomps, depth)};
-    if (precomps.Object()->material().Reflectivity()> 0 && precomps.Object()->material().Transparency()>0)
+    if (precomps.Object()->material().reflectivity()> 0 && precomps.Object()->material().transparency()>0)
     {
       double reflectance = precomps.schlick();
       return Surface_color + Reflected_color *reflectance + Refracted_color * (1-reflectance);
@@ -55,7 +55,7 @@ namespace ray_lib
 
   Color World::refracted_color(const IntersectionState &precomps, int depth) const
   {
-    if (precomps.Object()->material().Transparency() == 0.0)
+    if (precomps.Object()->material().transparency() == 0.0)
       return Color::Black;
     if (depth <= 0)
       return Color::Black;
@@ -72,17 +72,17 @@ namespace ray_lib
 
     Ray refracted{precomps.Under(), sv};
 
-    return color_at(refracted, depth-1) * precomps.Object()->material().Transparency();
+    return color_at(refracted, depth-1) * precomps.Object()->material().transparency();
   }
 
   Color World::reflection_hit(const IntersectionState &precomps, int depth) const
   {
-    if (precomps.Object()->material().Reflectivity() == 0.0)
+    if (precomps.Object()->material().reflectivity() == 0.0)
       return Color::Black;
     if (depth <= 0)
       return Color::Black;
     ray_lib::Ray reflected{precomps.OverPoint(), precomps.ReflectV()};
-    return color_at(reflected, depth-1) * precomps.Object()->material().Reflectivity();
+    return color_at(reflected, depth-1) * precomps.Object()->material().reflectivity();
   }
 
 

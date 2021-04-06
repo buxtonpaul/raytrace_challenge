@@ -12,13 +12,13 @@ int main(int argc, char *argv[])
   // we will have the location transformations and the display ones
 
   Point Twelve{
-      Matrix::Identity.Translate(0, 1, 0) * Point(0, 0, 0)};
+      Matrix::Identity.translate(0, 1, 0) * Point(0, 0, 0)};
 
   for (unsigned int hour = 0; hour < 12; ++hour)
   {
-    Point location{Matrix::Identity.Rotate_z(hour * M_PI / 6.0)
-                                .Scale(40, 40, 40)
-                                .Translate(50, 50, 0) *
+    Point location{Matrix::Identity.rotate_z(hour * M_PI / 6.0)
+                                .scale(40, 40, 40)
+                                .translate(50, 50, 0) *
                             Twelve};
     c.Pixel(location.x(), c.height() - location.y(), Color(1, 0, 0));
     std::cout << location << std::endl;
