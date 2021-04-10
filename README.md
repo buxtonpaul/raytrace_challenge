@@ -9,6 +9,9 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 # Todo 
 - [ ] Improve gradient to transition smoothly after x=1
 - [ ] Nested patterns - Patterns should be provided other patterns. Only solid color pattern takes a color.
+- [ ] Specify file and resolution as commandline params
+- [ ] Implement cones
+- [ ] Implement scene management
 - [ ] Improve float_equals to handle zero ?
 - [ ] Rewrite gethit using lower_bound ?
 - [ ] Refactor color to be simple struct ?
