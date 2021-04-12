@@ -7,6 +7,14 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 ----
 
 # Todo 
+- [ ] Try some scenes with groups and translations
+- [ ] Handle patterns with worl_to_shape transform (end of the groups task)
+- [ ] Build some composite shapes
+  - [ ] Table
+  - [ ] Room
+- [ ] Procedurally generate some shapes
+- [ ] Move inverse transform of ray into shape?
+- [ ] Are we handling shape transform correctly?
 - [ ] Improve gradient to transition smoothly after x=1
 - [ ] Nested patterns - Patterns should be provided other patterns. Only solid color pattern takes a color.
 - [ ] Specify file and resolution as commandline params

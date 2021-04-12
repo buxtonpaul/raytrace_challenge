@@ -1,0 +1,48 @@
+#include <cmath>
+#include <vector>
+#include <algorithm>
+#include "rays.h"
+#include "shape.h"
+#include "tuples.h"
+#include "triangle.h"
+
+namespace ray_lib
+{
+
+
+  std::vector<Intersection> Triangle::intersects(const Ray &r) const
+  {
+    std::vector<Intersection> results;
+
+
+    Ray input_ray { r.Transform(Transform().inverse())};
+
+    auto dir_cross_e2{input_ray.Direction().crossproduct(_e2)};
+    double det {_e1.dotproduct(dir_cross_e2)};
+    if (fabs(det) < __FLT_EPSILON__)
+      return results;
+
+    auto f {1.0/det};
+    auto p1_to_origin{input_ray.Origin() - _p1};
+    auto u{f * p1_to_origin.dotproduct(dir_cross_e2)};
+
+    if ((u < 0) || (u >1))
+      return results;
+
+    auto origin_cross_e1{p1_to_origin.crossproduct(_e1)};
+    auto v{f * input_ray.Direction().dotproduct(origin_cross_e1)};
+
+    if ((v < 0) || ((u+v) > 1))
+      return results;
+    auto t {f*_e2.dotproduct(origin_cross_e1)};
+    results.push_back(Intersection(reinterpret_cast<const Shape *>(this), t));
+
+    return results;
+  }
+
+  const Vector Triangle::local_normal_at(const Point &position) const
+  {
+    return _normal;
+  }
+
+} // namespace ray_lib
