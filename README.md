@@ -12,6 +12,7 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 - [ ] Specify file and resolution as commandline params
 - [ ] Implement cones
 - [ ] Implement scene management
+- [ ] Bounding boxes
 - [ ] Improve float_equals to handle zero ?
 - [ ] Rewrite gethit using lower_bound ?
 - [ ] Refactor color to be simple struct ?

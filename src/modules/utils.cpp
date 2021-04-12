@@ -79,3 +79,23 @@ std::string genfilestring()
            (1 + ltm->tm_hour), (1 + ltm->tm_min), (1 + ltm->tm_sec));
   return std::string(tmpstrinf);
 }
+
+
+
+std::pair<double, double> check_axis(double origin, double direction)
+{
+  double tmin_numerator = {-1 - origin};
+  double tmax_numerator{1 - origin};
+  double tmin, tmax = 0;
+  if (fabs(direction) >= __FLT_EPSILON__)
+  {
+    tmin = tmin_numerator / direction;
+    tmax = tmax_numerator / direction;
+  }
+  else
+  {
+    tmin = tmin_numerator * INFINITY;
+    tmax = tmax_numerator * INFINITY;
+  }
+  return (tmax > tmin ? std::make_pair(tmin, tmax) : std::make_pair(tmax, tmin));
+}

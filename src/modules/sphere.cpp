@@ -36,13 +36,11 @@ namespace ray_lib
     return results;
   }
 
-  const Vector Sphere::normal(const Point &position) const
+  const Vector Sphere::local_normal_at(const Point &position) const
   {
-    Point object_point{Transform().inverse() * position};
-    Vector object_normal{object_point - Point(0, 0, 0)};
-    Vector world_normal{Transform().inverse().transpose() * object_normal};
-    world_normal.w(0);
-    return world_normal.normalise();
+    Vector object_normal{position - Point(0, 0, 0)};
+    object_normal.w(0);
+    return object_normal.normalise();
   }
 
 } // namespace ray_lib

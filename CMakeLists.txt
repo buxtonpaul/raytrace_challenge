@@ -71,6 +71,7 @@ set(MODULE_SOURCES src/modules/tuples.cpp
             src/modules/pattern.cpp
             src/modules/cube.cpp
             src/modules/cylinder.cpp
+            src/modules/group.cpp
             )
 
 
@@ -87,6 +88,7 @@ set (TESTS src/tests/tupletests.cpp
             src/tests/patterntests.cpp
             src/tests/cubetests.cpp
             src/tests/cylindertests.cpp
+            src/tests/grouptests.cpp
             )
 
 add_library(rays ${MODULE_SOURCES})

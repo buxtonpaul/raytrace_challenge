@@ -73,10 +73,10 @@ namespace ray_lib
     return results;
   }
 
-  const Vector Cylinder::normal(const Point &position) const
+  const Vector Cylinder::local_normal_at(const Point &position) const
   {
-    Point object_point{Transform().inverse() * position};
-
+    // Point object_point{Transform().inverse() * position};
+    Point object_point{position};
     auto dist{(object_point.x()*object_point.x()) + (object_point.z()*object_point.z())};
 
     if ((dist < 1) && (object_point.y() >= (_max - __DBL_EPSILON__) ))

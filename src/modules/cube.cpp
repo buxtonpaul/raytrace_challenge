@@ -9,23 +9,6 @@
 namespace ray_lib
 {
 
-  std::pair<double, double> check_axis(double origin, double direction)
-  {
-    double tmin_numerator = {-1 - origin};
-    double tmax_numerator{1 - origin};
-    double tmin, tmax = 0;
-    if (fabs(direction) >= __FLT_EPSILON__)
-    {
-      tmin = tmin_numerator / direction;
-      tmax = tmax_numerator / direction;
-    }
-    else
-    {
-      tmin = tmin_numerator * INFINITY;
-      tmax = tmax_numerator * INFINITY;
-    }
-    return (tmax > tmin ? std::make_pair(tmin, tmax) : std::make_pair(tmax, tmin));
-  }
 
   std::vector<Intersection> Cube::intersects(const Ray &r) const
   {
@@ -49,9 +32,11 @@ namespace ray_lib
     return results;
   }
 
-  const Vector Cube::normal(const Point &position) const
+  const Vector Cube::local_normal_at(const Point &position) const
   {
-    Point object_point{Transform().inverse() * position};
+    // Point object_point{Transform().inverse() * position};
+    Point object_point{position};
+
     double maxc[]{fabs(object_point.x()), fabs(object_point.y()), fabs(object_point.z())};
 
     double maxval = *std::max_element(maxc, maxc + 3);

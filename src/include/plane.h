@@ -14,7 +14,7 @@ class Plane : public Shape {
   Plane() : Shape(Matrix::Identity) {}
   explicit Plane(const Matrix &m) : Shape(m) {}
   std::vector<Intersection> intersects(const Ray &r) const;
-  const Vector normal(const Point &position) const;
+  const Vector local_normal_at(const Point &position) const;
 };
 }  // namespace ray_lib
 
