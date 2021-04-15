@@ -38,9 +38,7 @@ namespace ray_lib
 
   Color PatternAtObject(const Pattern &pat, const Shape &s, const Point &p)
   {
-    Point objpoint{  s.Transform().inverse() * p};
-
-    return pat.getColor(objpoint);
+    return pat.getColor(s.world_to_object(p));
   }
 
 } // namespace ray_lib

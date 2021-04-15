@@ -12,6 +12,7 @@
 #include "tuples.h"
 #include "world.h"
 #include "cube.h"
+#include "group.h"
 
 using namespace ray_lib;
 int main(int argc, char *argv[])
@@ -26,7 +27,7 @@ int main(int argc, char *argv[])
   World w;
 
   CheckPattern3d pat_floor{Color(0.9, 0.9, 0.9), Color(0.1, 0.1, 0.1), scale(.1, 1, .1)};
-   Material mat_floor = Material(pat_floor).specular(0).reflectivity(0.3);
+  Material mat_floor = Material(pat_floor).specular(0).reflectivity(0.3);
 
   Material m_walls {Material(SolidPattern(Color(0.0, 0.9, 0.9)))};
 
@@ -34,6 +35,9 @@ int main(int argc, char *argv[])
   floor.material(mat_floor);
 
   w.WorldShapes().push_back(&floor);
+
+  Group g1;
+  
 
   StripePattern candy{Color(0.9, 0.1, 0.1), Color(.95, .95, .95), scale(0.25, 0.25, 0.25)};
 
@@ -63,9 +67,14 @@ int main(int argc, char *argv[])
 
   Light l{Color(1.0, 1.0, 1.0), Point(-10, 10, -10)};
 
-  w.WorldShapes().push_back(&middle);
-  w.WorldShapes().push_back(&left);
+  g1.Transform(Matrix::Identity.translate(0.5, 0, 0));
+  g1.add_child(&middle);
+  g1.add_child(&left);
+
+  // w.WorldShapes().push_back(&middle);
+  // w.WorldShapes().push_back(&left);
   // w.WorldShapes().push_back(&right);
+  w.WorldShapes().push_back(&g1);
   w.WorldLights().push_back(&l);
 
   Canvas outimage{c.render(w)};
