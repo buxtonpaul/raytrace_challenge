@@ -90,7 +90,6 @@ namespace ray_lib
 
   Matrix Matrix::inverse() const
   {
-
     if (_calcInverse)
     {
       // for each elment row,colum
@@ -106,7 +105,6 @@ namespace ray_lib
           _inverse->_data[i][j] = cofactor(j, i) / d;
         }
       }
-      
       _calcInverse = false;
     }
     return *_inverse;
@@ -197,6 +195,49 @@ namespace ray_lib
   {
     return Matrix({{1, xy, xz, 0}, {yx, 1, yz, 0}, {zx, zy, 1, 0}, {0, 0, 0, 1}});
   }
+
+  Matrix::Matrix(const std::vector<std::vector<double>> &input)
+      : _data(input), _columns(input[0].size()), _rows(input.size()) {}
+  Matrix::Matrix(const Tuple &input)
+      : _columns(1), _rows(input.Values().size())
+  {
+    for (auto a : input.Values())
+    {
+      _data.push_back({a});
+    }
+    _calcInverse = true;
+  }
+  Matrix::Matrix(const Matrix &rhs) : _columns{rhs._columns}, _rows{rhs._rows}, _data{rhs._data}, _calcInverse{rhs._calcInverse}
+  {
+    if (!_calcInverse)
+      _inverse = new Matrix{*rhs._inverse};
+  }
+
+  Matrix &Matrix::operator=(const Matrix &rhs)
+  {
+    _columns = rhs._columns;
+    _rows = rhs._rows;
+    _data = rhs._data;
+    _calcInverse = rhs._calcInverse;
+    if (!_calcInverse)
+      _inverse = new Matrix{*rhs._inverse};
+
+    return *this;
+  }
+
+  Matrix::~Matrix()
+  {
+    if (_inverse)
+    {
+      delete (_inverse);
+      _inverse = nullptr;
+    }
+  }
+  const std::vector<std::vector<double>> &Matrix::Data() { return _data; }
+
+  unsigned int Matrix::columns() const { return _columns; }
+  unsigned int Matrix::rows() const { return _rows; }
+  std::vector<double> &Matrix::operator[](int index) { return _data[index]; }
   const Matrix Matrix::Identity{
       Matrix({{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}})};
 

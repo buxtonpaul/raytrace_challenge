@@ -8,148 +8,57 @@
 
 namespace ray_lib
 {
-class Material
-{
-protected:
-  double _ambient = 0.1;
-  double _diffuse = 0.9;
-  double _specular = 0.9;
-  double _shininess = 200;
-  double _reflectiveness = 0;
-  double _transparency = 0;
-  double _refractive_index = 1;
-  std::unique_ptr<Pattern> _pat = ray_lib::SolidPattern(Color::White).clone();
-public:
-  Material(const double a, const double d, const double spec,const double shin,const double reflectiveness,const double transparency,const double ri,const Pattern &inpat)
-      : _ambient{a},
-        _diffuse{d},
-        _specular{spec},
-        _shininess{shin},
-        _reflectiveness{reflectiveness},
-        _transparency{transparency},
-        _refractive_index{ri}
+  class Material
+  {
+  protected:
+    double _ambient = 0.1;
+    double _diffuse = 0.9;
+    double _specular = 0.9;
+    double _shininess = 200;
+    double _reflectiveness = 0;
+    double _transparency = 0;
+    double _refractive_index = 1;
+    std::unique_ptr<Pattern> _pat = ray_lib::SolidPattern(Color::White).clone();
 
-  {
-    _pat = inpat.clone();
-  }
+  public:
+    Material(const double a, const double d, const double spec, const double shin,
+      const double reflectiveness, const double transparency, const double ri, const Pattern &inpat);
 
-  explicit Material(const Pattern &inpat)
-  {
-    _pat = inpat.clone();
-  }
+    explicit Material(const Pattern &inpat);
 
-  Material(const Material &other)
-  {
-    _ambient = other._ambient;
-    _diffuse = other._diffuse;
-    _specular = other._specular;
-    _shininess = other._shininess;
-    _reflectiveness = other._reflectiveness;
-    _transparency = other._transparency;
-    _refractive_index = other._refractive_index;
-    _pat = other._pat->clone();
-  }
+    Material(const Material &other);
 
-  Material operator =(const Material &other)
-  {
-    _ambient = other._ambient;
-    _diffuse = other._diffuse;
-    _specular = other._specular;
-    _shininess = other._shininess;
-    _reflectiveness = other._reflectiveness;
-    _transparency = other._transparency;
-    _refractive_index = other._refractive_index;
-    _pat = other._pat->clone();
-    return *this;
-  }
+    Material operator=(const Material &other);
 
-  Material(Material &&other)
-  {
-    _ambient = other._ambient;
-    _diffuse = other._diffuse;
-    _specular = other._specular;
-    _shininess = other._shininess;
-    _reflectiveness = other._reflectiveness;
-    _transparency = other._transparency;
-    _refractive_index = other._refractive_index;
-    _pat = std::move(other._pat);
-  }
+    Material(Material &&other);
 
-  Material() {}
-  Material &ambient(double n)
-  {
-    _ambient = n;
-    return *this;
-  }
-  Material &diffuse(double n)
-  {
-    _diffuse = n;
-    return *this;
-  }
-  Material &specular(double n)
-  {
-    _specular = n;
-    return *this;
-  }
-  Material &shininess(double n)
-  {
-    _shininess = n;
-    return *this;
-  }
+    Material() {}
+    Material &ambient(double n);
+    Material &diffuse(double n);
+    Material &specular(double n);
+    Material &shininess(double n);
 
-  Material &reflectivity(double n)
-  {
-    _reflectiveness = n;
-    return *this;
-  }
+    Material &reflectivity(double n);
 
-  Material &transparency(double n)
-  {
-    _transparency = n;
-    return *this;
-  }
-  Material &refractive_index(double n)
-  {
-    _refractive_index = n;
-    return *this;
-  }
+    Material &transparency(double n);
+    Material &refractive_index(double n);
 
-  // pass by unique ptr
-  Material &pattern(std::unique_ptr<Pattern> pattern)
-  {
-    _pat = std::move(pattern);
-    return *this;
-  }
+    // pass by unique ptr
+    Material &pattern(std::unique_ptr<Pattern> pattern);
+    Material &pattern(const Pattern &pattern);
 
-  Material &pattern(const Pattern &pattern)
-  {
-    _pat = std::move(pattern.clone());
-    return *this;
-  }
-
-
-  ~Material() {_pat.reset();}
-  const Pattern &pattern() const { return *_pat; }
-  double ambient() const { return _ambient; }
-  double diffuse() const { return _diffuse; }
-  double specular() const { return _specular; }
-  double shininess() const { return _shininess; }
-  double reflectivity() const { return _reflectiveness; }
-  double refractive_index() const { return _refractive_index; }
-  double transparency() const { return _transparency; }
-  friend std::ostream &operator<<(std::ostream &out, const Material &m);
-  bool operator==(const Material &rhs) const
-  {
-    // todo(Me): Implement pattern compare
-    return ( *_pat == *rhs._pat && float_equals(_ambient, rhs._ambient) &&
-            float_equals(_diffuse, rhs._diffuse) &&
-            float_equals(_specular, rhs._specular) &&
-            float_equals(_transparency, rhs._transparency) &&
-            float_equals(_refractive_index, rhs._refractive_index) &&
-            float_equals(_reflectiveness, rhs._reflectiveness) &&
-            float_equals(_shininess, rhs._shininess));
-  }
-};
+    ~Material();
+    const Pattern &pattern() const;
+    double ambient() const;
+    double diffuse() const;
+    double specular() const;
+    double shininess() const;
+    double reflectivity() const;
+    double refractive_index() const;
+    double transparency() const;
+    friend std::ostream &operator<<(std::ostream &out, const Material &m);
+    bool operator==(const Material &rhs) const;
+  };
 
   extern Material glass;
 } // namespace ray_lib

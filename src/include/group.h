@@ -7,29 +7,24 @@
 #include "tuples.h"
 #include "utils.h"
 
-namespace ray_lib {
-class Group : public Shape {
-
- public:
-  Group() : Group(Matrix::Identity) {}
-  explicit Group(const Matrix &m) : Shape(m) {}
-  std::vector<Intersection> intersects(const Ray &r) const;
-  const Vector local_normal_at(const Point &position) const
+namespace ray_lib
+{
+  class Group : public Shape
   {
-    return {0,0,0};
-  }
 
-  bool isEmpty()const {return ( _children.size() == 0);}
-  const Group& add_child(Shape *s){
-    _children.push_back(s);
-    s->parent(this);
-  }
-  bool includes(const Shape *s)const{
-    return contains(_children,s);
-  }
+  public:
+    Group() : Group(Matrix::Identity) {}
+    explicit Group(const Matrix &m) : Shape(m) {}
+    std::vector<Intersection> intersects(const Ray &r) const;
+    const Vector local_normal_at(const Point &position) const;
+
+    bool isEmpty() const;
+    const Group &add_child(Shape *s);
+    bool includes(const Shape *s) const;
+
   private:
     std::vector<ray_lib::Shape const *> _children;
-};
-}  // namespace ray_lib
+  };
+} // namespace ray_lib
 
-#endif  //_group_h
+#endif //_group_h

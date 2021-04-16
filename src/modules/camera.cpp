@@ -50,4 +50,57 @@ namespace ray_lib
     }
     return c;
   }
+
+  Camera::Camera(unsigned int hsize, unsigned int vsize, double fov,
+                 Matrix transform)
+      : _hsize(hsize), _vsize(vsize), _fov(fov), _viewtransform(transform)
+  {
+    double half_view = tan(_fov / 2.0);
+    double aspect = static_cast<double>(_hsize) / static_cast<double>(_vsize);
+    if (aspect >= 1)
+    {
+      _halfWidth = half_view;
+      _halfHeight = half_view / aspect;
+    }
+    else
+    {
+      _halfWidth = half_view * aspect;
+      _halfHeight = half_view;
+    }
+    _pixelSize = (_halfWidth * 2) / _hsize;
+  }
+
+  unsigned int Camera::h_size() const { return _hsize; }
+
+  unsigned int Camera::v_size() const { return _vsize; }
+  
+  unsigned int Camera::h_size(const unsigned int size)
+  {
+    _hsize = size;
+    return size;
+  }
+  
+  unsigned int Camera::v_size(const unsigned int size)
+  {
+    _vsize = size;
+    return size;
+  }
+
+  double Camera::fov() const { return _fov; }
+  
+  double Camera::fov(const double fov)
+  {
+    _fov = fov;
+    return _fov;
+  }
+  
+  Matrix Camera::view_transform() const { return _viewtransform; }
+  
+  Matrix Camera::view_transform(Matrix intransform)
+  {
+    _viewtransform = intransform;
+    return _viewtransform;
+  }
+  double Camera::pixel_size() { return _pixelSize; }
+
 } // namespace ray_lib

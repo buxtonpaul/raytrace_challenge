@@ -2,8 +2,6 @@
 #include <cmath>
 #include <vector>
 #include "rays.h"
-#include "shape.h"
-#include "tuples.h"
 namespace ray_lib
 {
 

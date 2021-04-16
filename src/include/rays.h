@@ -116,9 +116,6 @@ class IntersectionState {
   void computeSurfaceParams();
   void computeRefractionparams(const Intersection &i);
   void computeRefractionparams(const Intersection &i, const std::vector<Intersection> &intersections);
-  // To get the normal we would call the shape with the position
-
-  // now has to compute n1,n2
 };
 
 }  // namespace ray_lib

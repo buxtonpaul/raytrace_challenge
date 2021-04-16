@@ -41,4 +41,23 @@ namespace ray_lib
     return pat.getColor(s.world_to_object(p));
   }
 
+  Color Light::intensity() const
+  {
+    return _intensity;
+  }
+  Color Light::intensity(Color n)
+  {
+    _intensity = n;
+    return n;
+  }
+  Point Light::position() const
+  {
+    return _position;
+  }
+  Point Light::position(Point n)
+  {
+    _position = n;
+    return n;
+  }
+
 } // namespace ray_lib

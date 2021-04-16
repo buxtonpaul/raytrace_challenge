@@ -16,44 +16,13 @@ class Matrix
   mutable bool _calcInverse = true;
 
 public:
-  explicit Matrix(const std::vector<std::vector<double>> &input)
-      : _data(input), _columns(input[0].size()), _rows(input.size()) {}
-  explicit Matrix(const Tuple &input)
-      : _columns(1), _rows(input.Values().size())
-  {
-    for (auto a : input.Values())
-    {
-      _data.push_back({a});
-    }
-    _calcInverse = true;
-  }
-  Matrix(const Matrix &rhs) : _columns{rhs._columns}, _rows{rhs._rows}, _data{rhs._data}, _calcInverse{rhs._calcInverse}
-  {
-    if (!_calcInverse)
-      _inverse = new Matrix{*rhs._inverse};
-  }
+  explicit Matrix(const std::vector<std::vector<double>> &input);
+  explicit Matrix(const Tuple &input);
+  Matrix(const Matrix &rhs);
+  Matrix &operator=(const Matrix &rhs);
 
-  Matrix &operator=(const Matrix &rhs)
-  {
-    _columns = rhs._columns;
-    _rows = rhs._rows;
-    _data = rhs._data;
-    _calcInverse = rhs._calcInverse;
-    if (!_calcInverse)
-      _inverse = new Matrix{*rhs._inverse};
-
-    return *this;
-  }
-
-  ~Matrix()
-  {
-    if (_inverse)
-    {
-      delete (_inverse);
-      _inverse = nullptr;
-    }
-  }
-  const std::vector<std::vector<double>> &Data() { return _data; }
+  ~Matrix();
+  const std::vector<std::vector<double>> &Data();
   friend bool operator==(const Matrix &lhs, const Matrix &rhs);
   friend bool operator!=(const Matrix &lhs, const Matrix &rhs);
   friend Matrix operator*(const Matrix &lhs, const Matrix &rhs);
@@ -70,9 +39,9 @@ public:
   double cofactor(unsigned int row, unsigned int column) const;
   bool invertable() const;
   Matrix inverse() const;
-  unsigned int columns() const { return _columns; }
-  unsigned int rows() const { return _rows; }
-  std::vector<double> &operator[](int index) { return _data[index]; }
+  unsigned int columns() const;
+  unsigned int rows() const;
+  std::vector<double> &operator[](int index);
   Matrix translate(double x, double y, double z) const;
   Matrix scale(double x, double y, double z) const;
 

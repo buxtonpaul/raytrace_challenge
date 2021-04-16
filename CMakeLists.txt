@@ -69,6 +69,7 @@ set(MODULE_SOURCES src/modules/tuples.cpp
             src/modules/light.cpp
             src/modules/world.cpp
             src/modules/camera.cpp
+            src/modules/shape.cpp
             src/modules/plane.cpp
             src/modules/pattern.cpp
             src/modules/cube.cpp
