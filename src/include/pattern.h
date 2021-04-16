@@ -43,7 +43,7 @@ class StripePattern : public Pattern, MultiColorPattern
 {
 public:
   Color getColor(const Point &p) const;
-  StripePattern(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity) ;
+  StripePattern(const Color &a, const Color &b, const Matrix &transform = Matrix::Identity);
   std::unique_ptr<Pattern> clone() const;
   bool isEqual(const Pattern &other) const;
 };

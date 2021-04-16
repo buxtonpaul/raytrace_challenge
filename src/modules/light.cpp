@@ -1,7 +1,4 @@
 #include "light.h"
-#include "color.h"
-#include "material.h"
-#include "tuples.h"
 
 namespace ray_lib
 {

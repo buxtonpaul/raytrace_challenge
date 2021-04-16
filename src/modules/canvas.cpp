@@ -1,8 +1,8 @@
 #include "canvas.h"
+#include <png.h>
 #include <assert.h>
 #include <iostream>
 #include <string>
-#include <png.h>
 #include "color.h"
 #include "utils.h"
 
@@ -52,10 +52,10 @@ char clamp255(double colval)
 void Canvas::png(const std::string &filename) const
 {
   // png file sample uses 32bit ARGB
-  png_bytep *row_pointers = (png_bytep *)malloc(sizeof(png_bytep) * _height);
+  png_bytep *row_pointers = reinterpret_cast<png_bytep *>(malloc(sizeof(png_bytep) * _height));
   for (int y = 0; y < _height; y++)
   {
-    row_pointers[y] = (png_byte *)malloc(_width * 4);
+    row_pointers[y] = reinterpret_cast<png_byte *>(malloc(_width * 4));
   }
   unsigned long outbuf[_height][_width] = {0};
 

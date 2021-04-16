@@ -1,17 +1,13 @@
 #ifndef _group_h
 #define _group_h
 #include <vector>
-#include "material.h"
 #include "rays.h"
 #include "shape.h"
-#include "tuples.h"
-#include "utils.h"
 
 namespace ray_lib
 {
   class Group : public Shape
   {
-
   public:
     Group() : Group(Matrix::Identity) {}
     explicit Group(const Matrix &m) : Shape(m) {}

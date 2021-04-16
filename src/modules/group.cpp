@@ -1,9 +1,5 @@
-#include <cmath>
 #include <vector>
-#include <algorithm>
 #include "rays.h"
-#include "shape.h"
-#include "tuples.h"
 #include "group.h"
 
 namespace ray_lib

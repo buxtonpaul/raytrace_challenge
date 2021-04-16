@@ -1,16 +1,12 @@
 #ifndef _cylinder_h
 #define _cylinder_h
 #include <vector>
-#include "material.h"
-#include "rays.h"
 #include "shape.h"
-#include "tuples.h"
 
 namespace ray_lib
 {
   class Cylinder : public Shape
   {
-
   public:
     Cylinder() : Shape(Matrix::Identity) {}
     explicit Cylinder(const Matrix &m) : Shape(m) {}
@@ -31,7 +27,7 @@ namespace ray_lib
     double _min{-INFINITY};
     double _max{INFINITY};
     bool _capped = false;
-    void intersect_caps(std::vector<Intersection> &intersections, const Ray &r) const;
+    void intersect_caps(std::vector<Intersection> *intersections, const Ray &r) const;
   };
 } // namespace ray_lib
 

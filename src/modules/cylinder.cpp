@@ -1,10 +1,5 @@
 #include "cylinder.h"
-#include <cmath>
-#include <vector>
-#include <algorithm>
 #include "rays.h"
-#include "shape.h"
-#include "tuples.h"
 namespace ray_lib
 {
 
@@ -20,18 +15,18 @@ namespace ray_lib
   }
 
   // this assymes the input ray has already been transformed
-  void Cylinder::intersect_caps(std::vector<Intersection> &intersections, const Ray &r) const
+  void Cylinder::intersect_caps(std::vector<Intersection> *intersections, const Ray &r) const
   {
     if (!_capped || fabs(r.Direction().y()) < __FLT_EPSILON__)
       return;
 
     auto t0{(_min - r.Origin().y()) / r.Direction().y()};
     if (check_caps(r, t0))
-      intersections.push_back(Intersection(reinterpret_cast<const Shape *>(this), t0));
+      intersections->push_back(Intersection(reinterpret_cast<const Shape *>(this), t0));
 
     auto t1{(_max - r.Origin().y()) / r.Direction().y()};
     if (check_caps(r, t1))
-      intersections.push_back(Intersection(reinterpret_cast<const Shape *>(this), t1));
+      intersections->push_back(Intersection(reinterpret_cast<const Shape *>(this), t1));
   }
 
   std::vector<Intersection> Cylinder::intersects(const Ray &r) const
@@ -67,7 +62,7 @@ namespace ray_lib
       if ((y1 > _min) && (y1 < _max))
         results.push_back(Intersection(reinterpret_cast<const Shape *>(this), t1));
 
-      intersect_caps(results, input_ray);
+      intersect_caps(&results, input_ray);
     }
     return results;
   }

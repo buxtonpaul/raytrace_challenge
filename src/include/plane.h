@@ -1,10 +1,7 @@
 #ifndef _Plane_h
 #define _Plane_h
 #include <vector>
-#include "material.h"
-#include "rays.h"
 #include "shape.h"
-#include "tuples.h"
 
 namespace ray_lib {
 class Plane : public Shape {

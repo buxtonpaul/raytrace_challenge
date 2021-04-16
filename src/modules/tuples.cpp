@@ -32,4 +32,76 @@ namespace ray_lib
     Vector a{*this - n * 2 * dotproduct(n)};
     return a;
   }
+
+  bool Tuple::isPoint() const
+  {
+    return (float_equals(_vals[3], 1.0) && (_size == 4));
+  }
+  bool Tuple::isVector() const
+  {
+    return ((!isPoint()) && (_size == 4));
+  }
+
+  bool Tuple::operator==(const Tuple &obj) const
+  {
+    return (std::equal(begin(_vals), end(_vals), begin(obj._vals),
+                       end(obj._vals), float_equals));
+  }
+
+  double Tuple::x() const
+  {
+    return _vals[0];
+  }
+  double Tuple::y() const
+  {
+    return _vals[1];
+  }
+  double Tuple::z() const
+  {
+    return _vals[2];
+  }
+  double Tuple::w() const
+  {
+    return _vals[3];
+  }
+
+  double Tuple::x(double x)
+  {
+    _vals[0] = x;
+    return _vals[0];
+  }
+  double Tuple::y(double y)
+  {
+    _vals[1] = y;
+    return _vals[1];
+  }
+  double Tuple::z(double z)
+  {
+    _vals[2] = z;
+    return _vals[2];
+  }
+  double Tuple::w(double w)
+  {
+    _vals[3] = w;
+    return _vals[3];
+  }
+
+  unsigned int Tuple::size() const
+  {
+    return _size;
+  }
+  const std::vector<double> &Tuple::Values() const
+  {
+    return (_vals);
+  }
+  const double &Tuple::operator[](int index) const
+  {
+    return _vals[index];
+  }
+
+  Vector Vector::normalise() const
+  {
+    return (*this / this->magnitude());
+  }
+
 } // namespace ray_lib

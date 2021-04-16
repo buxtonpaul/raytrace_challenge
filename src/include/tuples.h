@@ -22,13 +22,10 @@ class Tuple {
   Tuple() : _vals({0.0, 0.0, 0.0, 0.0}), _size(4) {}
   explicit Tuple(std::vector<double> a) : _vals(a), _size(a.size()) {}
   Tuple(const Tuple &r) : _vals(r._vals) {}
-  bool isPoint() const { return (float_equals(_vals[3], 1.0) && (_size == 4)); }
-  bool isVector() const { return ((!isPoint()) && (_size == 4)); }
+  bool isPoint() const ;
+  bool isVector() const ;
 
-  bool operator==(const Tuple &obj) const {
-    return (std::equal(begin(_vals), end(_vals), begin(obj._vals),
-                       end(obj._vals), float_equals));
-  }
+  bool operator==(const Tuple &obj) const;
   // scalar operators
   template <class T>
   friend T operator*(const double &lhs, const T &rhs);
@@ -58,32 +55,20 @@ class Tuple {
   friend Vector operator-(const Vector &lhs, const Vector &rhs);
 
   friend double magnitude();
-  double x() const { return _vals[0]; }
-  double y() const { return _vals[1]; }
-  double z() const { return _vals[2]; }
-  double w() const { return _vals[3]; }
+  double x() const ;
+  double y() const ;
+  double z() const;
+  double w() const;
 
-  double x(double x) {
-    _vals[0] = x;
-    return _vals[0];
-  }
-  double y(double y) {
-    _vals[1] = y;
-    return _vals[1];
-  }
-  double z(double z) {
-    _vals[2] = z;
-    return _vals[2];
-  }
-  double w(double w) {
-    _vals[3] = w;
-    return _vals[3];
-  }
+  double x(double x);
+  double y(double y);
+  double z(double z);
+  double w(double w);
 
   double magnitude() const;
-  unsigned int size() const { return _size; }
-  const std::vector<double> &Values() const { return (_vals); }
-  const double &operator[](int index) const{ return _vals[index]; }
+  unsigned int size() const;
+  const std::vector<double> &Values() const;
+  const double &operator[](int index) const;
 };
 
 class Vector : public Tuple {
@@ -92,7 +77,7 @@ class Vector : public Tuple {
   Vector(const Vector &r) : Tuple(r.Values()) {}
   Vector(double x, double y, double z) : Tuple({x, y, z, 0.0}) {}
   friend Point operator+(const Point &lhs, const Vector &rhs);
-  Vector normalise() const { return (*this / this->magnitude()); }
+  Vector normalise() const;
   double dotproduct(const Vector &r) const;
   Vector crossproduct(const Vector &r) const;
   Vector reflect(const Vector &n) const;
