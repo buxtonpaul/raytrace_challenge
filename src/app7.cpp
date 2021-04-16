@@ -17,6 +17,15 @@
 using namespace ray_lib;
 int main(int argc, char *argv[])
 {
+  const char *outfile;
+  std::string defaultfile = genfilestring() + ".png";
+  if(argc<2)
+  {
+    outfile = defaultfile.data();
+  }
+  else{
+    outfile = argv[1];
+  }
   Camera c(640, 480, M_PI / 2);
   // c.viewTransform(view_transform(Point(0, 20, 0), Point(0, 0, 0),
   //                                Vector(0, 0, 1)));
@@ -79,7 +88,8 @@ int main(int argc, char *argv[])
 
   Canvas outimage{c.render(w)};
 
-  std::ofstream outfile(genfilestring() + ".ppm");
-  outfile << outimage.ppm();
-  outfile.close();
+  // std::ofstream outfile(genfilestring() + ".ppm");
+  // outfile << outimage.ppm();
+  // outfile.close();
+  outimage.png(outfile);
 }

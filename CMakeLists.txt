@@ -9,6 +9,8 @@ set (CMAKE_CXX_STANDARD_REQUIRED ON)
 Message("GTEST_ROOT set to ${GTEST_ROOT}")
 find_package(GTest)
 find_package(OpenMP)
+find_package(PNG REQUIRED)
+
 
 if(GTest_FOUND)
 INCLUDE_DIRECTORIES(${GTEST_INCLUDE_DIRS})
@@ -94,8 +96,8 @@ set (TESTS src/tests/tupletests.cpp
             )
 
 add_library(rays ${MODULE_SOURCES})
-target_link_libraries(rays  OpenMP::OpenMP_CXX)
-target_include_directories(rays PUBLIC  src/include)
+target_link_libraries(rays  OpenMP::OpenMP_CXX ${PNG_LIBRARY})
+target_include_directories(rays PUBLIC  src/include ${PNG_INCLUDE_DIR})
 
 
 # Now simply link against gtest or gtest_main as needed. Eg
@@ -141,5 +143,5 @@ target_link_libraries(app6 rays)
 
 # Build a simple test applicaiton
 add_executable(app7 src/app7.cpp)
-target_include_directories(app7 PUBLIC src/include)
-target_link_libraries(app7 rays) 
+target_include_directories(app7 PUBLIC src/include )
+target_link_libraries(app7 rays ) 

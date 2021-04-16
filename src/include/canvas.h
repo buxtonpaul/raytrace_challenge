@@ -15,6 +15,7 @@ class Canvas {
   Color pixel(const unsigned int x, const unsigned int y) const;
   void pixel(const unsigned int x, const unsigned int y, const Color &toset);
   std::string ppm() const;
+  void png(const std::string &filename)const;
   unsigned int width() const { return _width; }
   unsigned int height() const { return _height; }
 };
