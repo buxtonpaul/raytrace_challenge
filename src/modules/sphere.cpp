@@ -41,4 +41,15 @@ namespace ray_lib
     return object_normal.normalise();
   }
 
+  const void Sphere::getBounds(Bounds *bounds)const
+  {
+    bounds->mins.x(-1);
+    bounds->mins.y(-1);
+    bounds->mins.z(-1);
+    bounds->maxs.x(1);
+    bounds->maxs.y(1);
+    bounds->maxs.z(1);
+  }
+
+
 } // namespace ray_lib

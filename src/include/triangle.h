@@ -31,6 +31,8 @@ public:
   const Vector e2()const;
   const Vector normal()const;
   const Vector normal(const Point &p2)const;
+  const void getBounds(Bounds *bounds)const;
+
 
 };
 } // namespace ray_lib

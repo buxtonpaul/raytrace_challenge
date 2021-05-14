@@ -82,10 +82,10 @@ std::string genfilestring()
 
 
 
-std::pair<double, double> check_axis(double origin, double direction)
+std::pair<double, double> check_axis(double origin, double direction,double minextent=-1, double maxextend =1)
 {
-  double tmin_numerator = {-1 - origin};
-  double tmax_numerator{1 - origin};
+  double tmin_numerator = {minextent - origin};
+  double tmax_numerator{maxextend - origin};
   double tmin, tmax = 0;
   if (fabs(direction) >= __FLT_EPSILON__)
   {

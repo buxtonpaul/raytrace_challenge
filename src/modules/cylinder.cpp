@@ -99,6 +99,17 @@ namespace ray_lib
     return *this;
   }
 
+ const void Cylinder::getBounds(Bounds *bounds)const
+  {
+    bounds->mins.x(-1);
+    bounds->mins.y(-1);
+    bounds->mins.z(_min);
+    bounds->maxs.x(1);
+    bounds->maxs.y(1);
+    bounds->maxs.z(_max);
+  }
+
+
   double Cylinder::min() const { return _min; }
   double Cylinder::max() const { return _max; }
   bool Cylinder::capped() const { return _capped; }

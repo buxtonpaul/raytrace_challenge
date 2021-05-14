@@ -46,14 +46,38 @@ namespace ray_lib
     _normal = _e2.crossproduct(_e1).normalise();
   }
 
+  const void Triangle::getBounds(Bounds *bounds) const
+  {
+    Point mins = {INFINITY, INFINITY, INFINITY};
+    Point maxs = {-INFINITY, -INFINITY, -INFINITY};
 
-  const Point Triangle::p1()const {return _p1;}
-  const Point Triangle::p2()const {return _p2;}
-  const Point Triangle::p3()const {return _p3;}
-  const Vector Triangle::e1()const {return _e1;}
-  const Vector Triangle::e2()const {return _e2;}
-  const Vector Triangle::normal()const {return _normal;}
-  const Vector Triangle::normal(const Point &p2)const {return Shape::normal(p2);}
+    for (auto a : std::vector<Point>{_p1, _p2, _p3})
+    {
+      if (a.x() < mins.x())
+        mins.x(a.x());
+      if (a.x() > maxs.x())
+        maxs.x(a.x());
 
+      if (a.y() < mins.y())
+        mins.y(a.y());
+      if (a.y() > maxs.y())
+        maxs.y(a.y());
+
+      if (a.z() < mins.z())
+        mins.z(a.z());
+      if (a.z() > maxs.z())
+        maxs.z(a.z());
+    }
+    bounds->mins = mins;
+    bounds->maxs = maxs;
+  }
+
+  const Point Triangle::p1() const { return _p1; }
+  const Point Triangle::p2() const { return _p2; }
+  const Point Triangle::p3() const { return _p3; }
+  const Vector Triangle::e1() const { return _e1; }
+  const Vector Triangle::e2() const { return _e2; }
+  const Vector Triangle::normal() const { return _normal; }
+  const Vector Triangle::normal(const Point &p2) const { return Shape::normal(p2); }
 
 } // namespace ray_lib

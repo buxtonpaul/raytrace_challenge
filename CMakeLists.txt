@@ -76,6 +76,7 @@ set(MODULE_SOURCES src/modules/tuples.cpp
             src/modules/cylinder.cpp
             src/modules/group.cpp
             src/modules/triangle.cpp
+            src/modules/objparser.cpp
             )
 
 
@@ -94,6 +95,7 @@ set (TESTS src/tests/tupletests.cpp
             src/tests/cylindertests.cpp
             src/tests/grouptests.cpp
             src/tests/triangletests.cpp
+            src/tests/parsertests.cpp
             )
 
 add_library(rays ${MODULE_SOURCES})
@@ -106,6 +108,8 @@ add_executable(gtesttest gtesttest.cpp)
 target_link_libraries(gtesttest  ${GTLIBS})
 
 # Build the unit tests and add them
+
+add_definitions(-DTEST_DATA_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}/testdata/")
 add_executable(unittests ${TESTS})
 target_include_directories(unittests PUBLIC  "${gtest_SOURCE_DIR}/include" src/include)
 target_link_libraries(unittests  ${GTLIBS}  rays)
@@ -146,3 +150,8 @@ target_link_libraries(app6 rays)
 add_executable(app7 src/app7.cpp)
 target_include_directories(app7 PUBLIC src/include )
 target_link_libraries(app7 rays ) 
+
+# Build a simple test applicaiton
+add_executable(objrender src/objrender.cpp)
+target_include_directories(objrender PUBLIC src/include )
+target_link_libraries(objrender rays ) 

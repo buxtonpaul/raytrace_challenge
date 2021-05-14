@@ -17,9 +17,11 @@ namespace ray_lib
     bool isEmpty() const;
     const Group &add_child(Shape *s);
     bool includes(const Shape *s) const;
-
+    Shape const  *at(int index);
+    const void getBounds(Bounds *bounds)const;
   private:
-    std::vector<ray_lib::Shape const *> _children;
+    std::vector<Shape const *> _children;
+    Bounds _bounds;
   };
 } // namespace ray_lib
 

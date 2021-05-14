@@ -23,4 +23,15 @@ const Vector Plane::local_normal_at(const Point &position) const {
   return world_normal.normalise();
 }
 
+ const void Plane::getBounds(Bounds *bounds)const
+  {
+    bounds->mins.x(-INFINITY);
+    bounds->mins.y(-INFINITY);
+    bounds->mins.z(0);
+    bounds->maxs.x(INFINITY);
+    bounds->maxs.y(INFINITY);
+    bounds->maxs.z(0);
+  }
+
+
 }  // namespace ray_lib

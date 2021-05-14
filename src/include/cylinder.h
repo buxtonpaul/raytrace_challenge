@@ -22,6 +22,8 @@ namespace ray_lib
     Cylinder &min(double min);
     Cylinder &max(double max);
     Cylinder &capped(bool capped);
+    const void getBounds(Bounds *bounds)const;
+
 
   private:
     double _min{-INFINITY};

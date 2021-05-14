@@ -10,9 +10,9 @@ namespace ray_lib
     std::vector<Intersection> results;
     Ray input_ray { r.Transform(Transform().inverse())};
 
-    std::pair<double, double> xAxis{check_axis(input_ray.Origin().x(), input_ray.Direction().x())};
-    std::pair<double, double> yAxis{check_axis(input_ray.Origin().y(), input_ray.Direction().y())};
-    std::pair<double, double> zAxis{check_axis(input_ray.Origin().z(), input_ray.Direction().z())};
+    std::pair<double, double> xAxis{check_axis(input_ray.Origin().x(), input_ray.Direction().x(), -1, 1)};
+    std::pair<double, double> yAxis{check_axis(input_ray.Origin().y(), input_ray.Direction().y(), -1, 1)};
+    std::pair<double, double> zAxis{check_axis(input_ray.Origin().z(), input_ray.Direction().z(), -1, 1)};
 
     double mins[] = {xAxis.first, yAxis.first, zAxis.first};
     double maxs[] = {xAxis.second, yAxis.second, zAxis.second};
@@ -41,6 +41,17 @@ namespace ray_lib
     if (maxval == fabs(object_point.y()))
       return Vector(0, object_point.y(), 0).normalise();
     return Vector(0, 0, object_point.z()).normalise();
+  }
+
+
+ const void Cube::getBounds(Bounds *bounds)const
+  {
+    bounds->mins.x(-1);
+    bounds->mins.y(-1);
+    bounds->mins.z(-1);
+    bounds->maxs.x(1);
+    bounds->maxs.y(1);
+    bounds->maxs.z(1);
   }
 
 } // namespace ray_lib

@@ -17,5 +17,5 @@ bool contains(std::vector<t> container, t data) {
     return false;
   return true;
 }
-std::pair<double, double> check_axis(double origin, double direction);
+std::pair<double, double> check_axis(double origin, double direction,double minextent, double maxextend);
 #endif
