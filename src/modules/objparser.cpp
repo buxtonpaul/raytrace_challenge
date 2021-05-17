@@ -78,7 +78,11 @@ namespace ray_lib
 
   bool ObjParser::ParseLine(std::string const &line)
   {
-    std::stringstream tmp(line);
+    std::string trimmed{line};
+    ltrim(trimmed);
+    if(trimmed.size() ==0)
+      return true;
+    std::stringstream tmp(trimmed);
     std::string command;
     tmp >> command;
     if (command == "v")
@@ -90,7 +94,10 @@ namespace ray_lib
       return addFace(line);
     if (command == "g")
       return addGroup(line);
-    return true;
+    if (command == "#")
+      return true;
+
+    return false;
   }
 
   const std::vector<Point> &ObjParser::Vertices()

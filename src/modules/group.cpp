@@ -54,8 +54,32 @@ namespace ray_lib
     s->getBounds(&childBounds);
 
 
+
+    // we shouldnot class things as min/max at this point! as the transform could completly reverse it!
+    // we should turn this into all 8 corners, 
+    // transform these and get the bounding box from that.
+    /*
+    something like
+    c1 = childBounds.mins.x,childBounds.mins.y,childBounds.mins.z  *s->transofrm
+    c2 = childBounds.mins.x,childBounds.maxs.y,childBounds.mins.z  *s->transofrm
+    c3 = childBounds.mins.x,childBounds.mins.y,childBounds.maxs.z  *s->transofrm
+    c4 = childBounds.mins.x,childBounds.maxs.y,childBounds.maxs.z  *s->transofrm
+    c5 = childBounds.maxs.x,childBounds.mins.y,childBounds.mins.z  *s->transofrm
+    c6 = childBounds.maxs.x,childBounds.maxs.y,childBounds.mins.z  *s->transofrm
+    c7 = childBounds.maxs.x,childBounds.mins.y,childBounds.maxs.z  *s->transofrm
+    c8 = childBounds.maxs.x,childBounds.maxs.y,childBounds.maxs.z  *s->transofrm
+
+    // then find min x,y,x and max x,y,z in c1->c8
+    
+
+    // in order to allow groups to be transformed we ought to cache the data, dirty it if it changes
+    // 
+    */
     childBounds.mins  = (s->Transform()*childBounds.mins);
     childBounds.maxs  = (s->Transform()*childBounds.maxs);
+
+    // at this point we have a traansformed bounding box defined by two transformed corners, which is no longer axis aligned.
+    // to turn it into a AABB, we will need to 
 
     if (childBounds.mins.x() < _bounds.mins.x())
       _bounds.mins.x(childBounds.mins.x());
@@ -88,21 +112,5 @@ namespace ray_lib
     *bounds = _bounds;
   }
 
-  // bool Group::GetBounds(Point * mins, Point *maxs)const
-  // {
-  //   if (_boundsValid)
-  //   {
-  //     if (mins)
-  //       *mins = _mins;
-  //     if (maxs)
-  //       *maxs = _maxs;
-  //   }
-  //   return _boundsValid;
-  // }
-  // void Group::SetBounds(const Point & mins, const Point &maxs)
-  // {
-  //   _mins = mins;
-  //   _maxs = maxs;
-  // }
-
+ 
 } // namespace ray_lib

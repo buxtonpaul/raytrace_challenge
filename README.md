@@ -7,6 +7,7 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 ----
 
 # Todo 
+- [ ] Handle materials with triangles/objects
 - [ ] Implement scene management
 - [ ] kd-tree Bounding boxes
 - [ ] Procedurally generate some shapes
