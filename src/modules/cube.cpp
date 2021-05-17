@@ -27,7 +27,7 @@ namespace ray_lib
     return results;
   }
 
-  const Vector Cube::local_normal_at(const Point &position) const
+  const Vector Cube::local_normal_at(const Point &position,const Intersection &i) const
   {
     // Point object_point{Transform().inverse() * position};
     Point object_point{position};

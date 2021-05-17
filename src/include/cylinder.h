@@ -11,7 +11,7 @@ namespace ray_lib
     Cylinder() : Shape(Matrix::Identity) {}
     explicit Cylinder(const Matrix &m) : Shape(m) {}
     std::vector<Intersection> intersects(const Ray &r) const;
-    const Vector local_normal_at(const Point &position) const;
+    const Vector local_normal_at(const Point &position,const Intersection &i) const;
     Cylinder(double min, double max) : Shape(Matrix::Identity), _min{min}, _max{max} {}
     Cylinder(double min, double max, bool capped) : Shape(Matrix::Identity), _min{min}, _max{max}, _capped{capped} {}
     Cylinder(double min, double max, const Matrix &m) : Shape(m), _min{min}, _max{max} {}

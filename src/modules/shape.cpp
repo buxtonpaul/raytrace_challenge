@@ -1,14 +1,25 @@
 #include "shape.h"
-
+#include "rays.h"
 namespace ray_lib
 {
+
+  const Vector Shape::normal(const Point &position,const Intersection &i) const
+  {
+    // transform the normal, then call local_normal_at
+    // Transform().inverse() * position
+    auto lp = world_to_object(position);
+    auto ln = local_normal_at(lp,i);
+    return normal_to_world(ln);
+  }
+
 
   const Vector Shape::normal(const Point &position) const
   {
     // transform the normal, then call local_normal_at
     // Transform().inverse() * position
+    Intersection i{this,0,0,0};
     auto lp = world_to_object(position);
-    auto ln = local_normal_at(lp);
+    auto ln = local_normal_at(lp,i);
     return normal_to_world(ln);
   }
 

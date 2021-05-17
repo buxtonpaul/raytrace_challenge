@@ -34,7 +34,7 @@ namespace ray_lib
     return results;
   }
 
-  const Vector Sphere::local_normal_at(const Point &position) const
+  const Vector Sphere::local_normal_at(const Point &position,const Intersection &i) const
   {
     Vector object_normal{position - Point(0, 0, 0)};
     object_normal.w(0);

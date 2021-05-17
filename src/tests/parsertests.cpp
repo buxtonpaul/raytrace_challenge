@@ -92,6 +92,29 @@ TEST(ObjParser, NamedGroup)
 }
 
 
+TEST(ObjParser, Normals)
+{
+  ObjParser p;
+  std::string testfile{TEST_DATA_FOLDER};
+  testfile.append("test5.obj");
+  EXPECT_EQ(true, p.ParseFile(testfile)) << (testfile);
+  Group &g{p.defaultGroup()};
+  const SmoothTriangle * t1 = dynamic_cast<const SmoothTriangle *>(g.at(0));
+  const SmoothTriangle * t2 = dynamic_cast<const SmoothTriangle *>(g.at(1));
+
+
+
+  EXPECT_EQ(t1->p1(), p.Vertices()[1]);
+  EXPECT_EQ(t1->p2(), p.Vertices()[2]);
+  EXPECT_EQ(t1->p3(), p.Vertices()[3]);
+  EXPECT_EQ(t1->n1(), p.Normals()[3]);
+  EXPECT_EQ(t1->n2(), p.Normals()[1]);
+  EXPECT_EQ(t1->n3(), p.Normals()[2]);
+
+  EXPECT_EQ(t2,t2);
+
+}
+
 // The object parser need to support
 // Groupt that provides access to triangles
 // access to vertices

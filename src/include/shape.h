@@ -20,8 +20,9 @@ namespace ray_lib
   {
   public:
     virtual std::vector<Intersection> intersects(const Ray &r) const = 0;
-    virtual const Vector local_normal_at(const Point &position) const = 0;
+    virtual const Vector local_normal_at(const Point &position,const Intersection &i) const= 0;
     virtual const void getBounds(Bounds *bounds) const = 0;
+    const Vector normal(const Point &position,const Intersection &i) const;
     const Vector normal(const Point &position) const;
     const Matrix &Transform(const Matrix &m);
     const Matrix &Transform() const;

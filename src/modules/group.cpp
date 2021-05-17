@@ -35,7 +35,7 @@ namespace ray_lib
     return results;
   }
 
-  const Vector Group::local_normal_at(const Point &position) const
+  const Vector Group::local_normal_at(const Point &position,const Intersection &i) const
   {
     return {0, 0, 0};
   }

@@ -12,7 +12,7 @@ namespace ray_lib
     Group() : Group(Matrix::Identity) {}
     explicit Group(const Matrix &m) : Shape(m) {}
     std::vector<Intersection> intersects(const Ray &r) const;
-    const Vector local_normal_at(const Point &position) const;
+    const Vector local_normal_at(const Point &position,const Intersection &i) const;
 
     bool isEmpty() const;
     const Group &add_child(Shape *s);

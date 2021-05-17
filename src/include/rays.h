@@ -31,12 +31,21 @@ class Ray {
 
 class Intersection {
   const Shape *_obj;
-  double _t;
+  double _t{0};
+  double _u{0};
+  double _v{0};
 
  public:
-  Intersection(const Shape *sp, const double t) : _obj(sp), _t(t) {}
-  Intersection(const Intersection &i) : _obj(i._obj), _t(i._t) {}
-  double t() const { return _t; }
+  Intersection(const Shape *sp, const double t) : _obj{sp}, _t{t} {}
+  Intersection(const Shape *sp, const double t, const double u, const double v) : _obj{sp}, _t{t}, _u{u}, _v{v}{}
+  Intersection(const Intersection &i) : _obj{i._obj}, _t{i._t}, _u{i._u}, _v{i._v}{}
+  double t() const {return _t; }
+  double u() const {return _u; }
+  double v() const {return _v; }
+
+  double u(const double u) {_u = u; return _u;}
+  double v(const double v) {_v = v; return _v;}
+
   const Shape *GetShape() const { return _obj; }
   bool operator==(const Intersection &obj) const {
     return ((_obj == obj._obj) && (_t == obj._t));
@@ -93,7 +102,7 @@ class IntersectionState {
         _object(i.GetShape()),
         _eye(-r.Direction()),
         _position(r.Position(_t)),
-        _normal(_object->normal(_position)),
+        _normal(_object->normal(_position,i)),
         _reflect(r.Direction().reflect(_normal)) {
     computeSurfaceParams();
     computeRefractionparams(i);
@@ -105,7 +114,7 @@ class IntersectionState {
         _object(i.GetShape()),
         _eye(-r.Direction()),
         _position(r.Position(_t)),
-        _normal(_object->normal(_position)),
+        _normal(_object->normal(_position,i)),
         _reflect(r.Direction().reflect(_normal)) {
     computeSurfaceParams();
     computeRefractionparams(i, intersections);
