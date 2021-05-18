@@ -7,7 +7,24 @@ namespace ray_lib
 
   std::vector<Intersection> Cube::intersects(const Ray &r) const
   {
+    return intersects(r, -INFINITY, INFINITY);
+  }
+  std::vector<Intersection> Cube::intersects(const Ray &r, const double tmin, const double tmax) const
+  {
     std::vector<Intersection> results;
+    double t1, t0;
+    calchit(r, t0, t1);
+
+    if (t0 > t1)
+      return results;
+
+    results.push_back(Intersection(reinterpret_cast<const Shape *>(this), t0));
+    results.push_back(Intersection(reinterpret_cast<const Shape *>(this), t1));
+    return results;
+  }
+
+  void Cube::calchit(const Ray &r, double &t0, double &t1)const
+  {
     Ray input_ray { r.Transform(Transform().inverse())};
 
     std::pair<double, double> xAxis{check_axis(input_ray.Origin().x(), input_ray.Direction().x(), -1, 1)};
@@ -16,18 +33,32 @@ namespace ray_lib
 
     double mins[] = {xAxis.first, yAxis.first, zAxis.first};
     double maxs[] = {xAxis.second, yAxis.second, zAxis.second};
-    double tmax{*std::min_element(maxs, maxs + 3)};
-    double tmin{*std::max_element(mins, mins + 3)};
-
-    if (tmin > tmax)
-      return results;
-
-    results.push_back(Intersection(reinterpret_cast<const Shape *>(this), tmin));
-    results.push_back(Intersection(reinterpret_cast<const Shape *>(this), tmax));
-    return results;
+    t1 = (*std::min_element(maxs, maxs + 3));
+    t0 = (*std::max_element(mins, mins + 3));
   }
 
-  const Vector Cube::local_normal_at(const Point &position,const Intersection &i) const
+  bool Cube::intersects(const Ray &r, const double tmin, const double tmax, Intersection &rec) const
+  {
+    double t1, t0;
+    calchit(r, t0, t1);
+
+    if (t1 > t0)
+      return false;
+
+    // in this case we only care about the first hit that lies between our range
+    if (t0 > tmin && t0 <= tmax){
+      rec = Intersection(reinterpret_cast<const Shape *>(this), t0);
+      return true;
+    }
+    if (t1 > tmin && t1 <= tmax){
+      rec = Intersection(reinterpret_cast<const Shape *>(this), t1);
+      return true;
+    }
+
+    return false;
+  }
+
+  const Vector Cube::local_normal_at(const Point &position, const Intersection &i) const
   {
     // Point object_point{Transform().inverse() * position};
     Point object_point{position};
@@ -44,7 +75,7 @@ namespace ray_lib
   }
 
 
- const void Cube::getBounds(Bounds *bounds)const
+ const bool Cube::getBounds(Bounds *bounds)const
   {
     bounds->mins.x(-1);
     bounds->mins.y(-1);
@@ -52,6 +83,7 @@ namespace ray_lib
     bounds->maxs.x(1);
     bounds->maxs.y(1);
     bounds->maxs.z(1);
+    return true;
   }
 
 } // namespace ray_lib

@@ -7,7 +7,11 @@ namespace ray_lib
 
   std::vector<Intersection> Sphere::intersects(const Ray &r) const
   {
-    std::vector<Intersection> results;
+    return intersects(r, -INFINITY, INFINITY);
+  }
+
+  bool Sphere::calchit(const Ray &r, const double tmin, const double tmax, double &t0, double &t1) const
+  {
     Ray input_ray{r.Transform(Transform().inverse())};
     Vector sphere_to_ray{input_ray.Origin() - Point(0, 0, 0)};
 
@@ -16,32 +20,41 @@ namespace ray_lib
     double c{sphere_to_ray.dotproduct(sphere_to_ray) - 1.0};
     double descriminant{b * b - 4 * a * c};
 
-    if (descriminant >= 0)
+    if (descriminant < 0)
+      return false;
+    t0 = (-b - sqrt(descriminant)) / (2 * a);
+    t1 = (-b + sqrt(descriminant)) / (2 * a);
+    if (t0 > t1)
+      std::swap(t0, t1);
+    return true;
+  }
+
+  bool Sphere::intersects(const Ray &r, const double tmin, const double tmax, Intersection &rec) const
+  {
+
+    return false;
+  }
+
+  std::vector<Intersection> Sphere::intersects(const Ray &r, const double tmin, const double tmax) const
+  {
+    std::vector<Intersection> results;
+    double t0, t1;
+    if (calchit(r, tmin, tmax, t0, t1))
     {
-      double t1 = (-b - sqrt(descriminant)) / (2 * a);
-      double t2 = (-b + sqrt(descriminant)) / (2 * a);
-      if (t1 > t2)
-      {
-        results.push_back(Intersection(reinterpret_cast<const Shape *>(this), t2));
-        results.push_back(Intersection(reinterpret_cast<const Shape *>(this), t1));
-      }
-      else
-      {
-        results.push_back(Intersection(reinterpret_cast<const Shape *>(this), t1));
-        results.push_back(Intersection(reinterpret_cast<const Shape *>(this), t2));
-      }
+      results.push_back(Intersection(reinterpret_cast<const Shape *>(this), t0));
+      results.push_back(Intersection(reinterpret_cast<const Shape *>(this), t1));
     }
     return results;
   }
 
-  const Vector Sphere::local_normal_at(const Point &position,const Intersection &i) const
+  const Vector Sphere::local_normal_at(const Point &position, const Intersection &i) const
   {
     Vector object_normal{position - Point(0, 0, 0)};
     object_normal.w(0);
     return object_normal.normalise();
   }
 
-  const void Sphere::getBounds(Bounds *bounds)const
+  const bool Sphere::getBounds(Bounds *bounds) const
   {
     bounds->mins.x(-1);
     bounds->mins.y(-1);
@@ -49,7 +62,7 @@ namespace ray_lib
     bounds->maxs.x(1);
     bounds->maxs.y(1);
     bounds->maxs.z(1);
+    return true;
   }
-
 
 } // namespace ray_lib

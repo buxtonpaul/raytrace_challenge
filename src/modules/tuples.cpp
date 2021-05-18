@@ -94,11 +94,15 @@ namespace ray_lib
   {
     return (_vals);
   }
-  const double &Tuple::operator[](int index) const
+
+  const double &Tuple::operator[](int index)const
   {
     return _vals[index];
   }
-
+double &Tuple::operator[](int index)
+  {
+    return _vals[index];
+  }
   Vector Vector::normalise() const
   {
     return (*this / this->magnitude());

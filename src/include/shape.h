@@ -2,6 +2,7 @@
 #define _shape_h_
 #include <vector>
 #include "material.h"
+#include "hittable.h"
 namespace ray_lib
 {
 
@@ -16,13 +17,16 @@ namespace ray_lib
     Point maxs{-INFINITY, -INFINITY, -INFINITY};
   } Bounds;
 
-  class Shape
+  
+  class Shape : public Hittable
   {
   public:
+    virtual const Vector local_normal_at(const Point &position, const Intersection &i) const = 0;
+    virtual const bool getBounds(Bounds *bounds) const = 0;
     virtual std::vector<Intersection> intersects(const Ray &r) const = 0;
-    virtual const Vector local_normal_at(const Point &position,const Intersection &i) const= 0;
-    virtual const void getBounds(Bounds *bounds) const = 0;
-    const Vector normal(const Point &position,const Intersection &i) const;
+    virtual std::vector<Intersection> intersects(const Ray &r, const double tmin, const double tmax) const = 0;
+
+    const Vector normal(const Point &position, const Intersection &i) const;
     const Vector normal(const Point &position) const;
     const Matrix &Transform(const Matrix &m);
     const Matrix &Transform() const;
@@ -34,12 +38,15 @@ namespace ray_lib
     const Shape &parent(Shape *p);
     Point world_to_object(const Point &p) const;
     const Vector normal_to_world(const Vector &objectnormal) const;
+    bool bounding_box(aabb &output_box) const;
 
   protected:
     Matrix _m;
     Material _material;
     Shape *_parent = nullptr;
   };
-} // namespace ray_lib
+
+
+ } // namespace ray_lib
 
 #endif

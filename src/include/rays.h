@@ -9,7 +9,6 @@
 
 namespace ray_lib {
 class Shape;
-class Intersection;
 class Ray {
  private:
   Point _origin;
@@ -102,7 +101,7 @@ class IntersectionState {
         _object(i.GetShape()),
         _eye(-r.Direction()),
         _position(r.Position(_t)),
-        _normal(_object->normal(_position,i)),
+        _normal(_object->normal(_position, i)),
         _reflect(r.Direction().reflect(_normal)) {
     computeSurfaceParams();
     computeRefractionparams(i);
@@ -114,7 +113,7 @@ class IntersectionState {
         _object(i.GetShape()),
         _eye(-r.Direction()),
         _position(r.Position(_t)),
-        _normal(_object->normal(_position,i)),
+        _normal(_object->normal(_position, i)),
         _reflect(r.Direction().reflect(_normal)) {
     computeSurfaceParams();
     computeRefractionparams(i, intersections);

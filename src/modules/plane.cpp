@@ -6,7 +6,22 @@
 #include "tuples.h"
 namespace ray_lib {
 
-std::vector<Intersection> Plane::intersects(const Ray &r) const {
+
+std::vector<Intersection> Plane::intersects(const Ray &r) const
+  {
+    return intersects(r,-INFINITY,INFINITY);
+  }
+
+
+  bool Plane::intersects(const Ray &r, const double tmin, const double tmax, Intersection &rec) const
+  {
+    
+
+    return false;
+  }
+
+
+std::vector<Intersection> Plane::intersects(const Ray &r,const double tmin, const double tmax) const {
   std::vector<Intersection> results;
   Ray input_ray { r.Transform(Transform().inverse())};
 
@@ -23,7 +38,7 @@ const Vector Plane::local_normal_at(const Point &position,const Intersection &i)
   return world_normal.normalise();
 }
 
- const void Plane::getBounds(Bounds *bounds)const
+ const bool Plane::getBounds(Bounds *bounds)const
   {
     bounds->mins.x(-INFINITY);
     bounds->mins.y(-INFINITY);
@@ -31,6 +46,7 @@ const Vector Plane::local_normal_at(const Point &position,const Intersection &i)
     bounds->maxs.x(INFINITY);
     bounds->maxs.y(INFINITY);
     bounds->maxs.z(0);
+    return false;
   }
 
 

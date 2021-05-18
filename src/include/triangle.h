@@ -23,6 +23,9 @@ namespace ray_lib
     }
     explicit Triangle(const Matrix &m) : Shape(m) {}
     std::vector<Intersection> intersects(const Ray &r) const;
+    std::vector<Intersection> intersects(const Ray &r,const double tmin, const double tmax) const;
+     bool intersects(const Ray &r, const double tmin, const double tmax,Intersection &rec) const;
+
     const Vector local_normal_at(const Point &position,const Intersection &i) const;
     const Point p1() const;
     const Point p2() const;
@@ -31,7 +34,7 @@ namespace ray_lib
     const Vector e2() const;
     const Vector normal()const;
     const Vector normal(const Point &p2) const;
-    const void getBounds(Bounds *bounds) const;
+    const bool getBounds(Bounds *bounds) const;
   };
 
   class SmoothTriangle :  public Shape
@@ -53,6 +56,9 @@ namespace ray_lib
     }
     // explicit SmoothTriangle(const Matrix &m) : Shape(m) {}
     std::vector<Intersection> intersects(const Ray &r) const;
+    std::vector<Intersection> intersects(const Ray &r,const double tmin, const double tmax) const;
+     bool intersects(const Ray &r, const double tmin, const double tmax,Intersection &rec) const;
+
     const Vector local_normal_at(const Point &position,const Intersection &i) const;
     const Point p1() const;
     const Point p2() const;
@@ -63,7 +69,7 @@ namespace ray_lib
     const Vector e1() const;
     const Vector e2() const;
     // const Vector normal(const Point &p2) const;
-    const void getBounds(Bounds *bounds) const;
+    const bool getBounds(Bounds *bounds) const;
   };
 
 } // namespace ray_lib

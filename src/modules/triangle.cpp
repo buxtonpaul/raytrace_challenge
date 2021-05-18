@@ -7,34 +7,48 @@ namespace ray_lib
 
   std::vector<Intersection> Triangle::intersects(const Ray &r) const
   {
-    std::vector<Intersection> results;
+    return intersects(r, -INFINITY, INFINITY);
+  }
+
+  bool Triangle::intersects(const Ray &r, const double tmin, const double tmax, Intersection &rec) const
+  {
 
     Ray input_ray{r.Transform(Transform().inverse())};
 
     auto dir_cross_e2{input_ray.Direction().crossproduct(_e2)};
     double det{_e1.dotproduct(dir_cross_e2)};
     if (fabs(det) < __FLT_EPSILON__)
-      return results;
+      return false;
 
     auto f{1.0 / det};
     auto p1_to_origin{input_ray.Origin() - _p1};
     auto u{f * p1_to_origin.dotproduct(dir_cross_e2)};
 
     if ((u < 0) || (u > 1))
-      return results;
+      return false;
 
     auto origin_cross_e1{p1_to_origin.crossproduct(_e1)};
     auto v{f * input_ray.Direction().dotproduct(origin_cross_e1)};
 
     if ((v < 0) || ((u + v) > 1))
-      return results;
+      return false;
     auto t{f * _e2.dotproduct(origin_cross_e1)};
-    results.push_back(Intersection(reinterpret_cast<const Shape *>(this), t));
 
+    rec = Intersection(reinterpret_cast<const Shape *>(this), t);
+
+    return true;
+  }
+
+  std::vector<Intersection> Triangle::intersects(const Ray &r, const double tmin, const double tmax) const
+  {
+    std::vector<Intersection> results;
+    Intersection rec(nullptr, 0);
+    if (intersects(r, tmin, tmax, rec))
+      results.push_back(rec);
     return results;
   }
 
-  const Vector Triangle::local_normal_at(const Point &position,const Intersection &i) const
+  const Vector Triangle::local_normal_at(const Point &position, const Intersection &i) const
   {
     return _normal;
   }
@@ -46,7 +60,7 @@ namespace ray_lib
     _normal = _e2.crossproduct(_e1).normalise();
   }
 
-  const void Triangle::getBounds(Bounds *bounds) const
+  const bool Triangle::getBounds(Bounds *bounds) const
   {
     Point mins = {INFINITY, INFINITY, INFINITY};
     Point maxs = {-INFINITY, -INFINITY, -INFINITY};
@@ -70,6 +84,7 @@ namespace ray_lib
     }
     bounds->mins = mins;
     bounds->maxs = maxs;
+    return true;
   }
 
   const Point Triangle::p1() const { return _p1; }
@@ -80,49 +95,54 @@ namespace ray_lib
   const Vector Triangle::normal() const { return _normal; }
   const Vector Triangle::normal(const Point &p2) const { return Shape::normal(p2); }
 
-
-
-
-
   std::vector<Intersection> SmoothTriangle::intersects(const Ray &r) const
   {
-    std::vector<Intersection> results;
+    return intersects(r, -INFINITY, INFINITY);
+  }
+
+  bool SmoothTriangle::intersects(const Ray &r, const double tmin, const double tmax, Intersection &rec) const
+  {
 
     Ray input_ray{r.Transform(Transform().inverse())};
 
     auto dir_cross_e2{input_ray.Direction().crossproduct(_e2)};
     double det{_e1.dotproduct(dir_cross_e2)};
     if (fabs(det) < __FLT_EPSILON__)
-      return results;
+      return false;
 
     auto f{1.0 / det};
     auto p1_to_origin{input_ray.Origin() - _p1};
     auto u{f * p1_to_origin.dotproduct(dir_cross_e2)};
 
     if ((u < 0) || (u > 1))
-      return results;
+      return false;
 
     auto origin_cross_e1{p1_to_origin.crossproduct(_e1)};
     auto v{f * input_ray.Direction().dotproduct(origin_cross_e1)};
 
     if ((v < 0) || ((u + v) > 1))
-      return results;
+      return false;
     auto t{f * _e2.dotproduct(origin_cross_e1)};
-    results.push_back(Intersection(reinterpret_cast<const Shape *>(this), t, u, v));
 
+    rec = Intersection(reinterpret_cast<const Shape *>(this), t, u, v);
+
+    return true;
+  }
+
+  std::vector<Intersection> SmoothTriangle::intersects(const Ray &r, const double tmin, const double tmax) const
+  {
+    std::vector<Intersection> results;
+    Intersection rec(nullptr, 0);
+    if (intersects(r, tmin, tmax, rec))
+      results.push_back(rec);
     return results;
   }
 
-  const Vector SmoothTriangle::local_normal_at(const Point &position,const Intersection &i) const
+  const Vector SmoothTriangle::local_normal_at(const Point &position, const Intersection &i) const
   {
-    
-    return (_n2*i.u() + _n3 * i.v() +_n1 * (1-i.u() - i.v())).normalise();
-  }
 
-  // const Vector SmoothTriangle::local_normal_at(const Point &position) const
-  // {
-  //   // return _normal;
-  // }
+    return (_n2 * i.u() + _n3 * i.v() + _n1 * (1 - i.u() - i.v())).normalise();
+  }
 
   void SmoothTriangle::compute_derived_vals()
   {
@@ -131,7 +151,7 @@ namespace ray_lib
     // _normal = _e2.crossproduct(_e1).normalise();
   }
 
-  const void SmoothTriangle::getBounds(Bounds *bounds) const
+  const bool SmoothTriangle::getBounds(Bounds *bounds) const
   {
     Point mins = {INFINITY, INFINITY, INFINITY};
     Point maxs = {-INFINITY, -INFINITY, -INFINITY};
@@ -155,6 +175,7 @@ namespace ray_lib
     }
     bounds->mins = mins;
     bounds->maxs = maxs;
+    return true;
   }
 
   const Point SmoothTriangle::p1() const { return _p1; }

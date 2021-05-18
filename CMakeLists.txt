@@ -83,6 +83,8 @@ set(MODULE_SOURCES src/modules/tuples.cpp
             src/modules/group.cpp
             src/modules/triangle.cpp
             src/modules/objparser.cpp
+            src/modules/hittable_list.cpp
+            src/modules/aabb.cpp
             )
 
 

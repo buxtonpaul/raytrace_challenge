@@ -5,7 +5,19 @@
 namespace ray_lib
 {
 
-  std::vector<Intersection> Group::intersects(const Ray &r) const
+std::vector<Intersection> Group::intersects(const Ray &r) const
+  {
+    return intersects(r,-INFINITY,INFINITY);
+  }
+
+  bool Group::intersects(const Ray &r, const double tmin, const double tmax, Intersection &rec) const
+  {
+    
+
+    return false;
+  }
+
+  std::vector<Intersection> Group::intersects(const Ray &r,const double tmin, const double tmax) const
   {
     std::vector<Intersection> results;
     Ray input_ray{r.Transform(Transform().inverse())};
@@ -17,10 +29,10 @@ namespace ray_lib
 
     double mins[] = {xAxis.first, yAxis.first, zAxis.first};
     double maxs[] = {xAxis.second, yAxis.second, zAxis.second};
-    double tmax{*std::min_element(maxs, maxs + 3)};
-    double tmin{*std::max_element(mins, mins + 3)};
+    double t_max{*std::min_element(maxs, maxs + 3)};
+    double t_min{*std::max_element(mins, mins + 3)};
 
-    if (tmin > tmax){
+    if (t_min > t_max){
       // std::cout<<" skipping group" <<std::endl;
       return results;
     }
@@ -94,6 +106,7 @@ namespace ray_lib
       _bounds.maxs.y(childBounds.maxs.y());
     if (childBounds.maxs.z() > _bounds.maxs.z())
       _bounds.maxs.z(childBounds.maxs.z());
+    
   }
 
   bool Group::includes(const Shape *s) const
@@ -107,9 +120,10 @@ namespace ray_lib
       return _children[index];
     return nullptr;
   }
-  const void Group::getBounds(Bounds *bounds) const
+  const bool Group::getBounds(Bounds *bounds) const
   {
     *bounds = _bounds;
+    return true;
   }
 
  

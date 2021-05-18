@@ -28,8 +28,20 @@ namespace ray_lib
     if (check_caps(r, t1))
       intersections->push_back(Intersection(reinterpret_cast<const Shape *>(this), t1));
   }
-
   std::vector<Intersection> Cylinder::intersects(const Ray &r) const
+  {
+    return intersects(r,-INFINITY,INFINITY);
+  }
+
+
+  bool Cylinder::intersects(const Ray &r, const double tmin, const double tmax, Intersection &rec) const
+  {
+    
+
+    return false;
+  }
+
+  std::vector<Intersection> Cylinder::intersects(const Ray &r,const double tmin, const double tmax) const
   {
     Ray input_ray{r.Transform(Transform().inverse())};
     std::vector<Intersection> results;
@@ -99,7 +111,7 @@ namespace ray_lib
     return *this;
   }
 
- const void Cylinder::getBounds(Bounds *bounds)const
+ const bool Cylinder::getBounds(Bounds *bounds)const
   {
     bounds->mins.x(-1);
     bounds->mins.y(-1);
@@ -107,6 +119,7 @@ namespace ray_lib
     bounds->maxs.x(1);
     bounds->maxs.y(1);
     bounds->maxs.z(_max);
+    return true;
   }
 
 

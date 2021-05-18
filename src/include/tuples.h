@@ -68,7 +68,8 @@ class Tuple {
   double magnitude() const;
   unsigned int size() const;
   const std::vector<double> &Values() const;
-  const double &operator[](int index) const;
+  const double &operator[](int index)const;
+  double &operator[](int index);
 };
 
 class Vector : public Tuple {
@@ -87,6 +88,7 @@ class Point : public Tuple {
  public:
   explicit Point(std::vector<double> a) : Tuple({a[0], a[1], a[2], 1.0}) {}
   Point(const Point &r) : Tuple(r.Values()) {}
+  Point() :Tuple() {}
   Point(double x, double y, double z) : Point({x, y, z, 0.0}) {}
   friend Point operator+(const Point &lhs, const Vector &rhs);
 };

@@ -89,6 +89,8 @@ namespace ray_lib
       return addVertex(line);
     if (command == "vn")
       return addVertexNormal(line);
+    if (command == "vt")
+      return true;
 
     if (command == "f")
       return addFace(line);
