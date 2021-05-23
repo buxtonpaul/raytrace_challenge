@@ -22,42 +22,42 @@ int main(int argc, char *argv[])
 
   World w;
 
-  Sphere floor;
+  std::shared_ptr<Sphere> floor = std::make_shared<Sphere>();
   Material m_floor;
   SolidPattern mfloor_pat{Color(1.0, 0.9, 0.9)};
   m_floor.pattern(mfloor_pat);
-  floor.Transform(scale(10, 0.01, 10));
+  floor->Transform(scale(10, 0.01, 10));
   m_floor.specular(0);
-  floor.material(m_floor);
-  w.WorldShapes().push_back(&floor);
+  floor->material(m_floor);
+  w.WorldShapes().push_back(floor);
 
-  Sphere left_wall;
-  left_wall.Transform(scale(10, 0.01, 10)
+  std::shared_ptr<Sphere> left_wall = std::make_shared<Sphere>();
+  left_wall->Transform(scale(10, 0.01, 10)
                           .rotate_x(M_PI / 2.0)
                           .rotate_y(-M_PI / 4.0)
                           .translate(0, 0, 5));
-  left_wall.material(m_floor);
-  w.WorldShapes().push_back(&left_wall);
+  left_wall->material(m_floor);
+  w.WorldShapes().push_back(left_wall);
 
-  Sphere right_wall;
-  right_wall.Transform(scale(10, 0.01, 10)
+   std::shared_ptr<Sphere> right_wall = std::make_shared<Sphere>();
+  right_wall->Transform(scale(10, 0.01, 10)
                            .rotate_x(M_PI / 2.0)
                            .rotate_y(M_PI / 4.0)
                            .translate(0, 0, 5));
-  right_wall.material(m_floor);
+  right_wall->material(m_floor);
 
-  Sphere middle;
-  middle.Transform(translation(-0.5, 1, 0.5));
+  std::shared_ptr<Sphere> middle = std::make_shared<Sphere>();
+  middle->Transform(translation(-0.5, 1, 0.5));
   Material middle_mat;
   SolidPattern middle_pat(Color(0.1, 1, 0.5));
   middle_mat.pattern(middle_pat);
 
   middle_mat.specular(0.3);
   middle_mat.diffuse(0.7);
-  middle.material(middle_mat);
+  middle->material(middle_mat);
 
-  Sphere right;
-  right.Transform(scale(0.5, 0.5, 0.5).translate(1.5, 0.5, -0.5));
+  std::shared_ptr<Sphere> right = std::make_shared<Sphere>();
+  right->Transform(scale(0.5, 0.5, 0.5).translate(1.5, 0.5, -0.5));
   Material right_mat;
 
   SolidPattern right_pat(Color(0.5, 1, 0.1));
@@ -65,24 +65,24 @@ int main(int argc, char *argv[])
 
   right_mat.specular(0.3);
   right_mat.diffuse(0.7);
-  right.material(right_mat);
+  right->material(right_mat);
 
-  Sphere left;
-  left.Transform(scale(0.33, 0.33, 0.33).translate(-1.5, 0.33, -0.75));
+  std::shared_ptr<Sphere> left = std::make_shared<Sphere>();
+  left->Transform(scale(0.33, 0.33, 0.33).translate(-1.5, 0.33, -0.75));
   Material left_mat;
   SolidPattern left_pat(Color(1, 0.8, 0.1));
   left_mat.pattern(left_pat);
 
   left_mat.specular(0.3);
   left_mat.diffuse(0.7);
-  left.material(left_mat);
+  left->material(left_mat);
 
   Light l{Color(1.0, 1.0, 1.0), Point(-10, 10, -10)};
 
-  w.WorldShapes().push_back(&right_wall);
-  w.WorldShapes().push_back(&middle);
-  w.WorldShapes().push_back(&left);
-  w.WorldShapes().push_back(&right);
+  w.WorldShapes().push_back(right_wall);
+  w.WorldShapes().push_back(middle);
+  w.WorldShapes().push_back(left);
+  w.WorldShapes().push_back(right);
   w.WorldLights().push_back(&l);
 
   Canvas outimage{c.render(w)};

@@ -47,11 +47,14 @@ protected:
     m.specular(0.2);
     l.position(Point(-10, 10, -10));
     l.intensity(Color(1, 1, 1));
-    s2.Transform(Matrix::Identity.scale(0.5, 0.5, 0.5));
+    s1 = std::make_shared<Sphere> ( );
+    s2 = std::make_shared<Sphere> ( );
+
+    s2->Transform(Matrix::Identity.scale(0.5, 0.5, 0.5));
     w.WorldLights().push_back(&l);
-    w.WorldShapes().push_back(&s1);
-    w.WorldShapes().push_back(&s2);
-    s1.material(m);
+    w.WorldShapes().push_back(s1);
+    w.WorldShapes().push_back(s2);
+    s1->material(m);
   }
 
   // put destructor here if required
@@ -62,15 +65,15 @@ protected:
   Light l;
   Material m;
   SolidPattern p;
-  Sphere s1;
-  Sphere s2;
+  std::shared_ptr<Sphere> s1;
+  std::shared_ptr<Sphere> s2;
   World w;
 };
 
 TEST_F(DefaultWorldTest, TestDefault)
 {
-  EXPECT_EQ(true, contains(w.WorldShapes(), reinterpret_cast<Shape *>(&s1)));
-  EXPECT_EQ(true, contains(w.WorldShapes(), reinterpret_cast<Shape *>(&s2)));
+  EXPECT_EQ(true, contains(w.WorldShapes(), static_cast<std::shared_ptr<Shape>>(s1)));
+  EXPECT_EQ(true, contains(w.WorldShapes(), static_cast<std::shared_ptr<Shape>>(s2)));
 }
 
 TEST_F(DefaultWorldTest, TestSimpleIntersections)
@@ -87,20 +90,20 @@ TEST_F(DefaultWorldTest, TestSimpleIntersections)
 TEST_F(DefaultWorldTest, PrecomputeTest)
 {
   Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
-  Intersection xs{&s1, 4.0};
+  Intersection xs{s1.get(), 4.0};
 
   IntersectionState i{xs, r};
   EXPECT_EQ(i.Position(), Point(0, 0, -1));
   EXPECT_EQ(i.Eye(), Vector(0, 0, -1));
   EXPECT_EQ(i.Normal(), Vector(0, 0, -1));
-  EXPECT_EQ(i.Object(), &s1);
+  EXPECT_EQ(i.Object(), s1.get());
   EXPECT_EQ(i.t(), xs.t());
 }
 
 TEST_F(DefaultWorldTest, PrecomputeInsideTestOutside)
 {
   Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
-  Intersection xs{&s1, 4.0};
+  Intersection xs{s1.get(), 4.0};
 
   IntersectionState i{xs, r};
   EXPECT_EQ(i.Inside(), false);
@@ -109,7 +112,7 @@ TEST_F(DefaultWorldTest, PrecomputeInsideTestOutside)
 TEST_F(DefaultWorldTest, PrecomputeInsideTestInside)
 {
   Ray r{Point(0, 0, 0), Vector(0, 0, 1)};
-  Intersection xs{&s1, 1.0};
+  Intersection xs{s1.get(), 1.0};
 
   IntersectionState i{xs, r};
   EXPECT_EQ(i.Inside(), true);
@@ -119,7 +122,7 @@ TEST_F(DefaultWorldTest, PrecomputeInsideTestInside)
 TEST_F(DefaultWorldTest, ShadeHit)
 {
   Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
-  Shape *firstshape{w.WorldShapes()[0]};
+  Shape *firstshape{w.WorldShapes()[0].get()};
   Intersection xs{firstshape, 4.0};
 
   IntersectionState i{xs, r};
@@ -135,7 +138,7 @@ TEST_F(DefaultWorldTest, ShadeHit_inside)
 
   Ray r{Point(0, 0, 0), Vector(0, 0, 1)};
 
-  Shape *secondshape{w.WorldShapes()[1]};
+  Shape *secondshape{w.WorldShapes()[1].get()};
   Intersection xs{secondshape, 0.5};
 
   IntersectionState i{xs, r};
@@ -159,8 +162,8 @@ TEST_F(DefaultWorldTest, Colot_at_hit)
 TEST_F(DefaultWorldTest, Color_at_inside)
 {
   Ray r{Point(0, 0, 0.75), Vector(0, 0, -1)};
-  Shape *inner{w.WorldShapes()[0]};
-  Shape *outer{w.WorldShapes()[1]};
+  Shape *inner{(w.WorldShapes()[0]).get()};
+  Shape *outer{(w.WorldShapes()[1]).get()};
 
   Material m2;
   m2.ambient(1.0);
@@ -202,13 +205,15 @@ TEST(World, Shadow_IntersectionInShadow)
   World w;
   Light l{Color(1, 1, 1), Point(0, 0, -10)};
   w.WorldLights().push_back(&l);
-  Sphere s1;
-  Sphere s2;
-  s2.Transform(translation(0, 0, 10));
-  w.WorldShapes().push_back(&s1);
-  w.WorldShapes().push_back(&s2);
+  std::shared_ptr<Sphere> s1;
+  std::shared_ptr<Sphere> s2;
+  s1 = std::make_shared<Sphere>();
+  s2 = std::make_shared<Sphere>();
+  s2->Transform(translation(0, 0, 10));
+  w.WorldShapes().push_back(s1);
+  w.WorldShapes().push_back(s2);
   Ray r{Point(0, 0, 5), Vector(0, 0, 1)};
-  Intersection xs{&s2, 4};
+  Intersection xs{s2.get(), 4};
   IntersectionState i{xs, r};
 
   Color c{w.shade_hit(i)};
@@ -240,8 +245,8 @@ TEST_F(DefaultWorldTest, PrecomputeReflectionVector)
 TEST_F(DefaultWorldTest, NonReflective)
 {
   Ray r{Point(0, 0, 0), Vector(0, 0, -1)};
-  Shape *inner{w.WorldShapes()[0]};
-  Shape *outer{w.WorldShapes()[1]};
+  Shape *inner{w.WorldShapes()[0].get()};
+  Shape *outer{w.WorldShapes()[1].get()};
 
   Material m2;
   m2.ambient(1.0);
@@ -255,13 +260,16 @@ TEST_F(DefaultWorldTest, ReflectiveTest)
 {
   Material plane_pat;
   plane_pat.reflectivity(0.5);
-  Plane p(translation(0, -1, 0));
-  p.material(plane_pat);
-  w.WorldShapes().push_back(&p);
+
+  std::shared_ptr <Plane> p;
+  p = std::make_shared<Plane>(translation(0, -1, 0));
+
+  p->material(plane_pat);
+  w.WorldShapes().push_back(p);
 
   Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0)};
 
-  Intersection xs{&p, sqrt(2)};
+  Intersection xs{p.get(), sqrt(2)};
   IntersectionState i{xs, r};
   EXPECT_EQ(w.reflection_hit(i), Color(0.19032, 0.2379, 0.14274));
 }
@@ -270,13 +278,14 @@ TEST_F(DefaultWorldTest, ReflectiveTest2)
 {
   Material plane_pat;
   plane_pat.reflectivity(0.5);
-  Plane p(translation(0, -1, 0));
-  p.material(plane_pat);
-  w.WorldShapes().push_back(&p);
+    std::shared_ptr <Plane> p;
+  p = std::make_shared<Plane>(translation(0, -1, 0));
+  p->material(plane_pat);
+  w.WorldShapes().push_back(p);
 
   Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0)};
 
-  Intersection xs{&p, sqrt(2)};
+  Intersection xs{p.get(), sqrt(2)};
   IntersectionState i{xs, r};
   EXPECT_EQ(w.shade_hit(i), Color(0.87677, 0.92436, 0.82918));
 }
@@ -285,13 +294,14 @@ TEST_F(DefaultWorldTest, ReflectiveRecursion)
 {
   Material plane_pat;
   plane_pat.reflectivity(0.5);
-  Plane p(translation(0, -1, 0));
-  p.material(plane_pat);
-  w.WorldShapes().push_back(&p);
+  std::shared_ptr <Plane> p;
+  p = std::make_shared<Plane>(translation(0, -1, 0));
+  p->material(plane_pat);
+  w.WorldShapes().push_back(p);
 
   Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0)};
 
-  Intersection xs{&p, sqrt(2)};
+  Intersection xs{p.get(), sqrt(2)};
   IntersectionState i{xs, r};
   EXPECT_EQ(w.reflection_hit(i, 0), Color(0.0, 0.0, 0.0));
 }
@@ -348,7 +358,7 @@ TEST(Refractions, UnderPoint)
 
 TEST_F(DefaultWorldTest, RefractedColorOpaque)
 {
-  Shape *shape{w.WorldShapes()[0]};
+  Shape *shape{w.WorldShapes()[0].get()};
   Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
 
   Intersection intersection{shape, 5.0};
@@ -361,7 +371,7 @@ TEST_F(DefaultWorldTest, RefractedColorOpaque)
 
 TEST_F(DefaultWorldTest, RefractedColorAtDepth)
 {
-  Shape *shape{w.WorldShapes()[0]};
+  Shape *shape{w.WorldShapes()[0].get()};
   Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
   Material mA{glass};
   mA.transparency(1.0);
@@ -375,7 +385,7 @@ TEST_F(DefaultWorldTest, RefractedColorAtDepth)
 
 TEST_F(DefaultWorldTest, TotalInternalRefraction)
 {
-  Shape *shape{w.WorldShapes()[0]};
+  Shape *shape{w.WorldShapes()[0].get()};
   Ray r{Point(0, 0, sqrt(2.0) / 2.0), Vector(0, 1, 0)};
   Material mA{glass};
   mA.transparency(1.0);
@@ -389,14 +399,14 @@ TEST_F(DefaultWorldTest, TotalInternalRefraction)
 
 TEST_F(DefaultWorldTest, RefractedColor)
 {
-  Shape *a{w.WorldShapes()[0]};
+  Shape *a{w.WorldShapes()[0].get()};
   Material mA;
   mA.ambient(1);
   TestPattern pA{Matrix::Identity};
   mA.pattern(pA);
   a->material(mA);
 
-  Shape *b{w.WorldShapes()[1]};
+  Shape *b{w.WorldShapes()[1].get()};
   Material mB;
   mB.transparency(1.0);
   mB.refractive_index(1.5);
@@ -414,22 +424,24 @@ TEST_F(DefaultWorldTest, ShadeHitTransparent)
   Material mFloor;
   mFloor.transparency(0.5);
   mFloor.refractive_index(1.5);
-  Plane floor{translation(0, -1, 0)};
-  floor.material(mFloor);
+  std::shared_ptr<Plane> floor;
+  floor = std::make_shared<Plane>(translation(0, -1, 0));
+  floor->material(mFloor);
 
-  w.WorldShapes().push_back(&floor);
+  w.WorldShapes().push_back(floor);
 
-  Sphere ball{translation(0, -3.5, -0.5)};
+  std::shared_ptr<Sphere> ball;
+  ball = std::make_shared<Sphere>(translation(0, -3.5, -0.5));
   Material mBall;
   SolidPattern pBall{Color(1, 0, 0)};
   mBall.ambient(0.5);
   mBall.pattern(pBall);
-  w.WorldShapes().push_back(&ball);
-  ball.material(mBall);
+  w.WorldShapes().push_back(ball);
+  ball->material(mBall);
 
   Ray r{Point(0, 0, -3), Vector(0, -(sqrt(2.0) / 2.0), sqrt(2.0) / 2.0)};
 
-  Intersection intersection{&floor, sqrt(2.0)};
+  Intersection intersection{floor.get(), sqrt(2.0)};
   IntersectionState xs{intersection, r};
 
   EXPECT_EQ(w.shade_hit(xs, 5), Color(0.93642, 0.68642, 0.68642));
@@ -482,19 +494,23 @@ TEST_F(DefaultWorldTest, ShadeHitTransparentReflectance)
   mFloor.transparency(0.5);
   mFloor.reflectivity(0.5);
   mFloor.refractive_index(1.5);
-  Plane floor{translation(0, -1, 0)};
-  floor.material(mFloor);
-  w.WorldShapes().push_back(&floor);
+  std::shared_ptr<Plane> floor;
+  floor = std::make_shared<Plane>(translation(0, -1, 0));
+  floor->material(mFloor);
 
-  Sphere ball{translation(0, -3.5, -0.5)};
+  w.WorldShapes().push_back(floor);
+
+  std::shared_ptr<Sphere> ball;
+  ball = std::make_shared<Sphere>(translation(0, -3.5, -0.5));
+
   Material mBall;
   SolidPattern pBall{Color(1, 0, 0)};
   mBall.ambient(0.5);
   mBall.pattern(pBall);
-  w.WorldShapes().push_back(&ball);
-  ball.material(mBall);
+  w.WorldShapes().push_back(ball);
+  ball->material(mBall);
 
-  Intersection intersection{&floor, sqrt(2.0)};
+  Intersection intersection{floor.get(), sqrt(2.0)};
   IntersectionState xs{intersection, r};
 
   EXPECT_EQ(w.shade_hit(xs, 5), Color(0.93391, 0.69643, 0.69243));

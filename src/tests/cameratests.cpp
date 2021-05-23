@@ -113,11 +113,14 @@ protected:
     m.specular(0.2);
     l.position(Point(-10, 10, -10));
     l.intensity(Color(1, 1, 1));
-    s2.Transform(Matrix::Identity.scale(0.5, 0.5, 0.5));
+    s1 = std::make_shared<Sphere> ( );
+    s2 = std::make_shared<Sphere> ( );
+
+    s2->Transform(Matrix::Identity.scale(0.5, 0.5, 0.5));
     w.WorldLights().push_back(&l);
-    w.WorldShapes().push_back(&s1);
-    w.WorldShapes().push_back(&s2);
-    s1.material(m);
+    w.WorldShapes().push_back(s1);
+    w.WorldShapes().push_back(s2);
+    s1->material(m);
   }
 
   // put destructor here if required
@@ -127,8 +130,8 @@ protected:
 
   Light l;
   Material m;
-  Sphere s1;
-  Sphere s2;
+  std::shared_ptr<Sphere> s1;
+  std::shared_ptr<Sphere> s2;
   World w;
   SolidPattern p;
 };

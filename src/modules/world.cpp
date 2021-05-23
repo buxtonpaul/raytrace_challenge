@@ -8,7 +8,7 @@
 #include "sphere.h"
 namespace ray_lib
 {
-  std::vector<Shape *> &World::WorldShapes() { return _shapes; }
+  std::vector<std::shared_ptr<Shape>> &World::WorldShapes() { return _shapes; }
   std::vector<Light *> &World::WorldLights() { return _lights; }
 
   std::vector<ray_lib::Intersection> World::WorldIntersections(

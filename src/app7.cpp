@@ -40,14 +40,13 @@ int main(int argc, char *argv[])
 
   Material m_walls {Material(SolidPattern(Color(0.0, 0.9, 0.9)))};
 
-  Cube floor{scale(10, 1, 10).translate(0, -.5, 0) };
-  floor.material(mat_floor);
+  std::shared_ptr<Cube> floor = std::make_shared<Cube> (scale(10, 1, 10).translate(0, -.5, 0) );
+  floor->material(mat_floor);
 
-  w.WorldShapes().push_back(&floor);
+  w.WorldShapes().push_back(floor);
 
-  Group g1;
   
-
+  std::shared_ptr<Group> g1 = std::make_shared<Group> ( );
   StripePattern candy{Color(0.9, 0.1, 0.1), Color(.95, .95, .95), scale(0.25, 0.25, 0.25)};
 
   Material middle_mat;
@@ -76,14 +75,14 @@ int main(int argc, char *argv[])
 
   Light l{Color(1.0, 1.0, 1.0), Point(-10, 10, -10)};
 
-  g1.Transform(Matrix::Identity.translate(0.5, 0, 0));
-  g1.add_child(&middle);
-  g1.add_child(&left);
+  g1->Transform(Matrix::Identity.translate(0.5, 0, 0));
+  g1->add_child(&middle);
+  g1->add_child(&left);
 
   // w.WorldShapes().push_back(&middle);
   // w.WorldShapes().push_back(&left);
   // w.WorldShapes().push_back(&right);
-  w.WorldShapes().push_back(&g1);
+  w.WorldShapes().push_back(g1);
   w.WorldLights().push_back(&l);
 
   Canvas outimage{c.render(w)};
