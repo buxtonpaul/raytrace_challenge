@@ -80,7 +80,7 @@ namespace ray_lib
   {
     std::string trimmed{line};
     ltrim(trimmed);
-    if(trimmed.size() ==0)
+    if(trimmed.size() == 0)
       return true;
     std::stringstream tmp(trimmed);
     std::string command;

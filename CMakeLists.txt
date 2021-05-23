@@ -85,6 +85,7 @@ set(MODULE_SOURCES src/modules/tuples.cpp
             src/modules/objparser.cpp
             src/modules/hittable_list.cpp
             src/modules/aabb.cpp
+            src/modules/bvh.cpp
             )
 
 

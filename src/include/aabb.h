@@ -5,25 +5,26 @@
 
 namespace ray_lib
 {
-  class Ray;
+class Ray;
 
-  class aabb
+class aabb
+{
+public:
+  aabb() {}
+  aabb(const Point &a, const Point &b)
   {
-  public:
-    aabb() {}
-    aabb(const Point &a, const Point &b)
-    {
-      minimum = a;
-      maximum = b;
-    }
+    minimum = a;
+    maximum = b;
+  }
 
-    Point min() const { return minimum; }
-    Point max() const { return maximum; }
+  Point min() const { return minimum; }
+  Point max() const { return maximum; }
 
-    bool hit(const Ray &r, double t_min, double t_max) const;
+  bool hit(const Ray &r, double t_min, double t_max) const;
 
-    Point minimum;
-    Point maximum;
-  };
+  Point minimum;
+  Point maximum;
+};
+aabb surrounding_box(aabb box0, aabb box1);
 }// namespace ray_lib
 #endif //_aabb_h

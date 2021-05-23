@@ -1,3 +1,7 @@
+#include <atomic>
+#include <chrono>
+#include <iomanip>
+#include "omp.h"
 #include "camera.h"
 #include "canvas.h"
 #include "matrix.h"
@@ -37,6 +41,10 @@ namespace ray_lib
   Canvas Camera::render(const World &w) const
   {
     Canvas c{_hsize, _vsize};
+    std::atomic<int> pixels_done{0};
+    std::cout <<"Begin Rendering"<< std::endl;
+    auto start = std::clock();
+
 
 #pragma omp parallel for collapse(2) schedule(guided)
     for (unsigned int y = 0; y < _vsize; ++y)
@@ -46,8 +54,21 @@ namespace ray_lib
         Ray r{ray_for_pixel(x, y)};
         Color p{w.color_at(r)};
         c.pixel(x, y, p);
+        pixels_done++;
+        if (omp_get_thread_num() == 0)
+        {
+          // note that if thread finishes before others than printing will not update
+          int done = pixels_done;
+          std::cout << "\rPixels done: "  << pixels_done << "  " << std::setprecision(1)<< ((100.0 * done) / (_vsize*_hsize))  << std::flush;
+        }
       }
     }
+
+    auto duration = (std::clock() - start) / static_cast<double>(CLOCKS_PER_SEC);
+
+    std::cout << "\nRendering took " << duration << "s\n";
+
+
     return c;
   }
 
@@ -73,13 +94,13 @@ namespace ray_lib
   unsigned int Camera::h_size() const { return _hsize; }
 
   unsigned int Camera::v_size() const { return _vsize; }
-  
+
   unsigned int Camera::h_size(const unsigned int size)
   {
     _hsize = size;
     return size;
   }
-  
+
   unsigned int Camera::v_size(const unsigned int size)
   {
     _vsize = size;
@@ -87,15 +108,15 @@ namespace ray_lib
   }
 
   double Camera::fov() const { return _fov; }
-  
+
   double Camera::fov(const double fov)
   {
     _fov = fov;
     return _fov;
   }
-  
+
   Matrix Camera::view_transform() const { return _viewtransform; }
-  
+
   Matrix Camera::view_transform(Matrix intransform)
   {
     _viewtransform = intransform;

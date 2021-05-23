@@ -71,7 +71,7 @@ namespace ray_lib
     return a;
   }
 
-  bool Shape::bounding_box(aabb &output_box) const
+  bool Shape::bounding_box(aabb *output_box) const
   {
     Bounds p;
     if (!getBounds(&p))

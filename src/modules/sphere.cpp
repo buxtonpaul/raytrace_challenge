@@ -10,7 +10,7 @@ namespace ray_lib
     return intersects(r, -INFINITY, INFINITY);
   }
 
-  bool Sphere::calchit(const Ray &r, const double tmin, const double tmax, double &t0, double &t1) const
+  bool Sphere::calchit(const Ray &r, const double tmin, const double tmax, double *t0, double *t1) const
   {
     Ray input_ray{r.Transform(Transform().inverse())};
     Vector sphere_to_ray{input_ray.Origin() - Point(0, 0, 0)};
@@ -22,16 +22,15 @@ namespace ray_lib
 
     if (descriminant < 0)
       return false;
-    t0 = (-b - sqrt(descriminant)) / (2 * a);
-    t1 = (-b + sqrt(descriminant)) / (2 * a);
-    if (t0 > t1)
-      std::swap(t0, t1);
+    *t0 = (-b - sqrt(descriminant)) / (2 * a);
+    *t1 = (-b + sqrt(descriminant)) / (2 * a);
+    if (*t0 > *t1)
+      std::swap(*t0, *t1);
     return true;
   }
 
-  bool Sphere::intersects(const Ray &r, const double tmin, const double tmax, Intersection &rec) const
+  bool Sphere::intersects(const Ray &r, const double tmin, const double tmax, Intersection *rec) const
   {
-
     return false;
   }
 
@@ -39,7 +38,7 @@ namespace ray_lib
   {
     std::vector<Intersection> results;
     double t0, t1;
-    if (calchit(r, tmin, tmax, t0, t1))
+    if (calchit(r, tmin, tmax, &t0, &t1))
     {
       results.push_back(Intersection(reinterpret_cast<const Shape *>(this), t0));
       results.push_back(Intersection(reinterpret_cast<const Shape *>(this), t1));

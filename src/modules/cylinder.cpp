@@ -30,18 +30,16 @@ namespace ray_lib
   }
   std::vector<Intersection> Cylinder::intersects(const Ray &r) const
   {
-    return intersects(r,-INFINITY,INFINITY);
+    return intersects(r, -INFINITY, INFINITY);
   }
 
 
-  bool Cylinder::intersects(const Ray &r, const double tmin, const double tmax, Intersection &rec) const
+  bool Cylinder::intersects(const Ray &r, const double tmin, const double tmax, Intersection *rec) const
   {
-    
-
     return false;
   }
 
-  std::vector<Intersection> Cylinder::intersects(const Ray &r,const double tmin, const double tmax) const
+  std::vector<Intersection> Cylinder::intersects(const Ray &r, const double tmin, const double tmax) const
   {
     Ray input_ray{r.Transform(Transform().inverse())};
     std::vector<Intersection> results;
@@ -79,7 +77,7 @@ namespace ray_lib
     return results;
   }
 
-  const Vector Cylinder::local_normal_at(const Point &position,const Intersection &i) const
+  const Vector Cylinder::local_normal_at(const Point &position, const Intersection &i) const
   {
     // Point object_point{Transform().inverse() * position};
     Point object_point{position};

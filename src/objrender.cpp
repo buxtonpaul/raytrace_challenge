@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
   {
     outfile = argv[1];
   }
-  Camera c(320, 240, M_PI / 2);
+  Camera c(1024, 768, M_PI / 2);
   // c.viewTransform(view_transform(Point(0, 20, 0), Point(0, 0, 0),
   //                                Vector(0, 0, 1)));
 

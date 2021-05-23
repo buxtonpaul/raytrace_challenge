@@ -13,7 +13,7 @@ std::vector<Intersection> Plane::intersects(const Ray &r) const
   }
 
 
-  bool Plane::intersects(const Ray &r, const double tmin, const double tmax, Intersection &rec) const
+  bool Plane::intersects(const Ray &r, const double tmin, const double tmax, Intersection *rec) const
   {
     
 

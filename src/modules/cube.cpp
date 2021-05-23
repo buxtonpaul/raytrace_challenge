@@ -13,7 +13,7 @@ namespace ray_lib
   {
     std::vector<Intersection> results;
     double t1, t0;
-    calchit(r, t0, t1);
+    calchit(r, &t0, &t1);
 
     if (t0 > t1)
       return results;
@@ -23,7 +23,7 @@ namespace ray_lib
     return results;
   }
 
-  void Cube::calchit(const Ray &r, double &t0, double &t1)const
+  void Cube::calchit(const Ray &r, double *t0, double *t1)const
   {
     Ray input_ray { r.Transform(Transform().inverse())};
 
@@ -33,25 +33,25 @@ namespace ray_lib
 
     double mins[] = {xAxis.first, yAxis.first, zAxis.first};
     double maxs[] = {xAxis.second, yAxis.second, zAxis.second};
-    t1 = (*std::min_element(maxs, maxs + 3));
-    t0 = (*std::max_element(mins, mins + 3));
+    *t1 = (*std::min_element(maxs, maxs + 3));
+    *t0 = (*std::max_element(mins, mins + 3));
   }
 
-  bool Cube::intersects(const Ray &r, const double tmin, const double tmax, Intersection &rec) const
+  bool Cube::intersects(const Ray &r, const double tmin, const double tmax, Intersection *rec) const
   {
     double t1, t0;
-    calchit(r, t0, t1);
+    calchit(r, &t0, &t1);
 
     if (t1 > t0)
       return false;
 
     // in this case we only care about the first hit that lies between our range
     if (t0 > tmin && t0 <= tmax){
-      rec = Intersection(reinterpret_cast<const Shape *>(this), t0);
+      *rec = Intersection(reinterpret_cast<const Shape *>(this), t0);
       return true;
     }
     if (t1 > tmin && t1 <= tmax){
-      rec = Intersection(reinterpret_cast<const Shape *>(this), t1);
+      *rec = Intersection(reinterpret_cast<const Shape *>(this), t1);
       return true;
     }
 

@@ -10,7 +10,7 @@ std::vector<Intersection> Group::intersects(const Ray &r) const
     return intersects(r,-INFINITY,INFINITY);
   }
 
-  bool Group::intersects(const Ray &r, const double tmin, const double tmax, Intersection &rec) const
+  bool Group::intersects(const Ray &r, const double tmin, const double tmax, Intersection *rec) const
   {
     
 
