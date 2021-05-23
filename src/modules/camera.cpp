@@ -59,7 +59,7 @@ namespace ray_lib
         {
           // note that if thread finishes before others than printing will not update
           int done = pixels_done;
-          std::cout << "\rPixels done: "  << pixels_done << "  " << std::setprecision(1)<< ((100.0 * done) / (_vsize*_hsize))  << std::flush;
+          std::cout << "\rPixels done: "  << pixels_done << "  " << static_cast<int> ((100.0 * done) / (_vsize*_hsize))  << "%"<< std::flush;
         }
       }
     }
