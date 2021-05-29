@@ -155,20 +155,20 @@ namespace ray_lib
 
     for (auto a : std::vector<Point>{_p1, _p2, _p3})
     {
-      if (a.x() < mins.x())
-        mins.x(a.x());
-      if (a.x() > maxs.x())
-        maxs.x(a.x());
-
-      if (a.y() < mins.y())
-        mins.y(a.y());
-      if (a.y() > maxs.y())
-        maxs.y(a.y());
-
-      if (a.z() < mins.z())
-        mins.z(a.z());
-      if (a.z() > maxs.z())
-        maxs.z(a.z());
+      for (int i=0; i < 3; ++i)
+      {
+        if (a[i] < mins[i])
+          mins[i] = a[i];
+        if (a[i] > maxs[i])
+          maxs[i] = a[i];
+      }
+    }
+    for (int i=0; i < 3; ++i)
+    {
+      if (mins[i] == maxs[i]){
+        mins[i] = mins[i] -0.0001;
+        maxs[i] = maxs[i] +0.0001;
+      }
     }
     bounds->mins = mins;
     bounds->maxs = maxs;

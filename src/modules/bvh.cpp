@@ -18,7 +18,7 @@ namespace ray_lib
         return static_cast<int>(random_double(min, max+1));
     }
 
-    inline bool box_compare(const std::shared_ptr<Hittable> a, const std::shared_ptr<Hittable> b, int axis)
+    inline bool box_compare(const std::shared_ptr<const Hittable> a, const std::shared_ptr<const Hittable> b, int axis)
     {
         aabb box_a;
         aabb box_b;
@@ -29,23 +29,23 @@ namespace ray_lib
         return box_a.min()[axis] < box_b.min()[axis];
     }
 
-    bool box_x_compare(const std::shared_ptr<Hittable> a, const std::shared_ptr<Hittable> b)
+    bool box_x_compare(const std::shared_ptr<const Hittable> a, const std::shared_ptr<const Hittable> b)
     {
         return box_compare(a, b, 0);
     }
 
-    bool box_y_compare(const std::shared_ptr<Hittable> a, const std::shared_ptr<Hittable> b)
+    bool box_y_compare(const std::shared_ptr<const Hittable> a, const std::shared_ptr<const Hittable> b)
     {
         return box_compare(a, b, 1);
     }
 
-    bool box_z_compare(const std::shared_ptr<Hittable> a, const std::shared_ptr<Hittable> b)
+    bool box_z_compare(const std::shared_ptr<const Hittable> a, const std::shared_ptr<const Hittable> b)
     {
         return box_compare(a, b, 2);
     }
 
     bvh_node::bvh_node(
-        const std::vector<std::shared_ptr<Hittable>> &src_objects,
+        const std::vector<std::shared_ptr<const Hittable>> &src_objects,
         size_t start, size_t end)
     {
         auto objects = src_objects; // Create a modifiable array of the source scene objects
@@ -101,6 +101,10 @@ namespace ray_lib
 
         return hit_left || hit_right;
     }
+
+    std::vector<Intersection> bvh_node::intersects(const Ray &r, const double tmin, const double tmax) const {}
+    std::vector<Intersection> bvh_node::intersects(const Ray &r) const{}
+
 
     bool bvh_node::bounding_box(aabb *output_box) const
     {

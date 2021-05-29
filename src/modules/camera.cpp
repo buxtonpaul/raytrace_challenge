@@ -38,7 +38,7 @@ namespace ray_lib
 
     return Ray(origin, direction);
   }
-  Canvas Camera::render(const World &w) const
+  Canvas Camera::render(const WorldBase *w) const
   {
     Canvas c{_hsize, _vsize};
     std::atomic<int> pixels_done{0};
@@ -52,7 +52,7 @@ namespace ray_lib
       for (unsigned int x = 0; x < _hsize; ++x)
       {
         Ray r{ray_for_pixel(x, y)};
-        Color p{w.color_at(r)};
+        Color p{w->color_at(r)};
         c.pixel(x, y, p);
         pixels_done++;
         if (omp_get_thread_num() == 0)

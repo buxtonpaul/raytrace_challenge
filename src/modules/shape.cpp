@@ -1,5 +1,7 @@
+#include<memory>
 #include "shape.h"
 #include "rays.h"
+#include "hittable_list.h"
 namespace ray_lib
 {
 
@@ -87,15 +89,19 @@ namespace ray_lib
     // we should now turn this into axis aligned points in case the min/max have moved as a result of transformation
     for (int a = 0; a < 3; ++a)
     {
-      if (p.mins[a] > p.maxs.x())
+      if (p.mins[a] > p.maxs[a])
       {
         auto tmp = p.mins[a];
         p.mins[a]=(p.maxs[a]);
         p.maxs[a]=(tmp);
       }
     }
-
+    output_box->minimum = p.mins;
+    output_box->maximum = p.maxs;
     return true;
   }
-
-}
+  void Shape::addObjects(hittable_list *list) const
+  {
+    list->objects.push_back(ptr());
+  }
+}// namespace ray_lib

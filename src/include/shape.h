@@ -1,8 +1,11 @@
 #ifndef _shape_h_
 #define _shape_h_
 #include <vector>
+#include <memory>
 #include "material.h"
 #include "hittable.h"
+#include "aabb.h"
+#include "hittable_list.h"
 namespace ray_lib
 {
 
@@ -17,13 +20,11 @@ class Matrix;
     Point maxs{-INFINITY, -INFINITY, -INFINITY};
   } Bounds;
 
-class Shape : public Hittable
+class Shape : public Hittable, public std::enable_shared_from_this<const Hittable>
 {
 public:
   virtual const Vector local_normal_at(const Point &position, const Intersection &i) const = 0;
   virtual const bool getBounds(Bounds *bounds) const = 0;
-  virtual std::vector<Intersection> intersects(const Ray &r) const = 0;
-  virtual std::vector<Intersection> intersects(const Ray &r, const double tmin, const double tmax) const = 0;
 
   const Vector normal(const Point &position, const Intersection &i) const;
   const Vector normal(const Point &position) const;
@@ -38,7 +39,10 @@ public:
   Point world_to_object(const Point &p) const;
   const Vector normal_to_world(const Vector &objectnormal) const;
   bool bounding_box(aabb *output_box) const;
-
+  std::shared_ptr<const Hittable> ptr()const{
+    return std::static_pointer_cast<const Hittable>(shared_from_this());
+  }
+  virtual void addObjects(hittable_list *list) const;
 protected:
   Matrix _m;
   Material _material;

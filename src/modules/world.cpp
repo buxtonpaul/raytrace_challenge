@@ -8,16 +8,13 @@
 #include "sphere.h"
 namespace ray_lib
 {
-  std::vector<std::shared_ptr<Shape>> &World::WorldShapes() { return _shapes; }
-  std::vector<Light *> &World::WorldLights() { return _lights; }
+  std::vector<std::shared_ptr<Shape>> &WorldBase::WorldShapes() { return _shapes; }
+  std::vector<Light *> &WorldBase::WorldLights() { return _lights; }
 
-  std::vector<ray_lib::Intersection> World::WorldIntersections(
+  std::vector<ray_lib::Intersection> WorldBase::WorldIntersections(
       const ray_lib::Ray &theray) const
   {
     std::vector<ray_lib::Intersection> outputs;
-
-    // int const new_element = 33;
-    // v.insert(std::lower_bound(v.begin(), v.end(), new_element), new_element);
     for (auto s : _shapes)
     {
       auto i{s->intersects(theray)};
@@ -35,7 +32,12 @@ namespace ray_lib
     return outputs;
     // it isn't clear if these should be clipped to only those >0...
   }
-  Color World::shade_hit(const IntersectionState &precomps, int depth) const
+
+  void WorldBase::InitWorld()
+  {
+  }
+
+  Color WorldBase::shade_hit(const IntersectionState &precomps, int depth) const
   {
     // TODO(me): iterate over all the lights and sum the results
     Color Surface_color{ ray_lib::lighting(precomps.Object()->material(), *_lights[0],
@@ -44,7 +46,7 @@ namespace ray_lib
 
     Color Reflected_color{reflection_hit(precomps, depth)};
     Color Refracted_color{refracted_color(precomps, depth)};
-    if (precomps.Object()->material().reflectivity()> 0 && precomps.Object()->material().transparency()>0)
+    if (precomps.Object()->material().reflectivity()> 0 && precomps.Object()->material().transparency() > 0)
     {
       double reflectance = precomps.schlick();
       return Surface_color + Reflected_color *reflectance + Refracted_color * (1-reflectance);
@@ -53,7 +55,7 @@ namespace ray_lib
     return Surface_color + Reflected_color + Refracted_color;
   }
 
-  Color World::refracted_color(const IntersectionState &precomps, int depth) const
+  Color WorldBase::refracted_color(const IntersectionState &precomps, int depth) const
   {
     if (precomps.Object()->material().transparency() == 0.0)
       return Color::Black;
@@ -75,7 +77,7 @@ namespace ray_lib
     return color_at(refracted, depth-1) * precomps.Object()->material().transparency();
   }
 
-  Color World::reflection_hit(const IntersectionState &precomps, int depth) const
+  Color WorldBase::reflection_hit(const IntersectionState &precomps, int depth) const
   {
     if (precomps.Object()->material().reflectivity() == 0.0)
       return Color::Black;
@@ -98,7 +100,6 @@ namespace ray_lib
     return shade_hit(i, depth);
   }
 
- 
   bool World::is_shadowed(const Point &p) const
   {
     Vector v{_lights[0]->position() - p};
@@ -112,4 +113,46 @@ namespace ray_lib
       return true;
     return false;
   }
+
+
+  void BVHWorld::InitWorld()
+  {
+    // convert the list of added shapes to a hittable list
+    for ( auto a : _shapes)
+    {
+      a->addObjects(&allshapes);
+    }
+    _scene = std::make_shared<bvh_node>(allshapes);
+  }
+
+  Color BVHWorld::color_at(const Ray &theray, int depth) const
+  {
+    Intersection rec{nullptr, INFINITY};
+    if (!_scene->intersects(theray, 0, INFINITY, &rec))
+      return Color(0, 0, 0);
+
+    // do we need to transform the ray at this point
+    
+    ray_lib::IntersectionState i{rec, theray};
+
+    return shade_hit(i, depth);
+  }
+
+  bool BVHWorld::is_shadowed(const Point &p) const
+  {
+    Vector v{_lights[0]->position() - p};
+    double distance{v.magnitude()};
+    Vector direction{v.normalise()};
+    Ray r{p, direction};
+
+    Intersection rec{nullptr, INFINITY};
+    // if (_scene->intersects(r, 0, distance, &rec))
+    // {
+    //   if (rec.t() < distance)
+    //     return true;
+    // }
+    return false;
+  }
+
+
 } // namespace ray_lib

@@ -144,6 +144,6 @@ TEST_F(DefaultWorldCameraTest, RenderTest)
   Point to{0, 0, 0};
   Vector up{0, 1, 0};
   c.view_transform(view_transform(from, to, up));
-  Canvas image{c.render(w)};
+  Canvas image{c.render(&w)};
   EXPECT_EQ(image.pixel(5, 5), Color(0.38066, 0.47583, 0.2855));
 }

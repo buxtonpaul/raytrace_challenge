@@ -28,14 +28,16 @@ int main(int argc, char *argv[])
   {
     outfile = argv[1];
   }
-  Camera c(100, 76, M_PI / 2);
+  Camera c(1024, 768, M_PI / 2);
+  // Camera c(100, 70, M_PI / 2);
   // c.viewTransform(view_transform(Point(0, 20, 0), Point(0, 0, 0),
   //                                Vector(0, 0, 1)));
 
   c.view_transform(view_transform(Point(0, 5, -9), Point(0, 1, 0),
                                   Vector(0, 1, 0)));
 
-  World w;
+  // World w;
+  BVHWorld w;
 
   CheckPattern3d pat_floor{Color(0.9, 0.9, 0.9), Color(0.1, 0.1, 0.1), scale(.1, 1, .1)};
   Material mat_floor = Material(pat_floor).specular(0).reflectivity(0.3);
@@ -44,7 +46,6 @@ int main(int argc, char *argv[])
 
   std::shared_ptr<Cube> floor = std::make_shared<Cube>(scale(10, 1, 10).translate(0, -.5, 0));
 
-  // Cube floor{scale(10, 1, 10).translate(0, -.5, 0)};
   floor->material(mat_floor);
 
   w.WorldShapes().push_back(floor);
@@ -64,6 +65,8 @@ int main(int argc, char *argv[])
   ObjParser p;
   std::string testfile{TEST_DATA_FOLDER};
   testfile.append("teapot.obj.txt");
+  // testfile.append("smoothtriangle.obj");
+  // testfile.append("teapot_low.obj");
   p.ParseFile(testfile);
 
   // note use . operator can specify translations in order instead of reverse order required when multiplying
@@ -74,12 +77,13 @@ int main(int argc, char *argv[])
 
   Light l{Color(1.0, 1.0, 1.0), Point(5, 10, -10)};
 
-  g1->Transform(Matrix::Identity.scale(1.0 / 4, 1.0 / 4, 1.0 / 4).rotate_x(-M_PI_2).translate(0.5, 0, 0));
+  // g1->Transform(Matrix::Identity.scale(1.0 / 4, 1.0 / 4, 1.0 / 4).rotate_x(-M_PI_2).translate(0.5, 0, 0));
   g1->add_child(&p.defaultGroup());
   w.WorldShapes().push_back(g1);
   w.WorldLights().push_back(&l);
 
-  Canvas outimage{c.render(w)};
+  w.InitWorld();
+  Canvas outimage{c.render(&w)};
 
   outimage.png(outfile);
 }

@@ -42,7 +42,7 @@ namespace ray_lib
     double t1, t0;
     calchit(r, &t0, &t1);
 
-    if (t1 > t0)
+    if (t0 > t1)
       return false;
 
     // in this case we only care about the first hit that lies between our range

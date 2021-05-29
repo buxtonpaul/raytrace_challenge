@@ -29,7 +29,7 @@ namespace ray_lib
     Matrix view_transform(Matrix intransform);
     double pixel_size();
     Ray ray_for_pixel(const unsigned int px, const unsigned int py) const;
-    Canvas render(const World &w) const;
+    Canvas render(const WorldBase *w) const;
 
   private:
     unsigned int _hsize;

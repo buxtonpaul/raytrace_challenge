@@ -45,8 +45,7 @@ int main(int argc, char *argv[])
 
   w.WorldShapes().push_back(floor);
 
-  
-  std::shared_ptr<Group> g1 = std::make_shared<Group> ( );
+  std::shared_ptr<Group> g1 = std::make_shared<Group>();
   StripePattern candy{Color(0.9, 0.1, 0.1), Color(.95, .95, .95), scale(0.25, 0.25, 0.25)};
 
   Material middle_mat;
@@ -85,7 +84,7 @@ int main(int argc, char *argv[])
   w.WorldShapes().push_back(g1);
   w.WorldLights().push_back(&l);
 
-  Canvas outimage{c.render(w)};
+  Canvas outimage{c.render(&w)};
 
   // std::ofstream outfile(genfilestring() + ".ppm");
   // outfile << outimage.ppm();

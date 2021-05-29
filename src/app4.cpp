@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
   w.WorldShapes().push_back(right);
   w.WorldLights().push_back(&l);
 
-  Canvas outimage{c.render(w)};
+  Canvas outimage{c.render(&w)};
 
   std::ofstream outfile(genfilestring() + ".ppm");
   outfile << outimage.ppm();
