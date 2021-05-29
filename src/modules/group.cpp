@@ -20,12 +20,12 @@ std::vector<Intersection> Group::intersects(const Ray &r) const
   std::vector<Intersection> Group::intersects(const Ray &r, const double tmin, const double tmax) const
   {
     std::vector<Intersection> results;
-    Ray input_ray{r.Transform(Transform().inverse())};
+    Ray input_ray{r.Transform(WorldTransform().inverse())};
 
     // given the bounds we  need to compute the bounding box for it
-    std::pair<double, double> xAxis{check_axis(input_ray.Origin().x(), input_ray.Direction().x(), _bounds.mins.x(), _bounds.maxs.x())};
-    std::pair<double, double> yAxis{check_axis(input_ray.Origin().y(), input_ray.Direction().y(), _bounds.mins.y(), _bounds.maxs.y())};
-    std::pair<double, double> zAxis{check_axis(input_ray.Origin().z(), input_ray.Direction().z(), _bounds.mins.z(), _bounds.maxs.z())};
+    std::pair<double, double> xAxis{check_axis(r.Origin().x(), r.Direction().x(), _bounds.mins.x(), _bounds.maxs.x())};
+    std::pair<double, double> yAxis{check_axis(r.Origin().y(), r.Direction().y(), _bounds.mins.y(), _bounds.maxs.y())};
+    std::pair<double, double> zAxis{check_axis(r.Origin().z(), r.Direction().z(), _bounds.mins.z(), _bounds.maxs.z())};
 
     double mins[] = {xAxis.first, yAxis.first, zAxis.first};
     double maxs[] = {xAxis.second, yAxis.second, zAxis.second};
@@ -33,13 +33,12 @@ std::vector<Intersection> Group::intersects(const Ray &r) const
     double t_min{*std::max_element(mins, mins + 3)};
 
     if (t_min > t_max){
-      // std::cout<<" skipping group" <<std::endl;
       return results;
     }
 
     for (auto child : _children)
     {
-      auto tmp = child->intersects(input_ray);
+      auto tmp = child->intersects(r);
       std::move(tmp.begin(), tmp.end(), std::back_inserter(results));
     }
     std::sort(results.begin(), results.end());
@@ -66,8 +65,8 @@ std::vector<Intersection> Group::intersects(const Ray &r) const
     s->getBounds(&childBounds);
 
 
-    childBounds.mins  = (s->Transform()*childBounds.mins);
-    childBounds.maxs  = (s->Transform()*childBounds.maxs);
+    childBounds.mins  = (s->WorldTransform()*childBounds.mins);
+    childBounds.maxs  = (s->WorldTransform()*childBounds.maxs);
 
 
     if (childBounds.mins.x() < _bounds.mins.x())

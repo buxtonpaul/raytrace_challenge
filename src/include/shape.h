@@ -30,8 +30,9 @@ public:
   const Vector normal(const Point &position) const;
   const Matrix &Transform(const Matrix &m);
   const Matrix &Transform() const;
-  Shape() : _m(Matrix::Identity) {}
-  explicit Shape(const Matrix &m) : _m(m) {}
+  const Matrix &WorldTransform() const;
+  Shape() : _m(Matrix::Identity) , _worldTransform(Matrix::Identity){}
+  explicit Shape(const Matrix &m) : _m(m), _worldTransform(m) {}
   const Material &material(const Material &m);
   const Material &material() const;
   Shape *parent();
@@ -47,6 +48,7 @@ protected:
   Matrix _m;
   Material _material;
   Shape *_parent = nullptr;
+ mutable Matrix _worldTransform;
 };
 
 

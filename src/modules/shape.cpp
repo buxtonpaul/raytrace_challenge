@@ -14,6 +14,9 @@ namespace ray_lib
     return normal_to_world(ln);
   }
 
+
+
+
   const Vector Shape::normal(const Point &position) const
   {
     // transform the normal, then call local_normal_at
@@ -27,12 +30,22 @@ namespace ray_lib
   const Matrix &Shape::Transform(const Matrix &m)
   {
     _m = m;
+    _worldTransform = _m;
     return _m;
   }
   const Matrix &Shape::Transform() const
   {
     return _m;
   }
+
+  const Matrix &Shape::WorldTransform() const
+  {
+    if (_parent)
+      _worldTransform = _parent->WorldTransform()*_m;
+
+    return _worldTransform;
+  }
+
   const Material &Shape::material(const Material &m)
   {
     _material = m;
@@ -53,23 +66,14 @@ namespace ray_lib
 
   Point Shape::world_to_object(const Point &p) const
   {
-    Point result(p);
-    if (_parent)
-    {
-      result = _parent->world_to_object(p);
-    }
-    return (_m.inverse() * result);
+    return (WorldTransform().inverse() * p);
   }
 
   const Vector Shape::normal_to_world(const Vector &objectnormal) const
   {
-    Vector norm{_m.inverse().transpose() * objectnormal};
+    Vector norm{WorldTransform().inverse().transpose() * objectnormal};
     norm.w(0);
     auto a = norm.normalise();
-    if (_parent)
-    {
-      return _parent->normal_to_world(a).normalise();
-    }
     return a;
   }
 
@@ -86,6 +90,8 @@ namespace ray_lib
       ancestor = ancestor->_parent;
     } while (ancestor);
 
+    p.maxs = WorldTransform() * p.maxs;
+    p.mins = WorldTransform() * p.mins;
     // we should now turn this into axis aligned points in case the min/max have moved as a result of transformation
     for (int a = 0; a < 3; ++a)
     {

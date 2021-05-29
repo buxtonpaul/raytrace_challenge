@@ -25,7 +25,7 @@ namespace ray_lib
 
   void Cube::calchit(const Ray &r, double *t0, double *t1)const
   {
-    Ray input_ray { r.Transform(Transform().inverse())};
+    Ray input_ray { r.Transform(WorldTransform().inverse())};
 
     std::pair<double, double> xAxis{check_axis(input_ray.Origin().x(), input_ray.Direction().x(), -1, 1)};
     std::pair<double, double> yAxis{check_axis(input_ray.Origin().y(), input_ray.Direction().y(), -1, 1)};

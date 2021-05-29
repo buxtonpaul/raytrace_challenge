@@ -12,7 +12,7 @@ namespace ray_lib
 
   bool Sphere::calchit(const Ray &r, const double tmin, const double tmax, double *t0, double *t1) const
   {
-    Ray input_ray{r.Transform(Transform().inverse())};
+    Ray input_ray{r.Transform(WorldTransform().inverse())};
     Vector sphere_to_ray{input_ray.Origin() - Point(0, 0, 0)};
 
     double a{input_ray.Direction().dotproduct(input_ray.Direction())};

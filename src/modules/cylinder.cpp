@@ -41,7 +41,7 @@ namespace ray_lib
 
   std::vector<Intersection> Cylinder::intersects(const Ray &r, const double tmin, const double tmax) const
   {
-    Ray input_ray{r.Transform(Transform().inverse())};
+    Ray input_ray{r.Transform(WorldTransform().inverse())};
     std::vector<Intersection> results;
 
     auto a{input_ray.Direction().x() * input_ray.Direction().x() + input_ray.Direction().z() * input_ray.Direction().z()};

@@ -145,13 +145,13 @@ namespace ray_lib
     Vector direction{v.normalise()};
     Ray r{p, direction};
 
-    Intersection rec{nullptr, INFINITY};
-    // if (_scene->intersects(r, 0, distance, &rec))
+    // Intersection rec{nullptr, INFINITY};
+    // if (_scene->intersects(r, 0.000001, distance, &rec))
     // {
-    //   if (rec.t() < distance)
+    //   if (rec.t() < distance )
     //     return true;
     // }
-    return false;
+    // return false;
   }
 
 

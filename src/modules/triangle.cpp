@@ -12,7 +12,7 @@ namespace ray_lib
 
   bool Triangle::intersects(const Ray &r, const double tmin, const double tmax, Intersection *rec) const
   {
-    Ray input_ray{r.Transform(Transform().inverse())};
+    Ray input_ray{r.Transform(WorldTransform().inverse())};
 
     auto dir_cross_e2{input_ray.Direction().crossproduct(_e2)};
     double det{_e1.dotproduct(dir_cross_e2)};
@@ -101,7 +101,7 @@ namespace ray_lib
 
   bool SmoothTriangle::intersects(const Ray &r, const double tmin, const double tmax, Intersection *rec) const
   {
-    Ray input_ray{r.Transform(Transform().inverse())};
+    Ray input_ray{r.Transform(WorldTransform().inverse())};
 
     auto dir_cross_e2{input_ray.Direction().crossproduct(_e2)};
     double det{_e1.dotproduct(dir_cross_e2)};

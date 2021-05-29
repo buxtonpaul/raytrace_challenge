@@ -64,9 +64,9 @@ int main(int argc, char *argv[])
 
   ObjParser p;
   std::string testfile{TEST_DATA_FOLDER};
-  testfile.append("teapot.obj.txt");
+  // testfile.append("teapot.obj.txt");
   // testfile.append("smoothtriangle.obj");
-  // testfile.append("teapot_low.obj");
+  testfile.append("teapot_low.obj");
   p.ParseFile(testfile);
 
   // note use . operator can specify translations in order instead of reverse order required when multiplying
