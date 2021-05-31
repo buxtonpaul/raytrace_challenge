@@ -9,7 +9,6 @@ Raytracer development working through the book [The Ray Tracer Challenge](https:
 # Todo 
 - [ ] Handle materials with triangles/objects
 - [ ] Implement scene management
-- [ ] kd-tree Bounding boxes
 - [ ] Procedurally generate some shapes
 - [ ] Refactor shape and intersection files
 - [ ] Improve gradient to transition smoothly after x=1
@@ -70,12 +69,16 @@ The trick to this working well is how the tree is constructed. Figuring out the 
 
 ----
 ## Performance (rendering latest image)
+The switch to kd trees showed a huge improvement. The image above previously took about an hour to render.
+I have somehow made the non kd-trees version worse (I suspect I have broken then group intersection test). But the performance below is with working KD Trees version. I haven't spent any time looking to optimise the scene setup.
 
-Implementing caching of inverse provided ~*6 performance improvement
-### Multi Threaded (using OpenMP parallel for)
 ```
+ time ./objrender ../latest.png
+Begin Rendering
+Pixels done: 778823  99%
+Rendering took 31.077100s
 
-real    0m3.900s
-user    0m30.559s
-sys     0m0.020s
+real    0m46.220s
+user    3m56.922s
+sys     0m0.849s
 ```

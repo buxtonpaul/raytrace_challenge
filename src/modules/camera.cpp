@@ -43,7 +43,7 @@ namespace ray_lib
     Canvas c{_hsize, _vsize};
     std::atomic<int> pixels_done{0};
     std::cout <<"Begin Rendering"<< std::endl;
-    auto start = std::clock();
+    auto t_start = std::chrono::high_resolution_clock::now();
 
 
 #pragma omp parallel for collapse(2) schedule(guided)
@@ -63,10 +63,10 @@ namespace ray_lib
         }
       }
     }
+    auto t_end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration<double, std::milli>(t_end-t_start).count();
 
-    auto duration = (std::clock() - start) / static_cast<double>(CLOCKS_PER_SEC);
-
-    std::cout << "\nRendering took " << duration << "s\n";
+    std::cout << "\nRendering took " << std::fixed<< duration/1000 << "s\n";
 
 
     return c;
