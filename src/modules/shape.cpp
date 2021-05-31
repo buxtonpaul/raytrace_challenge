@@ -82,14 +82,7 @@ namespace ray_lib
     Bounds p;
     if (!getBounds(&p))
       return false;
-    Shape const *ancestor = this;
-    do
-    {
-      p.maxs = ancestor->_m * p.maxs;
-      p.mins = ancestor->_m * p.mins;
-      ancestor = ancestor->_parent;
-    } while (ancestor);
-
+    
     p.maxs = WorldTransform() * p.maxs;
     p.mins = WorldTransform() * p.mins;
     // we should now turn this into axis aligned points in case the min/max have moved as a result of transformation

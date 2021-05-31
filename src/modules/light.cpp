@@ -13,6 +13,7 @@ namespace ray_lib
     Color diffuse{Color(0, 0, 0)};
     Color specular{Color(0, 0, 0)};
 
+
     if (inShadow)
       return ambient;
     double light_dot_normal{lightv.dotproduct(Normal)};

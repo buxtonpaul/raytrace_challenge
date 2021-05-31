@@ -140,18 +140,20 @@ namespace ray_lib
 
   bool BVHWorld::is_shadowed(const Point &p) const
   {
+
+    //todo:me add a check for actually having lights
     Vector v{_lights[0]->position() - p};
     double distance{v.magnitude()};
     Vector direction{v.normalise()};
     Ray r{p, direction};
 
-    // Intersection rec{nullptr, INFINITY};
-    // if (_scene->intersects(r, 0.000001, distance, &rec))
-    // {
-    //   if (rec.t() < distance )
-    //     return true;
-    // }
-    // return false;
+    Intersection rec{nullptr, INFINITY};
+    if (_scene->intersects(r, 0.000001, distance, &rec))
+    {
+      if (rec.t() < distance )
+        return true;
+    }
+    return false;
   }
 
 

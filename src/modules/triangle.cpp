@@ -32,10 +32,11 @@ namespace ray_lib
     if ((v < 0) || ((u + v) > 1))
       return false;
     auto t{f * _e2.dotproduct(origin_cross_e1)};
-
-    *rec = Intersection(reinterpret_cast<const Shape *>(this), t);
-
-    return true;
+    if (t > tmin && t < tmax){
+      *rec = Intersection(reinterpret_cast<const Shape *>(this), t, u, v);
+      return true;
+    }
+    return false;
   }
 
   std::vector<Intersection> Triangle::intersects(const Ray &r, const double tmin, const double tmax) const
@@ -122,9 +123,11 @@ namespace ray_lib
       return false;
     auto t{f * _e2.dotproduct(origin_cross_e1)};
 
-    *rec = Intersection(reinterpret_cast<const Shape *>(this), t, u, v);
-
-    return true;
+    if (t > tmin && t < tmax){
+      *rec = Intersection(reinterpret_cast<const Shape *>(this), t, u, v);
+      return true;
+    }
+    return false;
   }
 
   std::vector<Intersection> SmoothTriangle::intersects(const Ray &r, const double tmin, const double tmax) const
