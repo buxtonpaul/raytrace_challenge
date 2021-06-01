@@ -20,10 +20,14 @@ public:
   bool includes(const Shape *s) const;
   Shape const  *at(int index);
   const bool getBounds(Bounds *bounds)const;
+  bool bounding_box(aabb *output_box) const;
   void addObjects(hittable_list *list) const override;
 private:
   std::vector<Shape const *> _children;
   Bounds _bounds;
+  mutable aabb _box;
+  bool isDirty();
+  mutable bool _dirty;
 };
 } // namespace ray_lib
 

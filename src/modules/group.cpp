@@ -19,22 +19,11 @@ std::vector<Intersection> Group::intersects(const Ray &r) const
 
   std::vector<Intersection> Group::intersects(const Ray &r, const double tmin, const double tmax) const
   {
+    aabb target;
+    bounding_box(&target);
     std::vector<Intersection> results;
-    Ray input_ray{r.Transform(WorldTransform().inverse())};
-
-    // given the bounds we  need to compute the bounding box for it
-    std::pair<double, double> xAxis{check_axis(r.Origin().x(), r.Direction().x(), _bounds.mins.x(), _bounds.maxs.x())};
-    std::pair<double, double> yAxis{check_axis(r.Origin().y(), r.Direction().y(), _bounds.mins.y(), _bounds.maxs.y())};
-    std::pair<double, double> zAxis{check_axis(r.Origin().z(), r.Direction().z(), _bounds.mins.z(), _bounds.maxs.z())};
-
-    double mins[] = {xAxis.first, yAxis.first, zAxis.first};
-    double maxs[] = {xAxis.second, yAxis.second, zAxis.second};
-    double t_max{*std::min_element(maxs, maxs + 3)};
-    double t_min{*std::max_element(mins, mins + 3)};
-
-    if (t_min > t_max){
+    if (!_box.hit(r, tmin, tmax))
       return results;
-    }
 
     for (auto child : _children)
     {
@@ -61,27 +50,12 @@ std::vector<Intersection> Group::intersects(const Ray &r) const
     _children.push_back(s);
     s->parent(this);
 
-    Bounds childBounds = {{INFINITY, INFINITY, INFINITY}, {INFINITY * -1, INFINITY * -1, INFINITY * -1}};
-    s->getBounds(&childBounds);
-
-
-    childBounds.mins  = (s->WorldTransform()*childBounds.mins);
-    childBounds.maxs  = (s->WorldTransform()*childBounds.maxs);
-
-
-    if (childBounds.mins.x() < _bounds.mins.x())
-      _bounds.mins.x(childBounds.mins.x());
-    if (childBounds.mins.y() < _bounds.mins.y())
-      _bounds.mins.y(childBounds.mins.y());
-    if (childBounds.mins.z() < _bounds.mins.z())
-      _bounds.mins.z(childBounds.mins.z());
-
-    if (childBounds.maxs.x() > _bounds.maxs.x())
-      _bounds.maxs.x(childBounds.maxs.x());
-    if (childBounds.maxs.y() > _bounds.maxs.y())
-      _bounds.maxs.y(childBounds.maxs.y());
-    if (childBounds.maxs.z() > _bounds.maxs.z())
-      _bounds.maxs.z(childBounds.maxs.z());
+    _dirty = true;
+    if (_parent)
+    {
+      if (typeid(_parent) == typeid(Group))
+      static_cast<Group*>(_parent)->isDirty();
+    }
   }
 
   bool Group::includes(const Shape *s) const
@@ -95,8 +69,62 @@ std::vector<Intersection> Group::intersects(const Ray &r) const
       return _children[index];
     return nullptr;
   }
+
+  bool Group::isDirty(){
+    _dirty = true;
+  }
+
+  bool Group::bounding_box(aabb *output_box) const
+  {
+    aabb tempbox;
+    if (_dirty){
+      for (auto a : _children){
+        aabb childbox;
+        a->bounding_box(&childbox);
+        tempbox = surrounding_box(childbox, tempbox);
+      }
+      _dirty = false;
+      _box = tempbox;
+    }
+    *output_box = _box;
+  }
   const bool Group::getBounds(Bounds *bounds) const
   {
+    // Bounds localounds = {{INFINITY, INFINITY, INFINITY}, {INFINITY * -1, INFINITY * -1, INFINITY * -1}};
+    // Bounds _bounds = {{INFINITY, INFINITY, INFINITY}, {INFINITY * -1, INFINITY * -1, INFINITY * -1}};
+    // if(_dirty)
+    // {
+    //   for(auto a : _children)
+    //   {
+    //       a->getBounds(&localounds);
+
+
+    //       localounds.mins  = (a->WorldTransform()*localounds.mins);
+    //       localounds.maxs  = (a->WorldTransform()*localounds.maxs);
+
+
+    //       if (localounds.mins.x() < _bounds.mins.x())
+    //         _bounds.mins.x(localounds.mins.x());
+    //       if (localounds.mins.y() < _bounds.mins.y())
+    //         _bounds.mins.y(localounds.mins.y());
+    //       if (localounds.mins.z() < _bounds.mins.z())
+    //         _bounds.mins.z(localounds.mins.z());
+
+    //       if (localounds.maxs.x() > _bounds.maxs.x())
+    //         _bounds.maxs.x(localounds.maxs.x());
+    //       if (localounds.maxs.y() > _bounds.maxs.y())
+    //         _bounds.maxs.y(localounds.maxs.y());
+    //       if (localounds.maxs.z() > _bounds.maxs.z())
+    //         _bounds.maxs.z(localounds.maxs.z());
+
+    //   }
+    
+    
+
+    // }
+
+
+
     *bounds = _bounds;
     return true;
   }
