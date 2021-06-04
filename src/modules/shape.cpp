@@ -31,6 +31,7 @@ namespace ray_lib
   {
     _m = m;
     _worldTransform = _m;
+    _isDirty = true;
     return _m;
   }
   const Matrix &Shape::Transform() const
@@ -38,11 +39,24 @@ namespace ray_lib
     return _m;
   }
 
+
+   bool Shape::worldTransformisDirty()const {
+    if (_isDirty)
+      return true;
+    if (_parent)
+      return _parent->worldTransformisDirty();
+    return false;
+
+  }
   const Matrix &Shape::WorldTransform() const
   {
-    if (_parent)
-      _worldTransform = _parent->WorldTransform()*_m;
-
+    if (worldTransformisDirty()){
+      if(_parent)
+        _worldTransform = _parent->WorldTransform()*_m;
+      else
+        _worldTransform = _m;
+      _isDirty = false;
+    }
     return _worldTransform;
   }
 

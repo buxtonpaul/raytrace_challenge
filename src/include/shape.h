@@ -25,7 +25,7 @@ class Shape : public Hittable, public std::enable_shared_from_this<const Hittabl
 public:
   virtual const Vector local_normal_at(const Point &position, const Intersection &i) const = 0;
   virtual const bool getBounds(Bounds *bounds) const = 0;
-
+  bool worldTransformisDirty()const;
   const Vector normal(const Point &position, const Intersection &i) const;
   const Vector normal(const Point &position) const;
   const Matrix &Transform(const Matrix &m);
@@ -49,6 +49,7 @@ protected:
   Material _material;
   Shape *_parent = nullptr;
  mutable Matrix _worldTransform;
+ mutable bool _isDirty = true;
 };
 
 
