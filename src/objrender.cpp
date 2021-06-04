@@ -38,8 +38,8 @@ int main(int argc, char *argv[])
   // c.view_transform(view_transform(Point(0, 0, -5), Point(0, 0, 0),
   //                                 Vector(0, 1, 0)));
 
-  World w;
-  // BVHWorld w;
+  // World w;
+  BVHWorld w;
 
   CheckPattern3d pat_floor{Color(0.9, 0.9, 0.9), Color(0.1, 0.1, 0.1), scale(.1, 1, .1)};
   Material mat_floor = Material(pat_floor).specular(0).reflectivity(0.3);
