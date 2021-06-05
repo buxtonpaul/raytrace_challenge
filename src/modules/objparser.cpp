@@ -54,7 +54,7 @@ namespace ray_lib
 
   ObjParser::ObjParser() {}
 
-  bool ObjParser::ParseFile(const std::string &infile)
+  bool ObjParser::loadObject(const std::string &infile,std::shared_ptr<Material> mat)
   {
     bool isValid{true};
     int lineno = 0;
@@ -68,7 +68,7 @@ namespace ray_lib
     while (std::getline(input, str))
     {
       ++lineno;
-      isValid = ParseLine(str);
+      isValid = ParseLine(str,mat);
       if (!isValid)
         break;
     }
@@ -76,7 +76,7 @@ namespace ray_lib
     return isValid;
   }
 
-  bool ObjParser::ParseLine(std::string const &line)
+  bool ObjParser::ParseLine(std::string const &line,std::shared_ptr<Material> mat)
   {
     std::string trimmed{line};
     ltrim(trimmed);
@@ -93,7 +93,7 @@ namespace ray_lib
       return true;
 
     if (command == "f")
-      return addFace(line);
+      return addFace(line,mat);
     if (command == "g")
       return addGroup(line);
     if (command == "#")
@@ -159,7 +159,7 @@ namespace ray_lib
     }
   }
 
-  bool ObjParser::addFace(std::string const &line)
+  bool ObjParser::addFace(std::string const &line,std::shared_ptr<Material> mat)
   {
     std::stringstream input(line);
     char tmp = ' ';
@@ -209,6 +209,11 @@ namespace ray_lib
       {
         _faces.push_back(std::shared_ptr<Triangle>(new Triangle(_vertices[v_idx[0]], _vertices[v_idx[index]], _vertices[v_idx[index + 1]])));
         _newestGroup->add_child(static_cast<Shape *>(_faces.back().get()));
+        if(mat !=nullptr)
+        {
+          _faces.back()->material(mat);
+        }
+    
       }
     }
     else
@@ -217,8 +222,13 @@ namespace ray_lib
       {
         _faces.push_back(std::shared_ptr<SmoothTriangle>(new SmoothTriangle(_vertices[v_idx[0]], _vertices[v_idx[index]], _vertices[v_idx[index + 1]], _normals[vn_idx[0]], _normals[vn_idx[index]], _normals[vn_idx[index + 1]])));
         _newestGroup->add_child(static_cast<Shape *>(_faces.back().get()));
+        if(mat !=nullptr)
+        {
+          _faces.back()->material(mat);
+        }
       }
     }
+    
     return (true);
   }
 

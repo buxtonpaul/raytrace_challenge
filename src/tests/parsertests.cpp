@@ -7,7 +7,7 @@ TEST(ObjParser, EmptyGroup)
   ObjParser p;
   std::string testfile{TEST_DATA_FOLDER};
   testfile.append("test1.obj");
-  EXPECT_EQ(false, p.ParseFile(testfile)) << (testfile);
+  EXPECT_EQ(false, p.loadObject(testfile)) << (testfile);
 }
 
 TEST(ObjParser, VertexData)
@@ -15,7 +15,7 @@ TEST(ObjParser, VertexData)
   ObjParser p;
   std::string testfile{TEST_DATA_FOLDER};
   testfile.append("test2.obj");
-  EXPECT_EQ(true, p.ParseFile(testfile)) << (testfile);
+  EXPECT_EQ(true, p.loadObject(testfile)) << (testfile);
   EXPECT_EQ(p.Vertices()[1], Point(-1, 1, 0));
   EXPECT_EQ(p.Vertices()[2], Point(-1, 0.5, 0));
   EXPECT_EQ(p.Vertices()[3], Point(1, 0, 0));
@@ -28,7 +28,7 @@ TEST(ObjParser, TriangleFaces)
   ObjParser p;
   std::string testfile{TEST_DATA_FOLDER};
   testfile.append("test3.obj");
-  EXPECT_EQ(true, p.ParseFile(testfile)) << (testfile);
+  EXPECT_EQ(true, p.loadObject(testfile)) << (testfile);
   Group &g{p.defaultGroup()};
   const Triangle * t1 = dynamic_cast<const Triangle *>(g.at(0));
   const Triangle * t2 = dynamic_cast<const Triangle *>(g.at(1));
@@ -49,7 +49,7 @@ TEST(ObjParser, Polygons)
   ObjParser p;
   std::string testfile{TEST_DATA_FOLDER};
   testfile.append("test4.obj");
-  EXPECT_EQ(true, p.ParseFile(testfile)) << (testfile);
+  EXPECT_EQ(true, p.loadObject(testfile)) << (testfile);
   Group &g{p.defaultGroup()};
   const Triangle * t1 = dynamic_cast<const Triangle *>(g.at(0));
   const Triangle * t2 = dynamic_cast<const Triangle *>(g.at(1));
@@ -74,7 +74,7 @@ TEST(ObjParser, NamedGroup)
   ObjParser p;
   std::string testfile{TEST_DATA_FOLDER};
   testfile.append("triangles.obj");
-  EXPECT_EQ(true, p.ParseFile(testfile)) << (testfile);
+  EXPECT_EQ(true, p.loadObject(testfile)) << (testfile);
   Group &g1{p.namedGroup("FirstGroup")};
   Group &g2{p.namedGroup("SecondGroup")};
 
@@ -97,7 +97,7 @@ TEST(ObjParser, Normals)
   ObjParser p;
   std::string testfile{TEST_DATA_FOLDER};
   testfile.append("test5.obj");
-  EXPECT_EQ(true, p.ParseFile(testfile)) << (testfile);
+  EXPECT_EQ(true, p.loadObject(testfile)) << (testfile);
   Group &g{p.defaultGroup()};
   const SmoothTriangle * t1 = dynamic_cast<const SmoothTriangle *>(g.at(0));
   const SmoothTriangle * t2 = dynamic_cast<const SmoothTriangle *>(g.at(1));

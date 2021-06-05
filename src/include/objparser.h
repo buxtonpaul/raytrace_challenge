@@ -14,7 +14,7 @@ class ObjParser
   {
   public:
     ObjParser();
-    bool ParseFile(const std::string &inputfile);
+    bool loadObject(const std::string &inputfile, std::shared_ptr<Material> mat = nullptr);
     const std::vector<Point> &Vertices();
     const std::vector<Vector> &Normals();
     Group &defaultGroup();
@@ -23,14 +23,15 @@ class ObjParser
     std::vector<Point> _vertices;
     std::vector<Vector> _normals;
     std::vector<std::shared_ptr<Shape>> _faces;
-    bool ParseLine(std::string const &line);
+    bool ParseLine(std::string const &line, std::shared_ptr<Material> mat);
     bool addVertex(std::string const &line);
-    bool addFace(std::string const &line);
+    bool addFace(std::string const &line, std::shared_ptr<Material> mat);
     bool addGroup(std::string const &line);
     bool addVertexNormal(std::string const &line);
     Group _defaultGroup;
     Group *_newestGroup;
     std::vector<std::tuple<std::string, Group>> _namedGroups;
+
   };
 
 } // namespace ray_lib

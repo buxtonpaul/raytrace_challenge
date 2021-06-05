@@ -31,9 +31,9 @@ public:
   const Matrix &Transform(const Matrix &m);
   const Matrix &Transform() const;
   const Matrix &WorldTransform() const;
-  Shape() : _m(Matrix::Identity) , _worldTransform(Matrix::Identity){}
-  explicit Shape(const Matrix &m) : _m(m), _worldTransform(m) {}
-  const Material &material(const Material &m);
+  Shape() : _m(Matrix::Identity) , _worldTransform(Matrix::Identity) ,_material(std::make_shared<Material>(Material())) {}
+  explicit Shape(const Matrix &m) : _m(m), _worldTransform(m), _material(std::make_shared<Material>(Material())) {}
+  const Material &material(const std::shared_ptr <Material> m);
   const Material &material() const;
   Shape *parent();
   const Shape &parent(Shape *p);
@@ -46,10 +46,11 @@ public:
   virtual void addObjects(hittable_list *list) const;
 protected:
   Matrix _m;
-  Material _material;
+  std::shared_ptr<Material> _material;
+  
   Shape *_parent = nullptr;
- mutable Matrix _worldTransform;
- mutable bool _isDirty = true;
+  mutable Matrix _worldTransform;
+  mutable bool _isDirty = true;
 };
 
 

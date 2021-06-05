@@ -41,14 +41,15 @@ class DefaultWorldTest : public ::testing::Test
 protected:
   void SetUp() override
   {
+    m = std::make_shared<Material>(Material());
     p.setColor(Color(0.8, 1, 0.6));
-    m.pattern(p);
-    m.diffuse(0.7);
-    m.specular(0.2);
+    m->pattern(p);
+    m->diffuse(0.7);
+    m->specular(0.2);
     l.position(Point(-10, 10, -10));
     l.intensity(Color(1, 1, 1));
-    s1 = std::make_shared<Sphere> ( );
-    s2 = std::make_shared<Sphere> ( );
+    s1 = std::make_shared<Sphere> ();
+    s2 = std::make_shared<Sphere> ();
 
     s2->Transform(Matrix::Identity.scale(0.5, 0.5, 0.5));
     w.WorldLights().push_back(&l);
@@ -63,7 +64,8 @@ protected:
   // Variables go here...
 
   Light l;
-  Material m;
+  std::shared_ptr<Material> m;
+  
   SolidPattern p;
   std::shared_ptr<Sphere> s1;
   std::shared_ptr<Sphere> s2;
@@ -165,8 +167,8 @@ TEST_F(DefaultWorldTest, Color_at_inside)
   Shape *inner{(w.WorldShapes()[0]).get()};
   Shape *outer{(w.WorldShapes()[1]).get()};
 
-  Material m2;
-  m2.ambient(1.0);
+  auto m2{std::make_shared<Material>(Material())};
+  m2->ambient(1.0);
   outer->material(m2);
   inner->material(m2);
   EXPECT_EQ(w.color_at(r), inner->material().pattern().getColor(Point(0, 0, 0)));
@@ -248,8 +250,8 @@ TEST_F(DefaultWorldTest, NonReflective)
   Shape *inner{w.WorldShapes()[0].get()};
   Shape *outer{w.WorldShapes()[1].get()};
 
-  Material m2;
-  m2.ambient(1.0);
+  auto m2{std::make_shared<Material>(Material())};
+  m2->ambient(1.0);
   outer->material(m2);
   Intersection xs{outer, 1};
   IntersectionState i{xs, r};
@@ -258,13 +260,13 @@ TEST_F(DefaultWorldTest, NonReflective)
 
 TEST_F(DefaultWorldTest, ReflectiveTest)
 {
-  Material plane_pat;
-  plane_pat.reflectivity(0.5);
+  auto plane_mat{std::make_shared<Material>(Material())};
+  plane_mat->reflectivity(0.5);
 
   std::shared_ptr <Plane> p;
   p = std::make_shared<Plane>(translation(0, -1, 0));
 
-  p->material(plane_pat);
+  p->material(plane_mat);
   w.WorldShapes().push_back(p);
 
   Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0)};
@@ -276,11 +278,11 @@ TEST_F(DefaultWorldTest, ReflectiveTest)
 
 TEST_F(DefaultWorldTest, ReflectiveTest2)
 {
-  Material plane_pat;
-  plane_pat.reflectivity(0.5);
+  auto plane_mat{std::make_shared<Material>(Material())};
+  plane_mat->reflectivity(0.5);
     std::shared_ptr <Plane> p;
   p = std::make_shared<Plane>(translation(0, -1, 0));
-  p->material(plane_pat);
+  p->material(plane_mat);
   w.WorldShapes().push_back(p);
 
   Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0)};
@@ -292,11 +294,11 @@ TEST_F(DefaultWorldTest, ReflectiveTest2)
 
 TEST_F(DefaultWorldTest, ReflectiveRecursion)
 {
-  Material plane_pat;
-  plane_pat.reflectivity(0.5);
+  auto plane_mat{std::make_shared<Material>(Material())};
+  plane_mat->reflectivity(0.5);
   std::shared_ptr <Plane> p;
   p = std::make_shared<Plane>(translation(0, -1, 0));
-  p->material(plane_pat);
+  p->material(plane_mat);
   w.WorldShapes().push_back(p);
 
   Ray r{Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0)};
@@ -309,18 +311,18 @@ TEST_F(DefaultWorldTest, ReflectiveRecursion)
 TEST(Refractions, RefractionIntersections)
 {
   Sphere A{scale(2, 2, 2)};
-  Material mA{glass};
-  mA.refractive_index(1.5);
+  auto mA{std::make_shared<Material>(Material(glass))};
+  mA->refractive_index(1.5);
   A.material(mA);
 
   Sphere B{scale(0, 0, -0.25)};
-  Material mB{glass};
-  mB.refractive_index(2.0);
+  auto mB{std::make_shared<Material>(Material(glass))};
+  mB->refractive_index(2.0);
   B.material(mB);
 
   Sphere C{scale(0, 0, 0.25)};
-  Material mC{glass};
-  mC.refractive_index(2.5);
+  auto mC{std::make_shared<Material>(Material(glass))};
+  mC->refractive_index(2.5);
   C.material(mC);
 
   Ray r{Point(0, 0, -4), Vector(0, 0, 1)};
@@ -345,7 +347,7 @@ TEST(Refractions, RefractionIntersections)
 TEST(Refractions, UnderPoint)
 {
   Sphere A{translation(0, 0, 1)};
-  Material mA{glass};
+  auto mA{std::make_shared<Material>(Material(glass))};
   A.material(mA);
 
   Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
@@ -373,9 +375,9 @@ TEST_F(DefaultWorldTest, RefractedColorAtDepth)
 {
   Shape *shape{w.WorldShapes()[0].get()};
   Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
-  Material mA{glass};
-  mA.transparency(1.0);
-  mA.refractive_index(1.5);
+  auto mA{std::make_shared<Material>(Material(glass))};
+  mA->transparency(1.0);
+  mA->refractive_index(1.5);
   shape->material(mA);
 
   std::vector<Intersection> intersections{{shape, 4}, {shape, 6}};
@@ -387,9 +389,9 @@ TEST_F(DefaultWorldTest, TotalInternalRefraction)
 {
   Shape *shape{w.WorldShapes()[0].get()};
   Ray r{Point(0, 0, sqrt(2.0) / 2.0), Vector(0, 1, 0)};
-  Material mA{glass};
-  mA.transparency(1.0);
-  mA.refractive_index(1.5);
+  auto mA{std::make_shared<Material>(Material(glass))};
+  mA->transparency(1.0);
+  mA->refractive_index(1.5);
   shape->material(mA);
 
   std::vector<Intersection> intersections{{shape, -(sqrt(2.0) / 2.0)}, {shape, sqrt(2.0) / 2.0}};
@@ -400,17 +402,17 @@ TEST_F(DefaultWorldTest, TotalInternalRefraction)
 TEST_F(DefaultWorldTest, RefractedColor)
 {
   Shape *a{w.WorldShapes()[0].get()};
-  Material mA;
-  mA.ambient(1);
+  auto mA{std::make_shared<Material>(Material())};
+  mA->ambient(1);
   TestPattern pA{Matrix::Identity};
-  mA.pattern(pA);
+  mA->pattern(pA);
   a->material(mA);
 
   Shape *b{w.WorldShapes()[1].get()};
-  Material mB;
-  mB.transparency(1.0);
-  mB.refractive_index(1.5);
-  mB.ambient(1);
+   auto mB{std::make_shared<Material>(Material())};
+  mB->transparency(1.0);
+  mB->refractive_index(1.5);
+  mB->ambient(1);
   b->material(mB);
 
   Ray r{Point(0, 0, 0.1), Vector(0, 1, 0)};
@@ -421,9 +423,9 @@ TEST_F(DefaultWorldTest, RefractedColor)
 
 TEST_F(DefaultWorldTest, ShadeHitTransparent)
 {
-  Material mFloor;
-  mFloor.transparency(0.5);
-  mFloor.refractive_index(1.5);
+   auto mFloor{std::make_shared<Material>(Material())};
+  mFloor->transparency(0.5);
+  mFloor->refractive_index(1.5);
   std::shared_ptr<Plane> floor;
   floor = std::make_shared<Plane>(translation(0, -1, 0));
   floor->material(mFloor);
@@ -432,10 +434,10 @@ TEST_F(DefaultWorldTest, ShadeHitTransparent)
 
   std::shared_ptr<Sphere> ball;
   ball = std::make_shared<Sphere>(translation(0, -3.5, -0.5));
-  Material mBall;
+   auto mBall{std::make_shared<Material>(Material())};
   SolidPattern pBall{Color(1, 0, 0)};
-  mBall.ambient(0.5);
-  mBall.pattern(pBall);
+  mBall->ambient(0.5);
+  mBall->pattern(pBall);
   w.WorldShapes().push_back(ball);
   ball->material(mBall);
 
@@ -450,7 +452,7 @@ TEST_F(DefaultWorldTest, ShadeHitTransparent)
 TEST(Refractions, Reflectance_InternalReflection)
 {
   Sphere A{};
-  Material mA{glass};
+  auto mA{std::make_shared<Material>(Material(glass))};
   A.material(mA);
 
   Ray r{Point(0, 0, sqrt(2.0) / 2.0), Vector(0, 1, 0)};
@@ -463,7 +465,7 @@ TEST(Refractions, Reflectance_InternalReflection)
 TEST(Refractions, Reflectance_Perpendicular)
 {
   Sphere A{};
-  Material mA{glass};
+  auto mA{std::make_shared<Material>(Material(glass))};
   A.material(mA);
 
   Ray r{Point(0, 0, 0), Vector(0, 1, 0)};
@@ -476,7 +478,7 @@ TEST(Refractions, Reflectance_Perpendicular)
 TEST(Refractions, ReflectanceN2gtN1)
 {
   Sphere A{};
-  Material mA{glass};
+  auto mA{std::make_shared<Material>(Material(glass))};
   A.material(mA);
 
   Ray r{Point(0, 0.99, -2), Vector(0, 0, 1)};
@@ -490,10 +492,10 @@ TEST(Refractions, ReflectanceN2gtN1)
 TEST_F(DefaultWorldTest, ShadeHitTransparentReflectance)
 {
   Ray r{Point(0, 0, -3), Vector(0, -(sqrt(2.0) / 2.0), sqrt(2.0) / 2.0)};
-  Material mFloor;
-  mFloor.transparency(0.5);
-  mFloor.reflectivity(0.5);
-  mFloor.refractive_index(1.5);
+  auto mFloor{std::make_shared<Material>(Material())};
+  mFloor->transparency(0.5);
+  mFloor->reflectivity(0.5);
+  mFloor->refractive_index(1.5);
   std::shared_ptr<Plane> floor;
   floor = std::make_shared<Plane>(translation(0, -1, 0));
   floor->material(mFloor);
@@ -503,10 +505,10 @@ TEST_F(DefaultWorldTest, ShadeHitTransparentReflectance)
   std::shared_ptr<Sphere> ball;
   ball = std::make_shared<Sphere>(translation(0, -3.5, -0.5));
 
-  Material mBall;
+   auto mBall{std::make_shared<Material>(Material())};
   SolidPattern pBall{Color(1, 0, 0)};
-  mBall.ambient(0.5);
-  mBall.pattern(pBall);
+  mBall->ambient(0.5);
+  mBall->pattern(pBall);
   w.WorldShapes().push_back(ball);
   ball->material(mBall);
 

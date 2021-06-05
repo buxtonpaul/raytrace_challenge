@@ -28,10 +28,10 @@ TEST(Shader, Sphere_mat)
 TEST(Shader, Sphere_mat_assign)
 {
   Sphere s;
-  Material m;
-  m.ambient(1);
+  auto m=std::make_shared<Material>(Material());
+  m->ambient(1);
   s.material(m);
-  EXPECT_EQ(s.material(), m);
+  EXPECT_EQ(s.material(), *m);
 }
 
 TEST(Shader, lighting1)
@@ -158,9 +158,9 @@ TEST(Material, DefaultRefreactive)
 TEST(Material, BasicGlassTest)
 {
   Sphere sp;
-  Material m = glass;
+  auto m=std::make_shared<Material>(Material(glass));
   sp.material(m);
-  EXPECT_EQ(m.refractive_index(), 1.5);
-  EXPECT_EQ(m.transparency(), 1);
+  EXPECT_EQ(m->refractive_index(), 1.5);
+  EXPECT_EQ(m->transparency(), 1);
   EXPECT_EQ(sp.Transform(), Matrix::Identity);
 }

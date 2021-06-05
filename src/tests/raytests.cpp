@@ -268,7 +268,7 @@ TEST(Shape, Reference)
   Sphere sp;
   Shape &p{sp}; // why is this here?
   SolidPattern pattern{Color(.5, .5, .5)};
-  auto a = Material(1.23, 1.7, 112.1, 20.1, 0.0, 0, 1, pattern);
+  auto a = std::make_shared<Material>(Material(1.23, 1.7, 112.1, 20.1, 0.0, 0, 1, pattern));
   sp.material(a);
   EXPECT_FLOAT_EQ(sp.material().diffuse(), sp.material().diffuse());
 }

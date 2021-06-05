@@ -43,11 +43,13 @@ int main(int argc, char *argv[])
   BVHWorld w;
 
   CheckPattern3d pat_floor{Color(0.9, 0.9, 0.9), Color(0.1, 0.1, 0.1), scale(.1, 1, .1)};
-  Material mat_floor = Material(pat_floor).specular(0).reflectivity(0.3);
+  std::shared_ptr<Material> mat_floor = std::make_shared<Material>(Material(pat_floor).specular(0).reflectivity(0.3));
 
-  Material m_walls{Material(SolidPattern(Color(0.0, 0.9, 0.9)))};
+  std::shared_ptr<Material>  m_walls=std::make_shared<Material>( Material(SolidPattern(Color(0.0, 0.9, 0.9))));
 
   std::shared_ptr<Cube> floor = std::make_shared<Cube>(scale(10, 1, 10).translate(0, -.5, 0));
+
+  auto obj_material = std::make_shared<Material>(Material(SolidPattern(Color(0.5,0.3,0.9))));
 
   floor->material(mat_floor);
 
@@ -55,22 +57,22 @@ int main(int argc, char *argv[])
 
   StripePattern candy{Color(0.9, 0.1, 0.1), Color(.95, .95, .95), scale(0.25, 0.25, 0.25)};
 
-  Material middle_mat;
-  middle_mat.specular(0.3);
-  middle_mat.diffuse(0.7);
-  middle_mat.ambient(0.7);
-  middle_mat.reflectivity(0);
-  middle_mat.transparency(0);
-  middle_mat.refractive_index(1.5);
+  std::shared_ptr<Material> middle_mat = std::make_shared<Material>(Material());
+  middle_mat->specular(0.3);
+  middle_mat->diffuse(0.7);
+  middle_mat->ambient(0.7);
+  middle_mat->reflectivity(0);
+  middle_mat->transparency(0);
+  middle_mat->refractive_index(1.5);
 
-  middle_mat.pattern(candy);
+  middle_mat->pattern(candy);
 
   ObjParser p;
   std::string testfile{TEST_DATA_FOLDER};
   testfile.append("teapot.obj.txt");
   // testfile.append("smoothtriangle.obj");
   // testfile.append("teapot_low.obj");
-  p.ParseFile(testfile);
+  p.loadObject(testfile, obj_material);
 
   // note use . operator can specify translations in order instead of reverse order required when multiplying
 

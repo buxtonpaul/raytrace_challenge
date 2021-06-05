@@ -107,10 +107,11 @@ protected:
   void SetUp() override
   {
     p.setColor(Color(0.8, 1, 0.6));
-    m.pattern(p);
+    m = std::make_shared<Material>(Material());
+    m->pattern(p);
 
-    m.diffuse(0.7);
-    m.specular(0.2);
+    m->diffuse(0.7);
+    m->specular(0.2);
     l.position(Point(-10, 10, -10));
     l.intensity(Color(1, 1, 1));
     s1 = std::make_shared<Sphere> ( );
@@ -129,7 +130,7 @@ protected:
   // Variables go here...
 
   Light l;
-  Material m;
+  std::shared_ptr<Material> m;
   std::shared_ptr<Sphere> s1;
   std::shared_ptr<Sphere> s2;
   World w;

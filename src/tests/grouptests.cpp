@@ -238,7 +238,7 @@ TEST(Group, RayIntersectsRotatedTriangle_BVHWorld)
   ObjParser p;
   std::string testfile{TEST_DATA_FOLDER};
   testfile.append("smoothtriangle.obj");
-  EXPECT_EQ(true, p.ParseFile(testfile)) << (testfile);
+  EXPECT_EQ(true, p.loadObject(testfile)) << (testfile);
   Group &g{p.defaultGroup()};
   const SmoothTriangle * t1 = dynamic_cast<const SmoothTriangle *>(g.at(0));
   g1->add_child(&p.defaultGroup());

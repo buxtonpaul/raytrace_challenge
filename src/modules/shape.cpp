@@ -60,15 +60,15 @@ namespace ray_lib
     return _worldTransform;
   }
 
-  const Material &Shape::material(const Material &m)
+  const Material &Shape::material(const std::shared_ptr<Material> m)
   {
     _material = m;
-    return _material;
+    return *_material.get();
   }
 
   const Material &Shape::material() const
   {
-    return _material;
+    return *_material.get();
   }
 
   Shape *Shape::parent() { return _parent; }
