@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <chrono>
 #include "camera.h"
 #include "canvas.h"
 #include "color.h"
@@ -84,7 +85,14 @@ int main(int argc, char *argv[])
   w.WorldShapes().push_back(g1);
   w.WorldLights().push_back(&l);
 
+  std::cout <<"Init world "<< std::endl;
+  auto t_start = std::chrono::high_resolution_clock::now();
   w.InitWorld();
+  auto t_end = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration<double, std::milli>(t_end-t_start).count();
+
+  std::cout << "Init World took " << std::fixed<< duration/1000 << "s\n";
+
   Canvas outimage{c.render(&w)};
 
   outimage.png(outfile);
