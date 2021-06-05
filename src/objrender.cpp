@@ -51,6 +51,9 @@ int main(int argc, char *argv[])
 
   auto obj_material = std::make_shared<Material>(Material(SolidPattern(Color(0.5,0.3,0.9))));
 
+  obj_material->specular(0.2);
+  obj_material->shininess(0.2);
+  obj_material->reflectivity(0.3);
   floor->material(mat_floor);
 
   w.WorldShapes().push_back(floor);
