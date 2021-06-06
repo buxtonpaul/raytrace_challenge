@@ -68,16 +68,16 @@ The trick to this working well is how the tree is constructed. Figuring out the 
 
 ----
 ## Performance (rendering latest image)
-The switch to kd trees showed a huge improvement. The image above previously took about an hour to render.
-I have somehow made the non kd-trees version worse (I suspect I have broken then group intersection test). But the performance below is with working KD Trees version. I haven't spent any time looking to optimise the scene setup.
-
+Fixed and issue where we were recomputing the world-transform for each object, which meant that the cached inverse wasn't being used. This in combination with the kd-trees gives pretty good performance.
+The updated reflective teapot render takes ~16s to render with 4.1 seconds to create the kd-trees structure
 ```
- time ./objrender ../latest.png
+Init world
+Init World took 4.132751s
 Begin Rendering
-Pixels done: 778823  99%
-Rendering took 31.077100s
+Pixels done: 781497  99%
+Rendering took 16.341550s
 
-real    0m46.220s
-user    3m56.922s
-sys     0m0.849s
+real    0m20.644s
+user    2m8.072s
+sys     0m0.877s
 ```

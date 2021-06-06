@@ -49,11 +49,11 @@ int main(int argc, char *argv[])
 
   std::shared_ptr<Cube> floor = std::make_shared<Cube>(scale(10, 1, 10).translate(0, -.5, 0));
 
-  auto obj_material = std::make_shared<Material>(Material(SolidPattern(Color(0.5,0.3,0.9))));
+  auto obj_material = std::make_shared<Material>(Material(SolidPattern(Color(0.1,0.1,0.6))));
 
-  obj_material->specular(0.2);
-  obj_material->shininess(0.2);
-  obj_material->reflectivity(0.3);
+  obj_material->specular(0.1);
+  obj_material->shininess(0.05);
+  obj_material->reflectivity(0.1);
   floor->material(mat_floor);
 
   w.WorldShapes().push_back(floor);
