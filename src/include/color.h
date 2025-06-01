@@ -1,6 +1,7 @@
 #include <array>
 #ifndef color_h
 #define color_h
+#include <ostream>
 
 class Color {
  private:
